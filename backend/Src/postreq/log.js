@@ -5,9 +5,7 @@ function logError (url,app) {
         const error = req.body.error;
         logger.error(error);
         res.status(200).send('Error logged');
-      });
-    
+      });    
 }
 
 export default logError;
-
