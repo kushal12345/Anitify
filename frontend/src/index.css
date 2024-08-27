@@ -10,13 +10,14 @@
     list-style: none;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
+    font-size: 0.92rem;
 }
 
 :root{
-    --primary-color: lightgreen;
-    --secondary-color: green;
-    --tertairy-color:rgb(4, 153, 4);
-    --background-color: black;
+    --primary-color: #2F3640;
+    --secondary-color: #189bf3 ;
+    --tertairy-color:#45B3FA;
+    --background-color: #000 ;
     --text-color: white;
 }
 
@@ -26,6 +27,7 @@ body {
     color: var(--text-color);
     scroll-behavior: smooth;
 }
+
 
 .secondary_bg {
     background-color: var(--secondary-color);

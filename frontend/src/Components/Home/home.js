@@ -6,12 +6,12 @@ import Footer from '../Footer/Footer';
 
 const Home = () => {
   return (
-    <div className='grid  h-screen grid-rows-[8%,92%] scrollbar-none gap-2'>
-      <div className='border-white place-content-center ' >
+    <div className='grid h-screen grid-rows-[8%,92%]  scrollbar-none gap-2 '>
+      {/*<div className=' place-content-center' >
         <Headerlayout/> 
       </div>
-
-      <div className='border-white place-items-center '>
+          */}
+      <div className=' min-h-screen place-items-center '>
         <Bodylayout>
               <Container>
                 <Footer/>

@@ -34,6 +34,7 @@ module.exports = {
           light: '#f7fafc',
           DEFAULT: '#ffffff',
           dark: '#000000',
+          red:'#FF0000',
         },
         // Text colors
         text: {
@@ -52,6 +53,13 @@ module.exports = {
           violet: '#7a288a',
         },
       },
+    },
+    fontSize: {
+      xs: '0.75rem', // 12px
+      sm: '0.875rem', // 14px
+      base: '1rem', // 16px (default)
+      lg: '1.125rem', // 18px
+      xl: '1.25rem', // 20px
     },
     
   },
