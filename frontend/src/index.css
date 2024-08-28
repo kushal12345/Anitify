@@ -10,15 +10,15 @@
     list-style: none;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
-    font-size: 0.92rem;
+    text-rendering:auto;
 }
 
 :root{
-    --primary-color: #2F3640;
-    --secondary-color: #189bf3 ;
-    --tertairy-color:#45B3FA;
+    --primary-color: #1E90FF;
+    --secondary-color: #333333 ;
+    --tertairy-color:#181818;
     --background-color: #000 ;
-    --text-color: white;
+    --text-color: #fff;
 }
 
 
@@ -26,7 +26,14 @@ body {
     background-color:var(--background-color);
     color: var(--text-color);
     scroll-behavior: smooth;
+    font-size: 0.91rem;
+    font-weight: 500;
+    word-spacing: 0.01rem;
+    line-height: 1;
+    letter-spacing: 0.04rem;
+    text-align: justify;
 }
+
 
 
 .secondary_bg {
@@ -41,3 +48,10 @@ body {
     border: 1px solid white;
 }
 
+.secondary_text {
+    color:var(--secondary-color);
+}
+
+.primary_text {
+    color:var(--primary-color);
+}

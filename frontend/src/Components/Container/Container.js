@@ -1,10 +1,11 @@
 import React from 'react'
+import Rightmain from '../Rightpart/Rightmain.js';
 
 const Container = ({children}) => {
   return (
-    <div className='min-h-screen p-2 rounded-xl tertiary_bg '>
+    <div className='min-h-screen z-10 overflow-hidden rounded-xl tertiary_bg '>
         <div className=' min-h-[80vh]  '>
-            Container
+            <Rightmain/>
         </div>
        
         <div className=' min-h-[20vh] '>
