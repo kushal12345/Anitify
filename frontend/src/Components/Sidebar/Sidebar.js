@@ -7,7 +7,7 @@ import { TbBrandSpotify } from "react-icons/tb";
 const Sidebar = () => {
   return (
     <div className='h-auto sidebar'>
-      <div className='p-2 pr-8  pb-4  mb-2 justify-items-center rounded-xl tertiary_bg '>
+      <div className='p-2 pr-8  pb-4  mb-2 justify-items-center rounded-xl  '>
 
           <div className="flex py-1 mb-2 items-center primary_text gap-0 "> 
               <TbBrandSpotify  style={{ width: 32, height: 32 }}/>

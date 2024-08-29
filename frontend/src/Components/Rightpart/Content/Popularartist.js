@@ -16,97 +16,26 @@ const Popularartist = () => {
             {/*body part */}
             <div className='h-5/6 w-full flex '>
                 {/* image  */}
-                <div className='w-1/6 h-full '>
-                    <div className='w-full h-5/6 flex items-center justify-center '>
-                        <div className='w-11/12 aspect-square rounded-full border-white overflow-hidden shadow-xl '>
-                        <img src='https://upload.wikimedia.org/wikipedia/commons/f/f8/No-image-available-4X3.png' 
-                            className='w-full h-full object-cover'
-                            alt='Image description'/>
+                
+                {
+                    Array(6).fill(0).map((_, index) => {
+                    return (
+                    <div className='w-1/6 h-full '>
+                        <div className='w-full h-5/6 flex items-center justify-center '>
+                            <div className='w-11/12 aspect-square rounded-full border-white overflow-hidden shadow-xl '>
+                            <img src='https://upload.wikimedia.org/wikipedia/commons/f/f8/No-image-available-4X3.png' 
+                                className='w-full h-full object-cover'
+                                alt='Image description'/>
+                            </div>
+                        </div>
+                        <div className='w-full flex justify-center h-1/6'>
+                            No Name
                         </div>
                     </div>
-                    <div className='w-full flex justify-center h-1/6'>
-                        No Name
-                    </div>
-                </div>
-
-                                {/* image  */}
-                                <div className='w-1/6 h-full '>
-                    <div className='w-full h-5/6 flex items-center justify-center '>
-                        <div className='w-11/12 aspect-square rounded-full border-white overflow-hidden shadow-xl '>
-                        <img src='https://upload.wikimedia.org/wikipedia/commons/f/f8/No-image-available-4X3.png' 
-                            className='w-full h-full object-cover'
-                            alt='Image description'/>
-                        </div>
-                    </div>
-                    <div className='w-full flex justify-center h-1/6'>
-                        No Name
-                    </div>
-                </div>
-
-
-                {/* image  */}
-                <div className='w-1/6 h-full '>
-                    <div className='w-full h-5/6 flex items-center justify-center '>
-                        <div className='w-11/12 aspect-square rounded-full border-white overflow-hidden shadow-xl '>
-                        <img src='https://upload.wikimedia.org/wikipedia/commons/f/f8/No-image-available-4X3.png' 
-                            className='w-full h-full object-cover'
-                            alt='Image description'/>
-                        </div>
-                    </div>
-                    <div className='w-full flex justify-center h-1/6'>
-                        No Name
-                    </div>
-                </div>
-
-
-
-                {/* image  */}
-                <div className='w-1/6 h-full '>
-                    <div className='w-full h-5/6 flex items-center justify-center '>
-                        <div className='w-11/12 aspect-square rounded-full border-white overflow-hidden shadow-xl '>
-                        <img src='https://upload.wikimedia.org/wikipedia/commons/f/f8/No-image-available-4X3.png' 
-                            className='w-full h-full object-cover'
-                            alt='Image description'/>
-                        </div>
-                    </div>
-                    <div className='w-full flex justify-center h-1/6'>
-                        No Name
-                    </div>
-                </div>
-
-
-
-                {/* image  */}
-                <div className='w-1/6 h-full '>
-                    <div className='w-full h-5/6 flex items-center justify-center '>
-                        <div className='w-11/12 aspect-square rounded-full border-white overflow-hidden shadow-xl '>
-                        <img src='https://upload.wikimedia.org/wikipedia/commons/f/f8/No-image-available-4X3.png' 
-                            className='w-full h-full object-cover'
-                            alt='Image description'/>
-                        </div>
-                    </div>
-                    <div className='w-full flex justify-center h-1/6'>
-                        No Name
-                    </div>
-                </div>
-
-
-
-                {/* image  */}
-                <div className='w-1/6 h-full '>
-                    <div className='w-full h-5/6 flex items-center justify-center '>
-                        <div className='w-11/12 aspect-square rounded-full border-white overflow-hidden shadow-xl '>
-                        <img src='https://upload.wikimedia.org/wikipedia/commons/f/f8/No-image-available-4X3.png' 
-                            className='w-full h-full object-cover'
-                            alt='Image description'/>
-                        </div>
-                    </div>
-                    <div className='w-full flex justify-center h-1/6'>
-                        No Name
-                    </div>
-                </div>
-
-
+                
+                        );
+                    })
+                }
                 
             </div>
         </div>
