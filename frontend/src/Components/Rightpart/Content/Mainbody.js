@@ -1,11 +1,11 @@
 import React from 'react'
-
+import Popularartist from './Popularartist'
+import Popularalbums from './Popularalbums'
 const Mainbody = () => {
   return (
     <div className='h-dvh overflow-hidden' >
-        <div className='bg-gradient-to-b from-gray-700 to-bg-900 h-2/4 w-full'>
-            
-        </div>
+        <Popularartist/>
+        <Popularalbums/>
     </div>
   )
 }
