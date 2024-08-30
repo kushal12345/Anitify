@@ -17,7 +17,7 @@ const Sidebar = () => {
 
           <div className="flex rounded-xl px-2 py-1 items-center  gap-4 hover:bg-gray-800 ">
             <BiSolidHome className="font-bold text-xl" />
-            <span className=' font-smooth hover:font-smooth hover:cursor-default  '>Home</span>
+            <span className=' font-smooth hover:font-smooth hover:cursor-default '>Home</span>
           </div>
           
           <div className="flex rounded-xl px-2 py-1 hover:bg-gray-800 mt-4 items-center gap-4 ">
