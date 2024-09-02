@@ -18,13 +18,12 @@ const Popularartist = () => {
             </div>
             {/*body part */}
             <div className='h-5/6 w-full flex '>
-                {/* image  */}
-                
+                {/* image  */}                    
                 {
                     Array(6).fill(0).map((_, index) => {
                     return (
                         <div className='w-1/6 h-full group' key={index}>
-                        <div className='w-full h-5/6 flex items-center justify-center '>
+                        <div className='w-full h-5/6 flex items-center justify-center'>
                           <div className='w-11/12 relative aspect-square rounded-full border-white overflow-hidden shadow-xl '>
                             <img src='https://upload.wikimedia.org/wikipedia/commons/f/f8/No-image-available-4X3.png' 
                               className='w-full h-full object-cover'

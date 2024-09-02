@@ -60,7 +60,9 @@ module.exports = {
       sm: '0.875rem', // 14px
       base: '1rem', // 16px (default)
       lg: '1.125rem', // 18px
-      xl: '1.25rem', // 20px
+      xl: '1.25rem',
+      xxl: '1.225rem',
+      xxxl: '1.325rem', // 20px
     },
     
   },

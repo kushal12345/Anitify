@@ -13,14 +13,13 @@ const Header = () => {
             <div className=' w-2/4'>
                 <LuChevronRightCircle className=' m-1  flex text-[2.5vw] hover:text-[2.8vw] hover:text-primary '/>
             </div>
-    
         </div>
 
         <div className='col-start-7 px-4 col-end-9 flex items-center justify-end'>
                 <Link className='font-semibold'>
                     Login
                 </Link>
-                <Link className=' rounded-2xl mx-2 px-2 py-2 bg-accent-blue hover:shadow-md font-semibold'>
+                <Link to="/register" className=' rounded-2xl mx-2 px-2 py-2 bg-accent-blue hover:shadow-md font-semibold'>
                     Register
                 </Link>
 
