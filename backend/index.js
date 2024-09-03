@@ -17,7 +17,7 @@ app.use(cors());
 
 //mongoose.connect("");
 
-logError('/api/log-error',app);
+logError('/log-error',app);
 
 app.get("/",(req,res)=>{
     res.send("Hello World");

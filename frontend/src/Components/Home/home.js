@@ -6,7 +6,7 @@ import Footer from '../Footer/Footer';
 
 const Home = () => {
   return (
-    <div className='grid h-screen grid-rows-[8%,92%]  scrollbar-none gap-2 '>
+    <div className='grid h-screen grid-rows-[8%,92%] relative scrollbar-none gap-2 '>
       {/*<div className=' place-content-center' >
         <Headerlayout/> 
       </div>

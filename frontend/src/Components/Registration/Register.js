@@ -1,15 +1,63 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { TbBrandSpotify } from "react-icons/tb";
-import { useForm, SubmitHandler } from "react-hook-form"
+//import { useForm, SubmitHandler } from "react-hook-form"
 import { Link } from 'react-router-dom';
-
-
+import axios from 'axios';
+import logError from '../../Logger';
 const Register = () => {
+  const API_ADDRESS="";
+  if(process.env.API_ADDRESS){
+    API_ADDRESS = process.env.API_ADDRESS;
+  }else{
+    logError("Error Connecting to API server")
+  }
 
-  const {register, handleSubmit, formState} = useForm();
+  const countries= [
+    {
+      "name": "Nepal",
+      "code": "NP"
+    },
+    {
+      "name": "India",
+      "code": "IN"
+    }
+  ];
 
-  const onSubmitHandler = (data) => {
-    console.log(data);
+  const [user,setUser] = useState({
+    name:"",
+    email: "",
+    password: "",
+    cpassword:"",
+    country: ""
+  });
+
+  const handleChange = (e) => {
+    const {name,value}=e.target;
+    setUser({
+      ...user,
+      [name]:value
+    });
+  }
+
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if(user.name && user.email && user.password && user.cpassword && user.country){
+      if(user.password === user.cpassword){
+        try {
+          axios.post(`${API_ADDRESS}/register`)
+          .then(res=>{
+            console.log(res.data);
+          })          
+        } catch (error) {
+          console.log(`${API_ADDRESS} not found`);
+        }
+      }else{
+        console.log("password and confirmed password didn't matched");
+      }
+    }else{
+      console.log("Please input all data");
+    }
   }
 
   return (
@@ -32,20 +80,35 @@ const Register = () => {
                 </span>
            </div>
            <div className='h-2/4   py-4'>
-                <form  action='' onSubmit={handleSubmit(onSubmitHandler)}>
+                <form  action='' onSubmit={handleSubmit}>
                   <div className='my-3 mb-5'>
-                    <span className='text-xl font-bold'>Full Name</span><br/>
-                    <input className='text-xxl color-red' {...register("name")}/><br/>
+                    <label htmlFor="name" className="block mb-2 text-sm font-bold">Full Name</label>
+                    <input className=' text-black text-xxl color-red' name='name' id='name' value={user.name} onChange={handleChange} required /><br/>
                   </div>
 
                   <div className='my-3 mb-5'>
-                    <span className='text-xl font-bold'>Email</span><br/>
-                    <input className='text-xxl color-red' {...register("email")}/><br/>
+                    <label htmlFor="email" className="block mb-2 text-sm font-bold">Email</label>
+                    <input className='text-xxl text-black' name='email' id='email' value={user.email} onChange={handleChange} required/><br/>
                   </div>
                   
                   <div className='my-3 '>
-                    <span className='text-xl font-bold'>Password</span><br/>
-                    <input className='text-xxl' {...register("password")}/><br/>
+                  <label htmlFor="password" className="block mb-2 text-sm font-bold">Password</label>
+                  <input className='text-xxl text-black' name='password' id='password' value={user.password} onChange={handleChange}  required/><br/>
+                  </div>
+
+                  <div className='my-3 '>
+                    <label htmlFor="cpassword" className="block mb-2 text-sm font-bold">Confirm Password</label>
+                    <input className='text-xxl text-black' name='cpassword' id='cpassword' value={user.cpassword} onChange={handleChange} required/><br/>
+                  </div>
+                  
+                  <div className='my-3'>
+                    <label htmlFor="country" className="block mb-2 text-sm font-bold">Country</label>
+                    <select id="country" name="country" value={user.country} onChange={handleChange} className="text-xxxl hover:border-slate-400 p-1 pl-12 text-gray-700">
+                      <option value="">Select a country</option>
+                      {countries.map((country, index) => (
+                        <option key={index} value={country.name}>{country.name}</option>
+                      ))}
+                    </select>
                   </div>
 
                   <div className='w-full flex items-center justify-center '>
