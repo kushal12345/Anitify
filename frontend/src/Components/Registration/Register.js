@@ -3,14 +3,9 @@ import { TbBrandSpotify } from "react-icons/tb";
 //import { useForm, SubmitHandler } from "react-hook-form"
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import logError from '../../Logger';
+
 const Register = () => {
-  const API_ADDRESS="";
-  if(process.env.API_ADDRESS){
-    API_ADDRESS = process.env.API_ADDRESS;
-  }else{
-    logError("Error Connecting to API server")
-  }
+  const  API_ADDRESS = `http://localhost:9000`;
 
   const countries= [
     {
@@ -51,6 +46,7 @@ const Register = () => {
           })          
         } catch (error) {
           console.log(`${API_ADDRESS} not found`);
+          
         }
       }else{
         console.log("password and confirmed password didn't matched");
