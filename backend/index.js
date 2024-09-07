@@ -8,6 +8,9 @@ import logger from "./Logger/config.js";
 import ErrorHandler from "./Middleware/errorHandler.js";
 import { logEvents } from "./Logger/config.js";
 import connectDB from "./Config/database.js";
+import corsOption from "./Origin/corsOption.js";
+import Register from "./Src/postreq/Register/Register.js";
+import Connectioninfo from "./Middleware/connectioninfo.js";
 
 
 connectDB();
@@ -20,14 +23,16 @@ const PORT = process.env.PORT;
 const app = express();
 app.use(logger);
 app.use(json());
-app.use(cors());
+app.use(cors(corsOption));
+app.use(Connectioninfo); // middleware to store connection info in log file
 
-logError('/log-error',app);
+//logError('/log-error',app);
 
 app.get("/",(req,res)=>{
     res.send("Hello World");
 })
 
+Register(app,"/register");
 
 
 app.use(ErrorHandler);

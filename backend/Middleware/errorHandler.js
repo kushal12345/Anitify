@@ -1,4 +1,3 @@
-import React from 'react'
 import logger, { logEvents } from "../Logger/config.js";
 
 

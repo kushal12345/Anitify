@@ -21,7 +21,6 @@ export default logger
 import { format } from 'date-fns';
 import { v4 as uuid } from 'uuid';
 import fs from 'fs';
-import * as fsPromises from 'fs/promises';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
@@ -33,12 +32,10 @@ const logEvents = async (message, logFilename) => {
   const logItem = `${dateTime}\t${uuid()}\t${message}\n`
 
   try {
-    if(!fs.existsSync(path.join(__dirname,'..','Logger','logs'))){
-      await fsPromises.mkdir(path.join(__dirname,'..','Logger','logs'))
-    }
-    fs.promises.appendFile(path.join(__dirname,'..','Logger','logs',logFilename),logItem)
+    await fs.promises.mkdir(path.join(__dirname, '..', 'Logger', 'logs'), { recursive: true });
+    await fs.promises.appendFile(path.join(__dirname, '..', 'Logger', 'logs', logFilename), logItem);
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 }
 
