@@ -40,9 +40,19 @@ const logEvents = async (message, logFilename) => {
 }
 
 const logger = (req,res,next) => {
-  logEvents(`${req.method}\t${req.url}\t${req.headers.origin}`, 'reLog.log')
-  console.log(`${req.method} ${req.path}`)
-  next()
+  if(next){
+    logEvents(
+      `${req.method}\t${req.url}\t${req.headers.origin}`,
+      'reqLog.log'
+    );
+    next();
+  } else {
+    logEvents(
+      `${req.method ?? "Unknown"}\t${req.url ?? "/"}\t${req.headers ? req.headers.origin : "Unknown"}`,
+      'calledLog.log'
+    );
+  }
+
 }
 
 

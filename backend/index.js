@@ -9,7 +9,6 @@ import ErrorHandler from "./Middleware/errorHandler.js";
 import { logEvents } from "./Logger/config.js";
 import connectDB from "./Config/database.js";
 import corsOption from "./Origin/corsOption.js";
-import Register from "./Src/postreq/Register/Register.js";
 import Connectioninfo from "./Middleware/connectioninfo.js";
 
 
@@ -32,7 +31,7 @@ app.get("/",(req,res)=>{
     res.send("Hello World");
 })
 
-Register(app,"/register");
+
 
 
 app.use(ErrorHandler);
