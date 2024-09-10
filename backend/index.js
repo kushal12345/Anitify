@@ -10,7 +10,7 @@ import { logEvents } from "./Logger/config.js";
 import connectDB from "./Config/database.js";
 import corsOption from "./Origin/corsOption.js";
 import Connectioninfo from "./Middleware/connectioninfo.js";
-
+import router from "./Routes/Users/UserRoute.js";
 
 connectDB();
 
@@ -32,7 +32,7 @@ app.get("/",(req,res)=>{
 })
 
 
-
+app.use('/api',router);
 
 app.use(ErrorHandler);
 

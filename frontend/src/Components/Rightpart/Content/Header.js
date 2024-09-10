@@ -16,7 +16,7 @@ const Header = () => {
         </div>
 
         <div className='col-start-7 px-4 col-end-9 flex items-center justify-end'>
-                <Link className='font-semibold'>
+                <Link to="/login" className='font-semibold'>
                     Login
                 </Link>
                 <Link to="/register" className=' rounded-2xl mx-2 px-2 py-2 bg-accent-blue hover:shadow-md font-semibold'>
