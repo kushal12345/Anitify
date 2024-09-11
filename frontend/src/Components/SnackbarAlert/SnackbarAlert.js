@@ -4,13 +4,13 @@ import Stack from '@mui/material/Stack';
 import Alert from '@mui/material/Alert';
 import { useImperativeHandle } from 'react';
 
-//severity type success,info,warning,error
 
 const SnackbarAlert = forwardRef((props, ref) => {
   const [msg, setmsg] = useState("");
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
   const [severity, setseverity] = useState('');
+  
 
   useEffect(() => {
     if (msg) {
@@ -32,19 +32,21 @@ const SnackbarAlert = forwardRef((props, ref) => {
     setseverity(severity);
   }
 
-  useImperativeHandle(ref, () => ({
+  useImperativeHandle(ref, () => ({     //you cannot call function inside component as static function you need to declare imperative handle and pass ref to props
     setAlert
   }));
 
   return (
     <div>
-      <Stack>
+    
         <Snackbar open={open} autoHideDuration={3000} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}   >
+        <Stack>
           <Alert variant="filled" severity={severity}>
             {message}
           </Alert>
+          </Stack>  
         </Snackbar>
-      </Stack>
+     
     </div>
   )
 });

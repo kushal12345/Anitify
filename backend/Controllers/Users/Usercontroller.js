@@ -22,7 +22,6 @@ export const Register  = CatchAsncErrors( async(req,res,next) => {
             });
             sendToken(user,201,res);
         }
-       
     } catch (error) {
         console.log(error);
         logger(error); 

@@ -1,8 +1,8 @@
 import React from 'react'
-import Headerlayout from '../../Layout/Headerlayout';
-import Bodylayout from '../../Layout/bodylayout';
-import Container from '../Container/Container';
-import Footer from '../Footer/Footer';
+import Headerlayout from '../../../Layout/Headerlayout';
+import Bodylayout from '../../../Layout/bodylayout';
+import Container from '../../Container/Container';
+import Footer from '../../Footer/Footer';
 
 const Home = () => {
   return (
