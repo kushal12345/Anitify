@@ -1,13 +1,12 @@
 import React from 'react';
-import { Card, CardContent,CardActions, CardHeader, Typography, Button, TextField,Box } from '@mui/material';
+import { Card, CardContent,CardActions, Typography, Button, TextField,Box } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import SnackbarAlert from '../SnackbarAlert/SnackbarAlert';
 import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-
+import api from '../../Services/api';
 
 const Login = () => {
     const [loading, setLoading] = useState(false);
@@ -33,7 +32,7 @@ const Login = () => {
         setLoading(true);
         if(user.email && user.password){
             try {
-                axios.post(`${API_ADDRESS}/api/login`,user)
+                api.post(`/api/login`,user)
                 .then(res => {
                     console.log(res.data);
                     snackbar.current.setAlert("Sucessfully Registered","success");
