@@ -1,4 +1,4 @@
-import React from 'react';
+import React ,{useContext}from 'react';
 import { Card, CardContent,CardActions, Typography, Button, TextField,Box } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Link } from 'react-router-dom';
@@ -7,11 +7,13 @@ import SnackbarAlert from '../SnackbarAlert/SnackbarAlert';
 import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../../Services/api';
-
+import AuthContext from '../Hooks/Auth/AuthContext';
+import Loading from '../Loading/Loading';
 const Login = () => {
     const [loading, setLoading] = useState(false);
     const API_ADDRESS = `http://localhost:9000`;
     const navigate = useNavigate();
+    const {login}=useContext(AuthContext);
 
     const [user,setUser] = useState({
         email:"",
@@ -35,10 +37,11 @@ const Login = () => {
                 api.post(`/api/login`,user)
                 .then(res => {
                     console.log(res.data);
-                    snackbar.current.setAlert("Sucessfully Registered","success");
+                    login(res.data);
+                    snackbar.current.setAlert("Sucessfully Loggedin","success");
                     const timerId = setTimeout(()=>{
-                        navigate('/');
-                    },3000);
+                        navigate('/home');
+                    },1500);
                     return () => clearTimeout(timerId);
                 })
                 .catch(error => {
@@ -67,9 +70,7 @@ const Login = () => {
         <SnackbarAlert ref={snackbar}/>
       {
         loading ?
-        <div>
-
-        </div>
+          <Loading/>
         :
         <div>
             <Card className="w-4/3 max-w-md shadow-lg p-5 px-8">
