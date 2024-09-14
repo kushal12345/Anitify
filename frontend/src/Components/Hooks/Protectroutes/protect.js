@@ -12,7 +12,8 @@ export const ProtectRoutes = ({ children }) => {
   let location = useLocation();
 
   useEffect(() => {
-    if (!cookies || !cookies.token) {
+    console.log(cookies);
+    if (!cookies || !cookies.User.token) {
       console.log("No cookies found");
       setIsLoading(false);
       return;

@@ -5,7 +5,7 @@ const Popularartist = () => {
 
     return (
 
-    <div className='bg-gradient-to-b from-gray-700 to-bg-900 h-2/4 w-full'>
+    <div className='text-white h-2/4 w-full'>
             {/*Head part */}
             <div className='h-1/6  grid grid-cols-6'>
                 <div className=' col-start-1 col-end-3 flex px-3 items-center '>

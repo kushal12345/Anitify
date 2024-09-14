@@ -9,24 +9,24 @@ const Sidebar = () => {
     <div className='h-auto sidebar'>
       <div className='p-2 pr-8  pb-4  mb-2 justify-items-center rounded-xl  '>
 
-          <div className="flex py-1 mb-2 items-center primary_text gap-0 "> 
+          <div className="flex py-1 mb-2 items-center text-white gap-0 "> 
               <TbBrandSpotify  style={{ width: 32, height: 32 }}/>
               <span className='font-bold tracking-wide  m-2'>Aurora</span>
               
           </div>
 
-          <div className="flex rounded-xl px-2 py-1 items-center  gap-4 hover:bg-gray-800 ">
+          <div className="flex rounded-xl px-2 py-1 items-center text-white gap-4 hover:text-blue-800 ">
             <BiSolidHome className="font-bold text-xl" />
             <span className=' font-smooth hover:font-smooth hover:cursor-default '>Home</span>
           </div>
           
-          <div className="flex rounded-xl px-2 py-1 hover:bg-gray-800 mt-4 items-center gap-4 ">
+          <div className="flex rounded-xl px-2 py-1 text-white hover:text-blue-800 mt-4 items-center gap-4 ">
             <FiSearch className="font-bold text-xl" />
             <span>Search</span>
           </div>
       </div>
 
-      <div className='p-2 rounded-xl tertiary_bg h-auto text-white min-h-[calc(100vh-18vh)] h-dvh '>
+      <div className='p-2 rounded-xl h-auto text-white min-h-[calc(100vh-18vh)] h-dvh '>
                 <div className="flex pr-4 justify-between mb-4 items-center gap-4">
                     <div className="flex gap-2 items-center">
                         <BiLibrary className="font-bold text-[1.4rem]" />
@@ -37,7 +37,7 @@ const Sidebar = () => {
                     </button>
                 </div>
                 <div className="your_library">
-                    <div className="leading-6 mt-2 secondary_bg rounded-xl py-3 px-4">
+                    <div className="leading-6 mt-2 bg-white bg-opacity-20 rounded-xl py-3 px-4">
                         <p className="font-bold">Create your first playlist</p>
                         <p className="">
                             It's easy, we'll help you
@@ -46,7 +46,7 @@ const Sidebar = () => {
                             Create playlist
                         </button>
                     </div>
-                    <div className="leading-6 mt-4 secondary_bg rounded-xl py-3 px-4">
+                    <div className="leading-6 mt-4 bg-white bg-opacity-20 rounded-xl py-3 px-4">
                         <p className="font-bold">
                             Let's find some podcasts to follow
                         </p>

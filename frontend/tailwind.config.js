@@ -8,9 +8,9 @@ module.exports = {
       colors: {
         // Primary colors
         primary: {
-          light: '#f7fafc',
-          DEFAULT: '#3498db',
-          dark: '#2e4053',
+          light: '#ffffff',
+          DEFAULT: '#ffffff',
+          dark: '#ffffff',
         },
         secondary: {
           light: '#ffed4a',
