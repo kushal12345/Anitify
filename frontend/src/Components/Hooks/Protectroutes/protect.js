@@ -13,12 +13,11 @@ export const ProtectRoutes = ({ children }) => {
 
   useEffect(() => {
     console.log(cookies);
-    if (!cookies || !cookies.User.token) {
+    if (!cookies && !cookies.User.token) {
       console.log("No cookies found");
       setIsLoading(false);
       return;
     }
-
     api.post(`/api/protected`, cookies)
       .then((res) => {
         console.log(res.data.success);

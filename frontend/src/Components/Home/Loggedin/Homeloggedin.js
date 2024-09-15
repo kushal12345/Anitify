@@ -10,13 +10,20 @@ const Homeloggedin = () => {
 
 //    const snackbar = useRef(null);
   return (
-    <div className='min-h-screen text-white bg-gradient-to-br from-blue-400 via-purple-400 to-blue-500 text-gray-900'>
-       {/* <SnackbarAlert ref={snackbar}/>*/} 
-        <Headerlayout/>
-        <Bodylayout>
-          <Loggedrightpart/>
-        </Bodylayout>  
-    </div>
+         <div className=' grid grid-rows-[3fr, 3fr] text-white'>
+            <div className='absolute -z-[2] top-0 left-0 w-full h-full bg-gradient-to-br from-blue-400 via-purple-400 to-blue-500'></div>
+            {/* <SnackbarAlert ref={snackbar}/>*/} 
+            <div className=' '>
+              <Headerlayout/>
+            </div>
+
+            <div className='-z-[1] '>
+                <Bodylayout>
+                    <Loggedrightpart/>
+                </Bodylayout>  
+            </div>
+          </div>
+    
   )
 }
 
