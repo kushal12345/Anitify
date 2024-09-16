@@ -23,7 +23,7 @@ const Headerlayout = () => {
                 </Link>
 
                 <Link className='flex  bg-white bg-opacity-25 p-1 hover:bg-opacity-35 rounded-full mx-2 items-center justify-center '>
-                    <BiSolidHome  style={{ width: 32, height: 32 }}/>
+                    <BiSolidHome  style={{ width: 26, height: 26 }}/>
                 </Link>
                              
             </div>
