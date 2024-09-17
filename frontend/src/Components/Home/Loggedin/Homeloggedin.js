@@ -1,6 +1,6 @@
 import React, { useState,useEffect } from 'react'
-/*import SnackbarAlert from '../../SnackbarAlert/SnackbarAlert';*/
-import { useRef } from 'react';
+/*import SnackbarAlert from '../../SnackbarAlert/SnackbarAlert';
+import { useRef } from 'react';*/
 import Bodylayout from '../../../Layout/bodylayout';
 import Headerlayout from '../../../Layout/Headerlayout';
 import Loggedrightpart from '../../Rightpart/Loggedin/Loggedrightpart';
@@ -15,11 +15,11 @@ const Homeloggedin = () => {
          <div className=' grid grid-rows-[3fr, 3fr] h-screen  overflow-hidden  text-white'>
             <div  className={`absolute -z-[2] top-0 left-0 w-full h-screen  bg-gradient-to-br from-blue-400 via-purple-400 to-blue-500`}></div>
             {/* <SnackbarAlert ref={snackbar}/>*/} 
-            <div className=' '>
+            <div className='z-10'>
               <Headerlayout/>
             </div>
 
-            <div className=' h-auto  '>
+            <div className='z-0 h-auto'>
                 <Bodylayout>
                     <Loggedrightpart/>
                 </Bodylayout>  

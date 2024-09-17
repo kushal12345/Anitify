@@ -6,10 +6,10 @@ const AuthProvider = ({children}) => {
     const [cookies,setCookies,removeCookie] = useCookies();
 
     const login = (data) => {
-        setCookies('User',data);
+        setCookies('User',data,{ maxAge: 0 });
     }
 
-    const logout = (data) => {
+    const logout = () => {
         removeCookie('User');
     }
 

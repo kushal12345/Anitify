@@ -8,11 +8,12 @@ import LoggedLibrary from './Logged/LoggedLibrary';
 
 const Sidebar = () => {
     const {cookies} = useContext(AuthContext);
-        
+    const Userlogged = cookies.User 
+    console.log(Userlogged);
     return (
-        <div className='h-screen sidebar'>
+        <div className='h-[90%] overflow-hidden my-2 sidebar'>
         {
-            (cookies.User.user)?
+            (Userlogged != "")?
             <></>
             :
             <>
@@ -20,8 +21,7 @@ const Sidebar = () => {
             </>
         }    
         
-
-        <div className='p-2 rounded-xl h-screen text-white min-h-[calc(100vh-18vh)] h-dvh '>
+        <div className='p-2 rounded-xl h-screen text-white  h-full '>
                     <div className="flex pr-4 justify-between mb-4 items-center gap-4">
                         <div className="flex gap-2 items-center">
                             <BiLibrary className="font-bold text-[1.4rem]" />
@@ -32,7 +32,7 @@ const Sidebar = () => {
                         </button>
                     </div>
                     {
-            (cookies.User.user)?
+            (Userlogged != "")?
             <>
                 <LoggedLibrary/>
             </>
