@@ -164,24 +164,24 @@ const Loggedrightpart = () => {
                         </div>
 
                     </div>                
-                <div className="grid h-auto w-full grid-cols-6 gap-4">
-                {Array(6).fill(0).map((_, index) => (
-                    <div key={index} className=" w-full h-auto px-3 py-3">
-                        <div className='text-[1rem] w-full h-auto hover:bg-opacity-25 hover:bg-white'>
-                            {/* Image part */}
-                            <div className='w-full aspect-square p-2'>
-                                <img src="https://picsum.photos/400/400" className='w-30% aspect-square' />
-                            </div> 
-                            {/* Playlist Details */}
-                            <div className='  w-full  h-auto py-3'>
-                                <div className='w-full justify-center font-bold flex items-center h-[100%]'>
-                                    English{index + 1}
+                    <div className="grid h-auto w-full grid-cols-6 gap-4">
+                        {Array(6).fill(0).map((_, index) => (
+                            <div key={index} className=" w-full h-auto px-3 py-3">
+                                <div className='text-[1rem] w-full h-auto hover:bg-opacity-25 hover:bg-white'>
+                                    {/* Image part */}
+                                    <div className='w-full aspect-square p-2'>
+                                        <img src="https://picsum.photos/400/400" className='w-30% aspect-square' />
+                                    </div> 
+                                    {/* Playlist Details */}
+                                    <div className='  w-full  h-auto py-3'>
+                                        <div className='w-full justify-center font-bold flex items-center h-[100%]'>
+                                            English{index + 1}
+                                        </div>
+                                    </div> 
                                 </div>
-                            </div> 
-                        </div>
+                            </div>
+                        ))}
                     </div>
-                ))}
-                </div>
             </div>
             
         </div>
