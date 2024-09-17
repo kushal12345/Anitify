@@ -13,7 +13,7 @@ const Sidebar = () => {
     return (
         <div className='h-[90%] overflow-hidden my-2 sidebar'>
         {
-            (Userlogged != "")?
+            (Userlogged != undefined)?
             <></>
             :
             <>
@@ -32,7 +32,7 @@ const Sidebar = () => {
                         </button>
                     </div>
                     {
-            (Userlogged != "")?
+            (Userlogged != undefined)?
             <>
                 <LoggedLibrary/>
             </>
