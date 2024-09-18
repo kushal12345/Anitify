@@ -22,7 +22,15 @@ const PORT = process.env.PORT;
 const app = express();
 app.use(logger);
 app.use(json());
-app.use(cors(corsOption));
+//app.use(cors(corsOption));
+
+app.use(cors({
+    origin: '*', // Allow all origins
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Allowed methods
+    allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
+}));
+
+
 app.use(Connectioninfo); // middleware to store connection info in log file
 
 //logError('/log-error',app);
