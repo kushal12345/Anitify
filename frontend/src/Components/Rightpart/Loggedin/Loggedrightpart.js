@@ -1,7 +1,7 @@
 import React from 'react'
 import { useContext } from 'react';
 import AuthContext from '../../Hooks/Auth/AuthContext';
-
+import Footer from '../../Footer/Footer';
 const Loggedrightpart = () => {
 
     const {cookies} = useContext(AuthContext);
@@ -186,7 +186,7 @@ const Loggedrightpart = () => {
             
         </div>
 
-        
+        <Footer/>
       
 
     </div>
