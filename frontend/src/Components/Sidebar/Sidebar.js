@@ -9,7 +9,7 @@ import LoggedLibrary from './Logged/LoggedLibrary';
 const Sidebar = () => {
     const {cookies} = useContext(AuthContext);
     const Userlogged = cookies.User 
-    console.log(Userlogged);
+    
     return (
         <div className='h-[90%] overflow-hidden my-2 sidebar'>
         {
