@@ -6,12 +6,15 @@ import Logohomesearch from './Notlogged/Logohomesearch';
 import AuthContext from '../Hooks/Auth/AuthContext';
 import LoggedLibrary from './Logged/LoggedLibrary';
 
-const Sidebar = () => {
+const Sidebar = ({ setSidebarOpen }) => {
     const {cookies} = useContext(AuthContext);
     const Userlogged = cookies.User 
     
     return (
         <div className='h-[90%] overflow-hidden my-2 sidebar'>
+         <Button variant="ghost" size="icon" className="lg:hidden text-white" onClick={() => setSidebarOpen(false)}>
+            <X size={24} />
+          </Button>   
         {
             (Userlogged != undefined)?
             <></>
