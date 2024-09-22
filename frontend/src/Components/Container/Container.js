@@ -4,7 +4,7 @@ import Rightmain from '../Rightpart/Rightmain.js';
 const Container = ({children}) => {
   return (
     <div className='min-h-screen z-10 overflow-hidden rounded-xl bg-white bg-opacity-10 backdrop-blur-md '>
-        <div className=' min-h-[80vh]  '>
+        <div className=' min-h-[80vh]  '> 
             <Rightmain/>
         </div>
        

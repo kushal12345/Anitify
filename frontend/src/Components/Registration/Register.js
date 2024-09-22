@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import api from '../../Services/api';
 import Loading from '../Loading/Loading';
 const Register = () => {
-  const API_ADDRESS = `http://localhost:9000`;
+  const API_ADDRESS = `https://anitify-api.vercel.app`;
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 

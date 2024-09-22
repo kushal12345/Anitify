@@ -5,6 +5,13 @@ export const content = [
 ];
 export const theme = {
   extend: {
+    screens: {
+      xs: '50px',
+      sm: '640px',
+      md: '768px',
+      lg: '1024px',
+      xl: '1280px',
+    },
     colors: {
       // Primary colors
       primary: {
@@ -69,6 +76,8 @@ export const theme = {
     xxl: '1.225rem',
     xxxl: '1.325rem', // 20px
   },
+
+  
  
 };
 export const plugins = [];

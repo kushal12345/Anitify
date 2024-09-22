@@ -11,7 +11,7 @@ import AuthContext from '../Hooks/Auth/AuthContext';
 import Loading from '../Loading/Loading';
 const Login = () => {
     const [loading, setLoading] = useState(false);
-    const API_ADDRESS = `http://localhost:9000`;
+    const API_ADDRESS = `https://anitify-api.vercel.app`;
     const navigate = useNavigate();
     const {login}=useContext(AuthContext);
 

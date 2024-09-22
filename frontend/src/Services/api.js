@@ -1,7 +1,9 @@
 import axios from 'axios'
+import { baseURL } from './config';
 
 const api = axios.create({
-    baseURL: 'https://anitify-api.vercel.app'  //your api url
+    baseURL  //your api url
+    
 });
 
 export default api

@@ -1,10 +1,12 @@
-import React,{useContext,useEffect} from 'react'
+import React,{useContext} from 'react'
 import { BiLibrary } from "react-icons/bi";
 import { FaPlus } from "react-icons/fa";
 import Library from './Notlogged/Library';
 import Logohomesearch from './Notlogged/Logohomesearch';
 import AuthContext from '../Hooks/Auth/AuthContext';
 import LoggedLibrary from './Logged/LoggedLibrary';
+import { Button } from '@mui/material';
+import { RxCross2 } from "react-icons/rx";
 
 const Sidebar = ({ setSidebarOpen }) => {
     const {cookies} = useContext(AuthContext);
@@ -12,11 +14,12 @@ const Sidebar = ({ setSidebarOpen }) => {
     
     return (
         <div className='h-[90%] overflow-hidden my-2 sidebar'>
-         <Button variant="ghost" size="icon" className="lg:hidden text-white" onClick={() => setSidebarOpen(false)}>
-            <X size={24} />
+         
+         <Button variant="ghost" size="icon" className="lg:invisible text-white md:invisible xl:invisible sm:visible xs:visible" onClick={() => setSidebarOpen(false)}>
+            <RxCross2 className='text-white' size={24} />
           </Button>   
         {
-            (Userlogged != undefined)?
+            (Userlogged !== undefined)?
             <></>
             :
             <>
@@ -35,7 +38,7 @@ const Sidebar = ({ setSidebarOpen }) => {
                         </button>
                     </div>
                     {
-            (Userlogged != undefined)?
+            (Userlogged !== undefined)?
             <>
                 <LoggedLibrary/>
             </>

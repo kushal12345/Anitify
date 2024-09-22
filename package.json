@@ -1,0 +1,14 @@
+{
+    "name": "anitify",
+    "version": "0.1.0",
+    "private": true,
+   "scripts": {
+  "start:frontenddev": "cd frontend && npm run dev",
+  "start:frontendprod": "cd frontend && npm run prod",
+  "start:backend": "cd backend && npm run start",
+  "start:dev": "npm run start:frontenddev & npm run start:backend & ",
+  "start:prod": "npm run start:frontendprod & npm run start:backend & "
+
+}
+  }
+  
