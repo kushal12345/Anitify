@@ -24,9 +24,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-  
     "dev": "SET NODE_ENV=development & react-scripts start",
-    "prod": "SET NODE_ENV=production react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build"
   },
   "eslintConfig": {
