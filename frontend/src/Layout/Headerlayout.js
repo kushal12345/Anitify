@@ -58,7 +58,7 @@ const Headerlayout = () => {
                 </div>
 
                 <div className='bg-white bg-opacity-25 p-1 hover:bg-opacity-35 rounded-full items-center mx-2' onClick={dropwdownopen}>
-                    <FaUser className='border  p-0.5 m-1'  style={{ width: 24, height: 24, borderRadius:100 }}/>
+                    <FaUser className='   p-0.5 m-1'  style={{ width: 24, height: 24,  Radius:100 }}/>
                 </div>
                 <div className={`absolute p-2  flex justify-end right-5 top-12  w-1/6 h-38 ${opened ? '' : 'hidden' }`}>
                     <div className='bg-white bg-opacity-20 w-3/6 '>

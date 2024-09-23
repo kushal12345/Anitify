@@ -4,12 +4,12 @@ import Mainbody from './Content/Mainbody'
 
 const Rightmain = () => {
   return (
-    <div>
+    <div className='h-full'>
       <div className='w-full  shadow-xl'>
         <Header />
       </div>
       
-      <div className=''>
+      <div className='h-auto'>
         <Mainbody/>  
       </div>
 

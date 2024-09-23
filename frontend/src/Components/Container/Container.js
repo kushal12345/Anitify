@@ -1,15 +1,15 @@
 import React from 'react'
 import Rightmain from '../Rightpart/Rightmain.js';
-
-const Container = ({children}) => {
+import Footer from '../Footer/Footer.js';
+const Container = () => {
   return (
-    <div className='min-h-screen z-10 overflow-hidden rounded-xl bg-white bg-opacity-10 backdrop-blur-md '>
-        <div className=' min-h-[80vh]  '> 
+    <div className=' h-screen z-10 overflow-y-auto  rounded-xl bg-white bg-opacity-10 backdrop-blur-md  '>
+        <div className=' h-auto   '> 
             <Rightmain/>
         </div>
        
-        <div className=' min-h-[20vh] '>
-            {children}
+        <div className=' h-auto  '>
+            <Footer/>
         </div>
     </div>
   

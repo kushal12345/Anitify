@@ -35,7 +35,7 @@ const Loggedrightpart = () => {
 
         {/* playlist main part  */}
         
-        <div className="grid  my-4 grid-cols-4 grid-rows-2 gap-2">
+        <div className="grid my-4 grid-cols-4 grid-rows-2 gap-2">
             {Array(8).fill(0).map((_, index) => (
                 <div key={index} className=" h-15 ">
                     <div className='flex text-[1rem] bg-white bg-opacity-20 hover:bg-opacity-35 w-full h-auto'>

@@ -19,12 +19,12 @@ const Header = () => {
                 <Button variant="ghost" size="icon" className="lg:invisible text-white md:invisible xl:invisible sm:visible xs:visible" onClick={() => setSidebarOpen(true)}>
                     <IoMenu size={24} />
                 </Button>
-            <div className=' w-2/4 flex justify-end '>
-                <LuChevronRightCircle className='m-1 flex rotate-180 text-[2.5vw] hover:text-[2.8vw] hover:text-blue-500 '/>
+            <div className=' w-2/4 flex justify-end m-1 '>
+                <LuChevronRightCircle size={38} className=' flex rotate-180  hover:text-blue-500 '/>
             </div>
 
-            <div className=' w-2/4'>
-                <LuChevronRightCircle className=' m-1  flex text-[2.5vw] hover:text-[2.8vw] hover:text-blue-500 '/>
+            <div className=' w-2/4 flex m-1 '>
+                <LuChevronRightCircle size={38} className='  flex  hover:text-blue-500 '/>
             </div>
         </div>
 

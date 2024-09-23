@@ -8,7 +8,7 @@
     padding: 0px;
     text-decoration: none;
     list-style: none;
-    box-sizing: border-box;
+    box-sizing:  -box;
     font-family: 'Poppins', sans-serif;
     text-rendering:auto;
 }
@@ -45,7 +45,7 @@ body {
 }
 
 .border-white {
-    border: 1px solid white;
+    border : 1px solid white;
 }
 
 .secondary_text {
