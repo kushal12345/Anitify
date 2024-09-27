@@ -12,7 +12,7 @@ const Homeloggedin = () => {
 
 //    const snackbar = useRef(null);
   return (
-         <div className=' grid grid-rows-[3fr, 3fr] h-screen  overflow-hidden  text-white'>
+         <div className=' grid grid-rows-[3fr, 3fr] min-h-screen  overflow-hidden  text-white'>
             <div  className={`absolute -z-[2] top-0 left-0 w-full h-screen  bg-gradient-to-br from-blue-400 via-purple-400 to-blue-500`}></div>
             {/* <SnackbarAlert ref={snackbar}/>*/} 
             <div className='z-10'>

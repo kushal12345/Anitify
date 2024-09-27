@@ -3,7 +3,7 @@ import Popularartist from './Popularartist'
 import Popularalbums from './Popularalbums'
 const Mainbody = () => {
   return (
-    <div className='h-auto inline-block  grid grid-rows-2' >
+    <div className='h-auto  grid grid-rows-2' >
         <div>
           <Popularartist/>
         </div>

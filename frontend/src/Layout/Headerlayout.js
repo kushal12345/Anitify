@@ -16,20 +16,19 @@ const Headerlayout = () => {
    
     
   return (
-        <div className='grid bg-white bg-opacity-15 backdrop-blur-md grid-cols-8 mb-2 py-1 items-center justify-center text-center gap-2'>
-            <div className=' flex items-center justify-center'>
-                <Link className='flex mx-2 items-center justify-center '>
+    <div className='bg-white bg-opacity-15 backdrop-blur-md mb-2 py-1   grid grid-flow-col grid-cols-5 md:grid-rows-1 lg:grid-rows-1 xl:grid-rows-1  xs:grid-rows-2 sm:grid-rows-2  gap-2'>
+        <div className='    col-span-1 row-span-1 xs:row-span-1 sm:row-span-1 flex items-center justify-center'>
+                <Link className='flex items-center justify-center '>
                     <TbBrandSpotify  style={{ width: 32, height: 32 }}/>
                 </Link>
 
                 <Link className='flex  bg-white bg-opacity-25 p-1 hover:bg-opacity-35 rounded-full mx-2 items-center justify-center '>
                     <BiSolidHome  style={{ width: 26, height: 26 }}/>
-                </Link>
-                             
-            </div>
+                </Link> 
+        </div>
 
-            <div className='col-span-2'>
-                <form className=" max-w-md mx-auto">   
+        <div className='flex items-end col-span-1 xs:col-span-4 sm:col-span-4 md:col-span-1 lg:col-span-1 xl:col-span-1   row-span-1 xs:row-span-2 sm:row-span-2'>
+                  <form className=" max-w-md mx-auto">   
                     <label htmlFor="default-search" className="mb-2 text-sm font-medium  sr-only dark:text-white">Search</label>
                     <div className="relative">
                         <div className="absolute inset-y-0 start-2 flex items-center ps-1 pointer-events-none">
@@ -46,13 +45,17 @@ const Headerlayout = () => {
                         />
                     </div>
                 </form>
-            </div>
+        </div>
 
-            <div className='col-start-7 col-span-1'>
-                
-            </div>
+        <div className='col-span-1   row-span-1 xs:row-span-1 sm:row-span-1 md:row-span-2 lg:row-span-2 xl:row-span-2'>
+             
+        </div>
 
-            <div className=' flex items-center justify-end mx-2 col-start-8 col-span-1 '>
+        <div className='col-span-1   row-span-1 xs:row-span-1 sm:row-span-1'>
+              
+        </div>
+
+        <div className='col-span-1  row-span-1 xs:row-span-2 sm:row-span-2 flex items-start justify-center'>
                 <div className='mx-2'>
                     <IoIosNotifications  style={{ width: 32, height: 32 }}/>
                 </div>
@@ -76,9 +79,10 @@ const Headerlayout = () => {
                     </div>
                        
                 </div>
-                
-            </div>
+ 
         </div>
+        
+    </div>  
   )
 }
 
