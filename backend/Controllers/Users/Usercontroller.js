@@ -38,21 +38,21 @@ export const Login = CatchAsncErrors(async (req,res,next)=>{
 
         if(!email || !password){
             console.log("Empty email and password please enter again");
-            return next( new ErrorHandlersave("Empty Email and Password",400));
+            return res.status(400).json({success:false,message:"Empty Email and Password"});
         }
 
         const user = await Usert.findOne({email}).select("+password");
 
         if(!user){
             console.log("User not found");
-            return next(new ErrorHandlersave("User not found",401));
+            return res.status(400).json({success:false,message:"User Not Found"});
         }
         //check if password is correct
         const isMatch = await user.comparePassword(password);
 
         if(!isMatch){
             console.log("Password is incorrect");
-            return next(new ErrorHandlersave("Password is incorrect",401));
+            return res.status(400).json({success:false,message:"Incorrect Password."});
         }
         //generate token
         sendToken(user,200,res);
@@ -60,6 +60,9 @@ export const Login = CatchAsncErrors(async (req,res,next)=>{
     } catch (error) {
         console.log(error);
         logger(error);
+        
+        ErrorHandlersave(error,400)
+        return res.status(400).json({success:false,message:error})
     }
 })
 

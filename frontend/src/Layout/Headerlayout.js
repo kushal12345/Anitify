@@ -4,20 +4,29 @@ import { TbBrandSpotify } from "react-icons/tb";
 import { BiSolidHome } from "react-icons/bi";
 import { IoIosNotifications } from "react-icons/io";
 import { FaUser } from "react-icons/fa";
-
+import AuthContext from '../Components/Hooks/Auth/AuthContext';
+import { useContext } from 'react';
+import { Button } from '@mui/material'
+import { IoMenu } from "react-icons/io5";
 
 
 const Headerlayout = () => {
     const [opened,setOpened] = useState(false);
+    const {sidebarOpen, setSidebarOpen} = useContext(AuthContext);
+
 
         const dropwdownopen = () => {
             setOpened(!opened);
         }
-   
+
     
   return (
-    <div className='bg-white bg-opacity-15 backdrop-blur-md mb-2 py-1   grid grid-flow-col grid-cols-5 md:grid-rows-1 lg:grid-rows-1 xl:grid-rows-1  xs:grid-rows-2 sm:grid-rows-2  gap-2'>
-        <div className='    col-span-1 row-span-1 xs:row-span-1 sm:row-span-1 flex items-center justify-center'>
+    <div className='bg-white bg-opacity-15 backdrop-blur-md mb-2 py-1 grid grid-flow-col grid-cols-5 md:grid-rows-1 lg:grid-rows-1 xl:grid-rows-1  xs:grid-rows-1 sm:grid-rows-1  gap-2'>
+        
+        <div className='pl-3 col-span-1 row-span-1 xs:row-span-1 sm:row-span-1 flex items-center justify-center'>
+                <Button variant="ghost" size="icon" className={`${(sidebarOpen===true)? 'lg:invisible text-white md:invisible xl:invisible sm:invisible xs:invisible':'lg:invisible text-white md:invisible xl:invisible sm:visible xs:visible'}`} onClick={() => setSidebarOpen(true)}>
+                    <IoMenu size={24} />
+                </Button>
                 <Link className='flex items-center justify-center '>
                     <TbBrandSpotify  style={{ width: 32, height: 32 }}/>
                 </Link>
@@ -27,7 +36,7 @@ const Headerlayout = () => {
                 </Link> 
         </div>
 
-        <div className='flex items-end col-span-1 xs:col-span-4 sm:col-span-4 md:col-span-1 lg:col-span-1 xl:col-span-1   row-span-1 xs:row-span-2 sm:row-span-2'>
+        <div className='pl-4 flex items-end col-span-1 xs:col-span-2 sm:col-span-2 md:col-span-1 lg:col-span-1 xl:col-span-1  row-span-1 xs:row-span-2 sm:row-span-2'>
                   <form className=" max-w-md mx-auto">   
                     <label htmlFor="default-search" className="mb-2 text-sm font-medium  sr-only dark:text-white">Search</label>
                     <div className="relative">

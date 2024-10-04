@@ -10,6 +10,14 @@ const SnackbarAlert = forwardRef((props, ref) => {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
   const [severity, setseverity] = useState('');
+
+  const severityLevels = {
+    error: "error",
+    success: "success",
+    warning: "warning",
+    info: "info",
+  };
+
   
 
   useEffect(() => {
@@ -26,10 +34,11 @@ const SnackbarAlert = forwardRef((props, ref) => {
       setOpen(false);
     }
   }, [msg]);
-
+  
+  
   const setAlert = (mesg, severity) => {
     setmsg(mesg);
-    setseverity(severity);
+    setseverity(severityLevels[severity]);
   }
 
   useImperativeHandle(ref, () => ({     //you cannot call function inside component as static function you need to declare imperative handle and pass ref to props
@@ -38,12 +47,11 @@ const SnackbarAlert = forwardRef((props, ref) => {
 
   return (
     <div>
-    
         <Snackbar open={open} autoHideDuration={3000} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}   >
-        <Stack>
-          <Alert variant="filled" severity={severity}>
-            {message}
-          </Alert>
+          <Stack>
+            <Alert variant="filled" severity={severity}>
+              {message}
+            </Alert>
           </Stack>  
         </Snackbar>
      

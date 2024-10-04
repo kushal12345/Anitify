@@ -7,10 +7,10 @@ const Loggedrightpart = () => {
     const {cookies} = useContext(AuthContext);
 
   return (
-    <div className=' p-2 pl-5 -z-[1] '>
+    <div className='h-full p-2 pl-5 -z-[1] overflow-y-scroll '>
                 
         {/* Tag part  */}
-        <div className='flex items-center h-full w-full items-center gap-3 overflow-x-scroll  [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] '  >
+        <div className='flex items-center h-auto w-full items-center gap-3 overflow-x-scroll  [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] '  >
             
             <div className=' bg-white bg-opacity-20 hover:bg-opacity-35 hover:cursor-pointer flex rounded-xl justify-center px-2 py-1 h-auto  min-w-[100px] ' >
                 All
@@ -35,7 +35,7 @@ const Loggedrightpart = () => {
 
         {/* playlist main part  */}
         
-        <div className="grid my-4 grid-cols-4 grid-rows-2 gap-2">
+        <div className="h-auto grid my-4 grid-cols-4 grid-rows-2 gap-2">
             {Array(8).fill(0).map((_, index) => (
                 <div key={index} className=" h-15 ">
                     <div className='flex text-[1rem] bg-white bg-opacity-20 hover:bg-opacity-35 w-full h-auto'>
@@ -54,7 +54,7 @@ const Loggedrightpart = () => {
             ))}
         </div>
         
-        <div className='bg-white overflow-y-scroll p-2 bg-opacity-20 w-full h-[58vh] rounded-2xl [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]'>
+        <div className='bg-white overflow-y-scroll p-2 bg-opacity-20 w-full h-auto rounded-2xl [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]'>
             
              {/* row 1 */}
              <div className='py-4 '>
@@ -68,7 +68,7 @@ const Loggedrightpart = () => {
 
                 </div>
                 
-                <div className="grid h-auto w-full grid-cols-6 gap-4">
+                <div className=" h-auto w-full  grid xs:grid-cols-3 xs:grid-rows-2 sm:grid-cols-3 sm:grid-rows-2 md:grid-cols-6 md:grid-rows-1 lg:grid-cols-6 lg:grid-rows-1 xl:grid-cols-6 xl:grid-rows-1  gap-4">
                 {Array(6).fill(0).map((_, index) => (
                     <div key={index} className=" w-full h-auto px-3 py-3">
                         <div className='text-[1rem] w-full h-auto hover:bg-opacity-25 hover:bg-white'>
@@ -100,7 +100,7 @@ const Loggedrightpart = () => {
                         </div>
 
                     </div>                
-                <div className="grid h-auto w-full grid-cols-6 gap-4">
+                <div className=" h-auto w-full  grid xs:grid-cols-3 xs:grid-rows-2 sm:grid-cols-3 sm:grid-rows-2 md:grid-cols-6 md:grid-rows-1 lg:grid-cols-6 lg:grid-rows-1 xl:grid-cols-6 xl:grid-rows-1  gap-4">
                 {Array(6).fill(0).map((_, index) => (
                     <div key={index} className=" w-full h-auto px-3 py-3">
                         <div className='text-[1rem] w-full h-auto hover:bg-opacity-25 hover:bg-white'>
@@ -132,7 +132,7 @@ const Loggedrightpart = () => {
                         </div>
 
                     </div>                
-                <div className="grid h-auto w-full grid-cols-6 gap-4">
+                <div className=" h-auto w-full  grid xs:grid-cols-3 xs:grid-rows-2 sm:grid-cols-3 sm:grid-rows-2 md:grid-cols-6 md:grid-rows-1 lg:grid-cols-6 lg:grid-rows-1 xl:grid-cols-6 xl:grid-rows-1  gap-4">
                 {Array(6).fill(0).map((_, index) => (
                     <div key={index} className=" w-full h-auto px-3 py-3">
                         <div className='text-[1rem] w-full h-auto hover:bg-opacity-25 hover:bg-white'>
@@ -164,7 +164,7 @@ const Loggedrightpart = () => {
                         </div>
 
                     </div>                
-                    <div className="grid h-auto w-full grid-cols-6 gap-4">
+                    <div className=" h-auto w-full  grid xs:grid-cols-3 xs:grid-rows-2 sm:grid-cols-3 sm:grid-rows-2 md:grid-cols-6 md:grid-rows-1 lg:grid-cols-6 lg:grid-rows-1 xl:grid-cols-6 xl:grid-rows-1  gap-4">
                         {Array(6).fill(0).map((_, index) => (
                             <div key={index} className=" w-full h-auto px-3 py-3">
                                 <div className='text-[1rem] w-full h-auto hover:bg-opacity-25 hover:bg-white'>

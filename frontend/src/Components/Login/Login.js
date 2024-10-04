@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import api from '../../Services/api';
 import AuthContext from '../Hooks/Auth/AuthContext';
 import Loading from '../Loading/Loading';
+
 const Login = () => {
     const [loading, setLoading] = useState(false);
     const API_ADDRESS = `https://anitify-api.vercel.app`;
@@ -36,17 +37,23 @@ const Login = () => {
             try {
                 api.post(`/api/login`,user)
                 .then(res => {
-                    console.log(res.data);
-                    login(res.data);
-                    snackbar.current.setAlert("Sucessfully Loggedin","success");
-                    const timerId = setTimeout(()=>{
-                        navigate('/home');
-                    },1500);
-                    return () => clearTimeout(timerId);
+                     if(res.data.success===true){
+                        login(res.data);
+                        snackbar.current.setAlert(`Welcome Back ${res.data.user.name} `,"success");
+                        
+                        const timerId = setTimeout(()=>{
+                            navigate('/home');
+                        },1500);
+                        
+                        return () => clearTimeout(timerId);                        
+                     }else{
+                        snackbar.current.setAlert(res.data.message,"error");
+                     }   
                 })
                 .catch(error => {
-                    console.log(error.response.data.message);
-                    snackbar.current.setAlert(`${error.response.data.message}`,"error");
+                    
+                   // console.log(error);
+                  snackbar.current.setAlert(`${error.response.data.message}`,"error");
                 })
                 .finally(() => {
                     setLoading(false);
