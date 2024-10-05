@@ -1,7 +1,5 @@
 const allowedOrigins = [
-   'https://anitify.vercel.app',
-//       'http://localhost:3000',
-
+    'https://anitify.vercel.app'
     ]
 
 export default allowedOrigins;
