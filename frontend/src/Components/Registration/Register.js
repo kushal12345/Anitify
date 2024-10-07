@@ -7,6 +7,7 @@ import SnackbarAlert from '../SnackbarAlert/SnackbarAlert';
 import { useNavigate } from 'react-router-dom';
 import api from '../../Services/api';
 import Loading from '../Loading/Loading';
+
 const Register = () => {
   const API_ADDRESS = `https://anitify-api.vercel.app`;
   const navigate = useNavigate();
@@ -91,13 +92,18 @@ const Register = () => {
       <Loading/>
       :
       <div>
-     
      <Card className=" w-4/3 max-w-md shadow-lg p-5 px-8"> 
              <Box>
                       <Link to="/">
                          <ArrowBackIcon/>
                      </Link>
              </Box>
+      <div className="flex items-center justify-center text-black">
+        <p>
+          Are you an  <Link className='text-accent-blue' to="/ArtistRegister">Artist?</Link>
+        </p>             
+      </div>
+
              <CardContent className="flex items-center justify-center">
                <Box>
                  <Typography  component="div" color="black" fontWeight="bold" fontSize="1.5rem" className=' flex items-center justify-center '>
@@ -203,6 +209,7 @@ const Register = () => {
                  Sign Up
                </Button>
              </CardActions>
+             
            </Card>
       </div>
       }

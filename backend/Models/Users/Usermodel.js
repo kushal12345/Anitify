@@ -28,6 +28,10 @@ const userSchema  = new mongoose.Schema({
         type:String,
         required:true
     },
+    playlists: [{ 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Playlist' 
+    }],
     createdAt:{
         type:Date,
         default: Date.now,
@@ -35,7 +39,11 @@ const userSchema  = new mongoose.Schema({
     resetPasswordToken: String,
     resetPasswordExpire: Date,
 
-})
+}, 
+{ 
+    timestamps: true 
+});
+
 
 
 userSchema.pre("save",async function(next){

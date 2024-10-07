@@ -14,6 +14,7 @@ const AuthProvider = ({children}) => {
         removeCookie('User');
     }
 
+
   
     return(
         <AuthContext.Provider value={{login, logout,cookies,sidebarOpen,setSidebarOpen}}>

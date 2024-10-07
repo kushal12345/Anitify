@@ -31,7 +31,7 @@ const HeaderLayout = () => {
         </Link>
       </div>
 
-      <div className=' flex items-center justify-start col-span-3 xs:col-span-3 sm:col-span-3 md:col-span-3 lg:col-span-3 xl:col-span-3 row-span-1 xs:row-span-1 sm:row-span-1'>
+      <div className=' flex items-center justify-start col-span-3 xs:col-span-1 sm:col-span-1 md:col-span-3 lg:col-span-3 xl:col-span-3 row-span-1 xs:row-span-1 sm:row-span-1'>
         <form className="max-w-md sm:mx-auto xs:mx-auto md:mx-0 lg:mx-0 xl:mx-0">
           <label htmlFor="default-search" className="mb-2 text-sm font-medium sr-only dark:text-white">Search</label>
           <div className=" relative">
@@ -48,6 +48,12 @@ const HeaderLayout = () => {
     
 
       <div className=' col-span-1 row-span-1 xs:col-span-1 sm:col-span-1 flex items-center justify-center'>
+      <div className='mx-2'>
+          <Link to="/ArtistRegister">
+              Artist
+          </Link>
+        </div>
+        
         <div className='mx-2'>
           <IoIosNotifications style={{ width: 32, height: 32 }} />
         </div>
