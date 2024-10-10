@@ -60,7 +60,7 @@ const Loggedrightpart = () => {
              <div className='py-4 '>
                 <div className="flex pr-4 justify-between mb-4 items-center gap-4">
                     <div>
-                         <span className='text-[1.8rem] font-bold'>Made for {(cookies.User.user.name!=undefined)?cookies.User.user.name:""}</span>
+                         <span className='text-[1.8rem] font-bold'>Made for </span>
                     </div>
                     <div>
                          <span className='text-[1rem] font-bold'>See all</span>
@@ -125,7 +125,7 @@ const Loggedrightpart = () => {
              <div className='py-4 '>
                 <div className="flex pr-4 justify-between mb-4 items-center gap-4">
                         <div>
-                            <span className='text-[1.8rem] font-bold'>Made for {cookies.User.user.name}</span>
+                            <span className='text-[1.8rem] font-bold'>Made for { }</span>
                         </div>
                         <div>
                             <span className='text-[1rem] font-bold'>See all</span>
@@ -157,7 +157,7 @@ const Loggedrightpart = () => {
             <div className='py-4 '>
                 <div className="flex pr-4 justify-between mb-4 items-center gap-4">
                         <div>
-                            <span className='text-[1.8rem] font-bold'>Made for {cookies.User.user.name}</span>
+                            <span className='text-[1.8rem] font-bold'>Made for {console.log(cookies.User) }</span>
                         </div>
                         <div>
                             <span className='text-[1rem] font-bold'>See all</span>

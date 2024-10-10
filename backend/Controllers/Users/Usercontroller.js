@@ -69,7 +69,7 @@ export const Login = CatchAsncErrors(async (req,res,next)=>{
 
 
 export const ProtectRoute = async (req,res) => {
-    const user = await Usert.findById(req.body.User.user._id);
+    const user = await Usert.findById(req.body.user._id);
     if(!user){
         return res.status(401).json({message:"User not found"});
     }

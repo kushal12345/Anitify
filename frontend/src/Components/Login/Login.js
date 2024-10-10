@@ -39,8 +39,7 @@ const Login = () => {
                 .then(res => {
                      if(res.data.success===true){
                         login(res.data);
-                        snackbar.current.setAlert(`Welcome Back ${res.data.user.name} `,"success");
-                        
+                        snackbar.current.setAlert(`Welcome Back ${res.data.user.name} `,"success");  
                         const timerId = setTimeout(()=>{
                             navigate('/home');
                         },1500);

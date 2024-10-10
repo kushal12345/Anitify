@@ -12,13 +12,14 @@ export const ProtectRoutes = ({ children }) => {
   let location = useLocation();
 
   useEffect(() => {
-    console.log(cookies);
-    if (!cookies && !cookies.User.token) {
+    console.log(cookies.User);
+    if (!cookies.User) {
       console.log("No cookies found");
       setIsLoading(false);
       return;
     }
-    api.post(`/api/protected`, cookies)
+   
+    api.post(`/api/protected`,{ token:localStorage.getItem('Token'),user:cookies.User})
       .then((res) => {
         console.log(res.data.success);
         if (res.data.success === true) {

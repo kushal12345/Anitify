@@ -90,7 +90,7 @@ const LoggedLibrary = () => {
                                     <div className='flex items-center w-full h-1/2'>
                                         <BsPinAngleFill color='green' className='text-[1.2rem]'/>
                                         <span className='text-[1.6rem]'>.</span>Playlist
-                                        <span className='text-[1.6rem]'>.</span>{cookies.User.user.name}
+                                        <span className='text-[1.6rem]'>.</span>{cookies.User.name}
                                     </div>
                                     </div> 
                                 </div>  

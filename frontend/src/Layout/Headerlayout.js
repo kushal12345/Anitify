@@ -10,7 +10,7 @@ import AuthContext from '../Components/Hooks/Auth/AuthContext';
 
 const HeaderLayout = () => {
   const [opened, setOpened] = useState(false);
-  const { sidebarOpen, setSidebarOpen } = useContext(AuthContext);
+  const { sidebarOpen, setSidebarOpen,logout } = useContext(AuthContext);
 
   const dropdownOpen = () => {
     setOpened(!opened);
@@ -48,11 +48,7 @@ const HeaderLayout = () => {
     
 
       <div className=' col-span-1 row-span-1 xs:col-span-1 sm:col-span-1 flex items-center justify-center'>
-      <div className='mx-2'>
-          <Link to="/ArtistRegister">
-              Artist
-          </Link>
-        </div>
+      
         
         <div className='mx-2'>
           <IoIosNotifications style={{ width: 32, height: 32 }} />
@@ -72,7 +68,7 @@ const HeaderLayout = () => {
               Setting
             </div>
 
-            <div className='flex items-center justify-center hover:bg-white hover:bg-opacity-25 hover:cursor-pointer hover:text-opacity-100 text-opacity-100 w-full h-[4vh] my-2'>
+            <div className='flex items-center justify-center hover:bg-white hover:bg-opacity-25 hover:cursor-pointer hover:text-opacity-100 text-opacity-100 w-full h-[4vh] my-2' onClick={logout}>
               Logout
             </div>
           </div>

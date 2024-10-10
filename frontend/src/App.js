@@ -9,7 +9,6 @@ import ArtistRegister from './Components/Registration/Artistregister.js';
 
 const App = () => {
   return (
-    <Router>
         <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/register" element={<Register />} />
@@ -17,7 +16,6 @@ const App = () => {
             <Route path="/ArtistRegister" element={<ArtistRegister />} />
             <Route path="/home" element={<ProtectRoutes><Homeloggedin/></ProtectRoutes> }/>
         </Routes>
-    </Router>
   )
 }
 
