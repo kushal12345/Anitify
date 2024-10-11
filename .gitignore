@@ -2,7 +2,7 @@ git.txt
 # Ignore node_modules in both frontend and backend
 frontend/node_modules/
 backend/node_modules/
-
+backend/Origin/allowedOrigin.js
 # Ignore build directories
 frontend/build/
 backend/build/
