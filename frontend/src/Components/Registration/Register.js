@@ -71,11 +71,8 @@ const Register = () => {
           snackbar.current.setAlert(`${API_ADDRESS} not found`, "error");
           setLoading(false);
         }
-      } else {
-        console.log("password and confirmed password didn't matched");
-        snackbar.current.setAlert(`Password and Confirm password didn't matched`, "error");
-        setLoading(false);
-      }
+      } 
+      
     } else {
       console.log("Please input all data");
       snackbar.current.setAlert(`Please input all data`, "error");

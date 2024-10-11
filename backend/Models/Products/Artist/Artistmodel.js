@@ -5,6 +5,11 @@ const artistSchema = new mongoose.Schema({
         type: String, 
         required: [true,"Please enter Artist name"] 
     },
+
+    email: {
+        type:String,
+        required: [true,"Please enter Artist email"],
+    },
     
     bio: {
         type: String 
@@ -12,7 +17,6 @@ const artistSchema = new mongoose.Schema({
 
     image:{
         type:String,
-        required:[true,"Image required"]
     },
     
     albums: [{ 

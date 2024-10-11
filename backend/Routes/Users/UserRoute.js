@@ -1,11 +1,15 @@
 import express from 'express'
 import { Register,Login,ProtectRoute } from '../../Controllers/Users/Usercontroller.js';
 import { VerifyToken } from '../../Middleware/VerifyToken.js';
-
+import { ArtistRegister } from '../../Controllers/Artist/ArtistContoller.js';
 const router = express.Router();
 
 router.route("/register").post(Register).get((req,res)=>{
     res.send("Hello")
+});
+
+router.route(`/artistregister/:id`).post(ArtistRegister).get((req,res)=>{
+    res.send("Hello Artist")
 });
 
 router.route("/login").post(Login).get((req,res)=>{
