@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 const AuthProvider = ({children}) => {
     const [cookies,setCookies,removeCookie] = useCookies();
-    const [sidebarOpen,setSidebarOpen] = useState(true)
+    const [sidebarOpen,setSidebarOpen] = useState(false)
     const navigate = useNavigate();
 
     const [isAuthenticat, setIsAuthenticate] = useState(()=>{

@@ -75,6 +75,11 @@ export const theme = {
     xl: '1.25rem',
     xxl: '1.225rem',
     xxxl: '1.325rem', // 20px
+    '4xl':'1.425rem',
+    '5xl':'1.525rem',
+    '6xl':'1.625rem',
+    '7xl':'1.725rem',
+    '8xl':'1.825rem',
   },
 
   
