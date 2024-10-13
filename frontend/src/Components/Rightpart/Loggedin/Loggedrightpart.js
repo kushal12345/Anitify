@@ -60,7 +60,7 @@ const Loggedrightpart = () => {
              <div className='py-4 '>
                 <div className="flex pr-4 justify-between mb-4 items-center gap-4">
                     <div>
-                         <span className='text-[1.8rem] font-bold'>Made for </span>
+                         <span className='text-[1.8rem] font-bold'>Hello {cookies.Authority} </span>
                     </div>
                     <div>
                          <span className='text-[1rem] font-bold'>See all</span>

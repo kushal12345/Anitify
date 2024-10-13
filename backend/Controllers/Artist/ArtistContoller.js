@@ -32,3 +32,13 @@ export const ArtistRegister = Catchasyncerror(async(req,res,next) => {
         res.status(400).json({success:false,message:"Unknown Error"});    
     }
 })
+
+export const Artistlogin = Catchasyncerror(async(req,res,next)=> {
+    try {
+        
+    } catch (error) {
+        console.log(error);
+        logger(error);
+        res.status(400).json({success:false,message:"Unknown Error"});
+    }
+}) 

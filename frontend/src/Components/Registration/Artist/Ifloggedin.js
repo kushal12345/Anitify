@@ -8,6 +8,8 @@ import Loading from '../../Loading/Loading';
 import { useNavigate } from 'react-router-dom';
 import SnackbarAlert from '../../SnackbarAlert/SnackbarAlert';
 import api from '../../../Services/api';
+import { Link } from 'react-router-dom';
+
 
 const Ifloggedin = () => {
   const API_ADDRESS = `https://anitify-api.vercel.app`;
@@ -72,7 +74,12 @@ const Ifloggedin = () => {
                 <span className='my-2 text-8xl text-bold protest-strike-regular' >Claim and Artist Profile</span> <br/>
                 <span>If you already have music on Aurora, you can get access to stats, </span>
                 <span className='my-2'>pitch tracks to our editors, and more.</span>
-                <Button className='my-2 rounded-full ' variant="contained" onClick={handleClick}>Continue</Button>
+                <div className=''>
+                <Button className='my-2 mx-2 rounded-full ' variant="contained" onClick={handleClick}>Continue</Button>
+                <span className='mx-3'>OR</span>
+                <Link className='my-2 mx-2' to="/Artistlogin" ><Button variant='outlined'>Sign In</Button></Link>
+                </div>
+                
               </div>
               {/* second div to render */}
               <div className={`w-full row-span-9 flex flex-col items-center justify-center  ${isEnabled ? 'none' : 'hidden'} overflow-hidden `}>

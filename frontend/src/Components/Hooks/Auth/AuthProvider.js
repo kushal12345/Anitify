@@ -15,15 +15,21 @@ const AuthProvider = ({children}) => {
     })
 
     const login = (data) => {
+        console.log(data);
         localStorage.setItem('User', JSON.stringify(data.user));
+        localStorage.setItem('Authority', JSON.stringify(data.authority));
         localStorage.setItem('Token', data.token);
         const user = JSON.parse(localStorage.getItem('User'));
-        (data.user)? setCookies('User', user) : removeCookie('User')
+        const auth = JSON.parse(localStorage.getItem('Authority'));
+        (data.user)? setCookies('User', user) : removeCookie('User');
+        (data.authority)? setCookies('Authority', auth) : removeCookie('Authority');
     }
 
     const logout = () => {
         removeCookie('User');
+        removeCookie('Authority');
         localStorage.removeItem('User');
+        localStorage.removeItem('Authority');
         localStorage.removeItem('Token');
         setIsAuthenticate(false);
         navigate('/');

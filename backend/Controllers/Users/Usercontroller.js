@@ -3,7 +3,7 @@ import sendToken from "../../Utils/JWTToken.js";
 import Usert from "../../Models/Users/Usermodel.js";
 import CatchAsncErrors from "../../Middleware/Catchasyncerror.js"
 import logger from "../../Logger/config.js";
-
+import Artist from "../../Models/Products/Artist/Artistmodel.js";
 
 export const Register  = CatchAsncErrors( async(req,res,next) => {
     try {
@@ -33,6 +33,7 @@ export const Register  = CatchAsncErrors( async(req,res,next) => {
 export const Login = CatchAsncErrors(async (req,res,next)=>{
     try {
         const {email,password} = req.body;
+        let authority = "";
 
         //see if email and password is empty
 
@@ -42,9 +43,18 @@ export const Login = CatchAsncErrors(async (req,res,next)=>{
         }
 
         const user = await Usert.findOne({email}).select("+password");
+        const artist = await Artist.findOne({email}); 
 
         if(!user){
             console.log("User not found");
+            authority = null;
+            return res.status(400).json({success:false,message:"User Not Found"});            
+        }else if(user && !artist){
+            authority = "user";
+        }else if(user && artist) {
+            authority = "artist";
+        }else{
+            authority = null;
             return res.status(400).json({success:false,message:"User Not Found"});
         }
         //check if password is correct
@@ -55,13 +65,11 @@ export const Login = CatchAsncErrors(async (req,res,next)=>{
             return res.status(400).json({success:false,message:"Incorrect Password."});
         }
         //generate token
-        sendToken(user,200,res);
+        sendToken(user,authority,200,res);
 
     } catch (error) {
         console.log(error);
         logger(error);
-        
-        ErrorHandlersave(error,400)
         return res.status(400).json({success:false,message:error})
     }
 })
