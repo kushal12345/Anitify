@@ -2,14 +2,15 @@ import React,{useState,useEffect} from 'react'
 import Sidebar from '../Components/Sidebar/Sidebar'
 import { useContext } from 'react'
 import AuthContext from '../Components/Hooks/Auth/AuthContext'
-
+import Playbar from '../Components/Playbar/Playbar'
 
 const Bodylayout = ({children}) => {
   
   const {sidebarOpen, setSidebarOpen }= useContext(AuthContext);
   
   return ( 
-    <div className='  grid grid-cols-10 h-screen overflow-hidden gap-2'>
+    <div>
+      <div className='  grid grid-cols-10 h-screen overflow-hidden gap-2'>
         <div className={` w-full bg-white bg-opacity-10 backdrop-blur-md rounded-xl h-auto overflow-hidden  transform ${sidebarOpen ? 'xs:col-span-10 sm:col-span-10 md:col-span-2 lg:col-span-2 xl:col-span-2' : 'xs:hidden  sm:hidden md:block  md:col-span-2  lg:block lg:col-span-2 xl:block  xl:col-span-2'} transition-transform duration-200 ease-in-out lg:relative lg:translate-x-0 `}>
             <Sidebar setSidebarOpen={setSidebarOpen}/>
         </div>
@@ -17,6 +18,11 @@ const Bodylayout = ({children}) => {
             {children}
         </div>
     </div>
+     <div className='w-full'>
+       <Playbar/>
+    </div>
+    </div>
+    
   )
 }
 

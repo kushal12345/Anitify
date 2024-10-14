@@ -48,7 +48,12 @@ const HeaderLayout = () => {
     
 
       <div className=' col-span-1 row-span-1 xs:col-span-1 sm:col-span-1 flex items-center justify-center'>
-      
+        <div>
+          <Button className=" rounded-full " variant='outlined' sx={{
+          borderRadius: '15px'
+        }}
+       color='white'>Upload Track</Button>
+        </div>
         
         <div className='mx-2'>
           <IoIosNotifications style={{ width: 32, height: 32 }} />
@@ -59,7 +64,7 @@ const HeaderLayout = () => {
         </div>
 
         <div className={` absolute p-2 flex justify-end right-5 top-12 w-1/6 h-38 ${opened ? '' : 'hidden'}`}>
-          <div className='bg-white bg-opacity-20 w-3/6'>
+          <div className='glass bg-opacity-20 w-3/6'>
             <div className='flex items-center justify-center hover:bg-white hover:bg-opacity-25 hover:cursor-pointer hover:text-opacity-100 text-opacity-100 w-full h-[4vh] my-2'>
               Profile
             </div>
