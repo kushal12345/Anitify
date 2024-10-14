@@ -52,7 +52,7 @@ const HeaderLayout = () => {
           <Button className=" rounded-full " variant='outlined' sx={{
           borderRadius: '15px'
         }}
-       color='white'>Upload Track</Button>
+       color='white' size='medium'>Upload Track</Button>
         </div>
         
         <div className='mx-2'>
