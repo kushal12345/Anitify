@@ -6,9 +6,10 @@ import Headerlayout from '../../../Layout/Headerlayout';
 import Loggedrightpart from '../../Rightpart/Loggedin/Loggedrightpart';
 import AuthContext from '../../Hooks/Auth/AuthContext';
 import { useContext } from 'react';
+import Adminloggedin from '../admin/Adminloggedin';
 
 const Homeloggedin = () => {
-  const {sidebarOpen} = useContext(AuthContext);
+  const {sidebarOpen,cookies} = useContext(AuthContext);
 
 
 //    const snackbar = useRef(null);
@@ -22,7 +23,10 @@ const Homeloggedin = () => {
 
             <div className='z-0  h-auto'>
                 <Bodylayout>
-                    <Loggedrightpart/>
+                    {
+                      (cookies.Authority==='artist')?<Adminloggedin/>:<Loggedrightpart/>
+                    }
+
                 </Bodylayout>  
             </div>
           </div>
