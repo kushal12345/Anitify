@@ -113,6 +113,16 @@ const Addtrack = ({onClose}) => {
       artist,
       genre,
     });
+    const formData = new FormData();
+    formData.append('music',music);
+    formData.append('albumCover',albumCover);
+    formData.append('releaseDate',releaseDate);
+    formData.append('albumTitle',albumTitle);
+    formData.append('artist',artist);
+    formData.append('genre',genre);
+    console.log(formData);
+    
+
   };
 
 

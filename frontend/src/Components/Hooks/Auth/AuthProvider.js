@@ -34,6 +34,9 @@ const AuthProvider = ({children}) => {
         setIsAuthenticate(false);
         navigate('/');
     }
+
+     
+
   
     return(
         <AuthContext.Provider value={{isAuthenticat, login, logout,cookies,sidebarOpen,setSidebarOpen}}>
