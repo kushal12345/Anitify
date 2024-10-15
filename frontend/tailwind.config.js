@@ -60,12 +60,14 @@ export const theme = {
         indigo: '#4b0082',
         violet: '#7a288a',
       },
-     /* theme: {
-        main: 'bg-white bg-opacity-10 backdrop-blur-md',
-        secondary: 'bg-white bg-opacity-20',
-        bluetopurple: 'bg-gradient-to-br from-blue-400 via-purple-400 to-blue-500 text-gray-900'
-      },*/
-    },
+      blue: {
+        400: '#6366f1',
+        500: '#5f5fee',
+      },
+      purple: {
+        500: '#c084fc',
+      },
+    }
   },
   fontSize: {
     xs: '0.75rem', // 12px
@@ -86,4 +88,3 @@ export const theme = {
  
 };
 export const plugins = [];
-

@@ -13,7 +13,7 @@ const Sidebar = ({ setSidebarOpen }) => {
     const Userlogged = cookies.User 
     
     return (
-        <div className='h-[90%] overflow-hidden my-2 sidebar'>
+        <div className='h-[90%] text-sm overflow-hidden my-2 sidebar'>
 
         <div className={`flex items-center w-full px-4 ${Userlogged?"":"hidden"}`}>
           <img src="https://placehold.co/50x50" height="60px" width="60px" alt="User  profile" className="rounded-full mr-4" />

@@ -83,10 +83,10 @@ const Usersidebar = () => {
                                     <div className='w-full font-bold flex items-center h-1/2'>
                                         English
                                     </div>
-                                    <div className='flex items-center w-full h-1/2'>
-                                        <BsPinAngleFill color='green' className='text-[1.2rem]'/>
-                                        <span className='text-[1.6rem]'>.</span>Playlist
-                                        <span className='text-[1.6rem]'>.</span>{cookies.User.name}
+                                    <div className='flex items-center text-sm w-full h-1/2'>
+                                        <BsPinAngleFill color='green' className=''/>
+                                        <span className=''>.</span>Playlist
+                                        <span className=''>.</span>{cookies.User.name}
                                     </div>
                                     </div> 
                                 </div>  

@@ -63,7 +63,7 @@ const Ifloggedin = () => {
             <Loading/>
             :
             <>
-               <div className=' w-screen h-screen grid grid-rows-10 bg-gradient-to-br from-blue-400 via-purple-400 to-blue-500 '>
+               <div className=' w-screen h-screen grid grid-rows-10 bluetopurple '>
               <div className='w-full row-span-1 flex items-center justify-start xs:justify:center sm:justify:center md:justify:start lg:justify:start xl:justify:start'>
                 <span className='px-3 text-8xl'>
                   For <b>Artist</b> 

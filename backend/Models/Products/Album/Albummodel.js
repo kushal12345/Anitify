@@ -14,7 +14,9 @@ const albumSchema = new mongoose.Schema({
        ref: 'Artist',
        required:true
     },
-
+    collabartist:{
+        type: String
+    },
     releaseDate:{
         type:Date,
         required:[true,"Release Date required"]

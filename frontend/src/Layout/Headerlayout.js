@@ -7,13 +7,21 @@ import { FaUser  } from "react-icons/fa";
 import { Button } from '@mui/material';
 import { IoMenu } from "react-icons/io5";
 import AuthContext from '../Components/Hooks/Auth/AuthContext';
+import Popover from '../Components/Popover/Popover';
 
 const HeaderLayout = () => {
   const [opened, setOpened] = useState(false);
+  const [popoverOpen, setPopoverOpen] = useState(false);
   const { sidebarOpen, setSidebarOpen,logout } = useContext(AuthContext);
+  const {cookies} = useContext(AuthContext);
 
   const dropdownOpen = () => {
     setOpened(!opened);
+  }
+
+  const handleClick = () => {
+    setPopoverOpen(true);
+
   }
 
   return (
@@ -45,15 +53,22 @@ const HeaderLayout = () => {
         </form>
       </div>
 
-    
-
       <div className=' col-span-2 row-span-1 xs:col-span-2 sm:col-span-2 flex items-center justify-center'>
         <div>
-          <Button className=" rounded-full " variant='outlined' sx={{
-          borderRadius: '15px'
-        }}
-       color='white' size='medium'>Upload Track</Button>
+          {
+          (cookies.Authority==="artist") &&
+            <Button className=" rounded-full " variant='outlined' 
+                sx={{
+                borderRadius: '15px'
+                }}
+                color='white' size='medium' onClick={handleClick}  >
+                Upload Track
+            </Button>
+          }
+
         </div>
+
+        {popoverOpen && <Popover onClose={() => setPopoverOpen(false)} />}
         
         <div className='mx-2'>
           <IoIosNotifications style={{ width: 32, height: 32 }} />
