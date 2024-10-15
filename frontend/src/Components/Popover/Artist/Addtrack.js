@@ -5,14 +5,21 @@ import {TextField,MenuItem} from '@mui/material';
 import { styled } from '@mui/material/styles';
 import AudiotrackIcon from '@mui/icons-material/Audiotrack';
 import ArtTrackIcon from '@mui/icons-material/ArtTrack';
+import AuthContext from '../../Hooks/Auth/AuthContext';
+import { useContext } from 'react';
+
+
 
 const Addtrack = ({onClose}) => {
-  const [music, setMusic] = useState([]);
+  const [music, setMusic] = useState(null);
   const [albumCover, setAlbumCover] = useState(null);
   const [releaseDate, setReleaseDate] = useState(null);
   const [albumTitle, setAlbumTitle] = useState('');
   const [artist, setArtist] = useState('');
   const [genre, setGenre] = useState('');
+  const {cookies} = useContext(AuthContext);
+  const [selectedDate, setSelectedDate] = useState(null);
+  
 
   const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -77,13 +84,22 @@ const Addtrack = ({onClose}) => {
     },
   ];
 
-  const handleMusicUpload = (event) => {
-    console.log(event);
-    setMusic(event.target.files);
+  const handleMusicUpload = (e) => {
+    setMusic(e.target.files);
   };
 
   const handleAlbumCoverUpload = (event) => {
-    setAlbumCover(URL.createObjectURL(event.target.files[0]));
+    const file = event.target.files[0];
+    const fileName = file.name;
+    const fileExtension = fileName.split('.').pop().toUpperCase();
+
+    if (fileExtension === 'JPG' || fileExtension === 'JPEG') {
+      // Allow JPG or JPEG files
+      setAlbumCover(URL.createObjectURL(file));
+    } else {
+      // Reject other file types
+      console.error('Only JPG or JPEG files are allowed');
+    }
   };
 
   const handleSubmit = (event) => {
@@ -134,26 +150,28 @@ const Addtrack = ({onClose}) => {
                       size="small" 
                       value={artist} 
                       onChange={(event) => setArtist(event.target.value)} 
-                    />
+                    />  
                   </div>
+                  {artist?cookies.User.name+" ft."+artist:""}
                   <div className="grid w-full max-w-sm items-center gap-1.5">
                     <label htmlFor="music" className='font-bold'>Music Files (Multiple)</label>
                     <div className='w-[60%]'>
-                            <Button
-                              component="label"
-                              role={undefined}
-                              variant="contained"
-                              tabIndex={-1}
-                              startIcon={<AudiotrackIcon />}
-                            >
-                              Upload tracks
-                              <VisuallyHiddenInput
-                                type="file"
-                                onChange={() => handleMusicUpload}
-                                multiple
-                              />
-                            </Button>
-                            {music && (music)}
+                    <Button
+                        component="label"
+                        role={undefined}
+                        variant="contained"
+                        tabIndex={-1}
+                        startIcon={<AudiotrackIcon />}
+                      >
+                        Upload tracks
+                        <VisuallyHiddenInput
+                          type="file"
+                          name="audioFiles"
+                          onChange={(event) => handleMusicUpload(event)}
+                          multiple
+                        />
+                      </Button>
+                      
                     </div>
                   </div>
                   <div className="grid w-full max-w-sm items-center gap-1.5">
@@ -170,7 +188,7 @@ const Addtrack = ({onClose}) => {
                               Upload Album Cover
                               <VisuallyHiddenInput
                                 type="file"
-                                onChange={() => handleAlbumCoverUpload}
+                                onChange={(e) => handleAlbumCoverUpload(e)}
                               />
                             </Button>
                     </div>
@@ -182,18 +200,13 @@ const Addtrack = ({onClose}) => {
                   <div className="grid w-full max-w-sm items-center gap-1.5">
                     <label htmlFor="releaseDate" className='font-bold'>Release Date</label>
                     <div className="relative">
-                      <Button
-                        variant="contained"
-                        className={`
-                          justify-start text-left font-normal
-                          ${!releaseDate && 'text-gray-400'}
-                        `}
-                      >
-                        {releaseDate ? "" : <span>Pick a date</span>}
-                      </Button>
-                      <div className="absolute top-0 right-0">
-                        
-                      </div>
+                    <TextField
+                      type="date"
+                      value={selectedDate}
+                      onChange={(event) => setSelectedDate(event.target.value)}
+                      size='small'
+                    />
+                        {releaseDate ? releaseDate : ""}
                     </div>
                   </div>
                   <div className="grid w-full max-w-sm items-center gap-1.5">
