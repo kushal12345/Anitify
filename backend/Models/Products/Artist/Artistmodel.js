@@ -9,6 +9,7 @@ const artistSchema = new mongoose.Schema({
     email: {
         type:String,
         required: [true,"Please enter Artist email"],
+        unique: true 
     },
     
     bio: {
