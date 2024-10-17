@@ -152,8 +152,8 @@ const Addtrack = ({onClose}) => {
         }
       })
       .catch(error=>{
-      /*  console.log(error.response.data.message);
-        snackbar.current.setAlert(`${error.response.data.message}`, "error");*/
+        console.log(error.response.data.message);
+        snackbar.current.setAlert(`${error.response.data.message}`, "error");
       })
       .finally(()=>{
         setLoading(false);

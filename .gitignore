@@ -3,6 +3,7 @@ git.txt
 frontend/node_modules/
 backend/node_modules/
 backend/Origin/allowedOrigin.js
+backend/uploads/
 # Ignore build directories
 frontend/build/
 backend/build/
