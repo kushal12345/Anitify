@@ -5,6 +5,8 @@ import { ArtistRegister } from '../../Controllers/Artist/ArtistContoller.js';
 import { Artistlogin } from '../../Controllers/Artist/ArtistContoller.js';
 import { AlbumCreate } from '../../Controllers/Products/Album/AlbumController.js';
 import upload from '../../Middleware/Multer.js';
+import { albumfetch } from '../../Controllers/Products/Album/AlbumController.js';
+
 
 const router = express.Router();
 
@@ -30,6 +32,8 @@ router.route("/protected").post(VerifyToken,ProtectRoute).get((req,res)=>{
 });
 
 router.route('/addtrack/:name/:albumTitle').post( upload.fields([{ name: 'music' }, { name: 'albumCover' }]), AlbumCreate );
+
+router.route('/albums/:id').get(albumfetch);
    
 //router.route("/login").post(Login);
 export default router;

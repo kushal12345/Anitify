@@ -1,13 +1,32 @@
-import React from 'react'
+import React, { useState,useEffect } from 'react'
 import { BsPinAngleFill } from "react-icons/bs";
 import { useContext } from 'react';
 import AuthContext from '../../../Hooks/Auth/AuthContext';
 import { FaHome, FaSearch, FaBook, FaChartLine, FaUpload } from 'react-icons/fa';
 import { IoAlbumsOutline } from "react-icons/io5";
+import api from '../../../../Services/api';
+import { baseURL } from '../../../../Services/config';
 
 const ArtistSidebar = () => {
 
     const {cookies} = useContext(AuthContext)
+    const [albums,setAlbums] = useState(Array(8).fill(0));
+
+
+    useEffect(()=>{
+         const fetchAlbums = async () => {
+            try {
+               const response = await api.get(`/api/albums/${cookies.User._id}`);
+               const albums = response.data;
+               console.log(albums);
+               albums.result?setAlbums(albums.result):setAlbums(Array(8).fill(0))
+            } catch (error) {
+                console.log('Error fetching album:',error);
+            }
+        }
+        fetchAlbums();
+    },[]);
+    
   return (
     <div className='h-full w-full '>
         <div className='w-full'>
@@ -45,22 +64,25 @@ const ArtistSidebar = () => {
                         </div>
                     </div>
         {
-            Array(8).fill(0).map((_, index) => {
+           albums.map((album, index) => {
                 return (
                 <div key={index} className='flex text-sm  w-full h-auto overflow-hidden hover:bg-white hover:bg-opacity-35'>
                     {/* Image part  */}
                     <div className='w-1/4 aspect-square p-2'>
-                    <img src="https://picsum.photos/400/400" className='w-full h-full object-cover' />
-                    </div> 
+                    <img 
+                        src={`${baseURL}/${cookies.User.name}/${album.title}/${album.image}`} 
+                        className='w-full h-full object-cover' 
+                        alt={`${album.title} cover`} 
+                    />                    </div> 
                     {/* Playlist Details */}
                     <div className='w-2/3 py-3'>
                     <div className='w-full font-bold flex items-center h-1/2'>
-                        English
+                        {album.title}
                     </div>
                     <div className='flex items-center text-sm w-full h-1/2'>
-                        <BsPinAngleFill color='green' className=''/>
-                        <span className=''>.</span>2004
-                        <span className=''>.</span>{cookies.User.name}
+                        <BsPinAngleFill color='green ' className=''/>
+                        <span className=''>.</span> 5 Songs  
+                        <span className=''>.</span>Ft.{album.collabartist}
                     </div>
                     </div> 
                 </div>  

@@ -11,6 +11,12 @@ import connectDB from "./Config/database.js";
 import corsOption from "./Origin/corsOption.js";
 import Connectioninfo from "./Middleware/connectioninfo.js";
 import router from "./Routes/Users/UserRoute.js";
+import path from "path";
+import { dirname } from "path";
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 connectDB();
 
@@ -24,6 +30,9 @@ app.use(logger);
 app.use(json());
 app.use(cors(corsOption));
 
+var publicDir = path.join(__dirname,"/uploads");
+console.log(publicDir);
+app.use(express.static(publicDir));
 /*
 app.use(cors({
     origin: '*', // Allow all origins
@@ -39,7 +48,6 @@ app.use(Connectioninfo); // middleware to store connection info in log file
 app.get("/",(req,res)=>{
     res.send("Hello World");
 })
-
 
 app.use('/api',router);
 

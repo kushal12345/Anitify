@@ -8,12 +8,13 @@ export const ArtistRegister = Catchasyncerror(async(req,res,next) => {
     try {
         const {id} = req.params;
         console.log(id);
-
+        
         const userfind = await Usert.findById(id)
         
         if(userfind){
             try {
                 await Artist.create({
+                    _id:id,
                     name: userfind.name,
                     email: userfind.email,
                  })

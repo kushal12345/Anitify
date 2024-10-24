@@ -5,6 +5,9 @@ import logger from "../../../Logger/config.js";
 import fs from 'fs';
 import path from "path";
 import Artist from "../../../Models/Products/Artist/Artistmodel.js";
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import { Buffer } from 'buffer'; // Import Buffer if needed
 
 export const AlbumCreate = Catchasyncerror(async (req, res, next) => {
     const { name } = req.params;
@@ -12,6 +15,7 @@ export const AlbumCreate = Catchasyncerror(async (req, res, next) => {
     const musicrawfile = req.files.music ? req.files.music : null;
     const musicFiles = req.files.music ? req.files.music.map(file => file.filename) : [];
     const albumCoverFile = req.files.albumCover ? req.files.albumCover[0].filename : null;
+
 
     console.log('Received data:', {
         username: req.params.name,
@@ -91,5 +95,61 @@ export const AlbumCreate = Catchasyncerror(async (req, res, next) => {
         }
     } else {
         return res.status(400).json({ success: false, message: "Received data is empty" });
+    }
+});
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+export const albumfetch = Catchasyncerror(async (req, res, next) => {
+    const id = req.params.id;
+    let artistfile;
+   
+
+    try {
+        if (id === 'all') {
+            artistfile = await Artist.find();
+        } else {
+            artistfile = await Artist.findById(id);
+            if (!artistfile) {
+                return res.status(404).json({ success: false, message: 'Artist not found' });
+            }
+        }
+        let uploadsPath;
+        let imageBlob;
+        if (Array.isArray(artistfile)) {
+            const albumsPromises = artistfile.map(async (artist) => {
+                return await Promise.all(artist.albums.map(async (file) => {
+                    const album = await Album.findById(file._id);
+                    /*if (album && album.image) {
+                        uploadsPath = path.join(__dirname, '..', '..', '..', 'uploads',artistfile.name,album.title); // Adjusting the path to reach the uploads directory
+                        const imagePath = path.join(uploadsPath, album.image); // Use the corrected uploads path
+                        const imageBuffer = fs.readFileSync(imagePath);
+                        const blob = Buffer.from(imageBuffer).toString('base64');
+                        album.imageBlob = `data:image/jpeg;base64,${blob}`;
+                    }*/
+                    return album;
+                }));
+            });
+
+            const albums = await Promise.all(albumsPromises);
+            return res.status(200).json({ success: true, result: albums });
+        } else {
+            const albums = await Promise.all(artistfile.albums.map(async (file) => {
+                const album = await Album.findById(file._id);
+                if (album && album.image) {
+                    uploadsPath = path.join(__dirname, '..', '..', '..', 'uploads',artistfile.name,album.title); // Adjusting the path to reach the uploads directory
+                    const imagePath = path.join(uploadsPath, album.image); // Use the corrected uploads path
+                    const imageBuffer = fs.readFileSync(imagePath);
+                    const blob = Buffer.from(imageBuffer).toString('base64');
+                    imageBlob = `data:image/jpeg;base64,${blob}`;
+                }
+                return album;
+            }));
+            return res.status(200).json({ success: true, result: albums, imageblob:imageBlob });
+        }
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ success: false, message: `Server error: ${error.message}` });
     }
 });
