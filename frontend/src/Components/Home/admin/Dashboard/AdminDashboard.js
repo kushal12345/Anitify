@@ -1,9 +1,26 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import { useContext } from 'react'
 import AuthContext from '../../../Hooks/Auth/AuthContext';
+import { baseURL } from '../../../../Services/config';
+import api from '../../../../Services/api';
 
-const AdminDashboard = () => {
+
+const AdminDashboard = ({setsecondPage, setshow}) => {
     const {cookies} = useContext(AuthContext);
+    const [albums,setAlbums] = useState(Array(4).fill(0));
+
+    useEffect(()=>{
+        const fetchAlbums = async () => {
+            try {
+            const response = await api.get(`/api/albums/${cookies.User._id}`);
+            const albums = response.data;
+            albums.result?setAlbums(albums.result):setAlbums(Array(4).fill(0))
+            } catch (error) {
+                console.log('Error fetching album:',error);
+            }
+        }
+        fetchAlbums();
+    },[]);
 
   return (
     <div> <main className="flex-1 p-8 pb-10 mb-10" >
@@ -36,27 +53,21 @@ const AdminDashboard = () => {
       <button className="glass bg-opacity-40 text-white px-4 py-2 rounded-full">Artist Insights</button>
     </div>
     <h2 className="text-2xl font-bold mb-4">Your Total Albums</h2>
-    <div className="grid grid-cols-4 gap-4 my-5">
-      <div className="glass bg-opacity-35 w-full flex flex-col items-center justify-center p-4 rounded-lg">
-        <img src="https://placehold.co/100x100" alt="Artist 1" className="rounded-full mb-4" />
-        <p className="text-center">Artist 1</p>
-      </div>
-      <div className="glass bg-opacity-35 flex flex-col items-center justify-center p-4 rounded-lg">
-        <img src="https://placehold.co/100x100" alt="Artist 2" className="rounded-full mb-4" />
-        <p className="text-center">Artist 2</p>
-      </div>
-      <div className="glass bg-opacity-35 flex flex-col items-center justify-center p-4 rounded-lg">
-        <img src="https://placehold.co/100x100" alt="Artist 3" className="rounded-full mb-4" />
-        <p className="text-center">Artist 3</p>
-      </div>
-      <div className="glass bg-opacity-35 flex flex-col items-center justify-center p-4 rounded-lg">
-        <img src="https://placehold.co/100x100" alt="Artist 4" className="rounded-full mb-4" />
-        <p className="text-center">Artist 4</p>
-      </div>
+    <div className="grid grid-cols-4 gap-4 my-5"> 
+        {
+            albums.map((album, index)=>{
+                return(
+                    <div key={index} className="glass bg-opacity-35 w-full flex flex-col items-center justify-center p-4 rounded-lg hover:cursor-pointer" onClick={()=>{setsecondPage(true);setshow(album)}}>
+                        <img src={`${baseURL}/${cookies.User.name}/${album.title}/${album.image}`} alt="Artist 1" className="w-24 h-24 overflow-hidden rounded-full mb-4" />
+                        <p className="text-center">{album.title}</p>
+                    </div>
+                )
+            })
+        }
     </div>
 
 
-    <h2 className="text-2xl my-8 font-bold mb-4">Your Top Artists</h2>
+    <h2 className="text-2xl my-8 font-bold mb-4">Other Top Artists</h2>
     <div className="grid grid-cols-4 gap-4 my-5">
       <div className="glass bg-opacity-35 w-full flex flex-col items-center justify-center p-4 rounded-lg">
         <img src="https://placehold.co/100x100" alt="Artist 1" className="rounded-full mb-4" />

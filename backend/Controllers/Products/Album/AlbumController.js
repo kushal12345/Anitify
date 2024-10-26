@@ -137,16 +137,65 @@ export const albumfetch = Catchasyncerror(async (req, res, next) => {
         } else {
             const albums = await Promise.all(artistfile.albums.map(async (file) => {
                 const album = await Album.findById(file._id);
-                if (album && album.image) {
+               /* if (album && album.image) {
                     uploadsPath = path.join(__dirname, '..', '..', '..', 'uploads',artistfile.name,album.title); // Adjusting the path to reach the uploads directory
                     const imagePath = path.join(uploadsPath, album.image); // Use the corrected uploads path
                     const imageBuffer = fs.readFileSync(imagePath);
                     const blob = Buffer.from(imageBuffer).toString('base64');
                     imageBlob = `data:image/jpeg;base64,${blob}`;
-                }
+                }*/
                 return album;
             }));
             return res.status(200).json({ success: true, result: albums, imageblob:imageBlob });
+        }
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ success: false, message: `Server error: ${error.message}` });
+    }
+});
+
+
+export const trackfetch = Catchasyncerror(async (req, res, next) => {
+    const id = req.params.id;
+    const title = req.params.title;
+
+    try {
+        if (!id || !title) {
+            return res.status(400).json({ success: false, message: 'Please provide both id and title' });
+        }
+
+        // Await the database calls to get the actual artist and album
+        const artist = await Artist.findById(id);
+        console.log("Track searching artist:", artist);
+
+        if (!artist) {
+            return res.status(404).json({ success: false, message: 'Artist not found' });
+        }
+
+        const albumt = await Album.findOne({ title: title }); // Use findOne to get a single album
+        console.log("Track Searching album:", albumt);
+
+        // Check if the album was found
+        if (!albumt) {
+            return res.status(404).json({ success: false, message: 'Album not found' });
+        }
+
+        // Ensure artist.albums is an array
+        if (Array.isArray(artist.albums)) {
+            // Convert artist.albums to strings for comparison
+            const albumIds = artist.albums.map(albumId => albumId.toString());
+
+            if (albumIds.includes(albumt._id.toString())) {
+                console.log("album._id is in artist.albums");
+                const tracks = await Track.find({ album: albumt._id });
+                return res.status(200).json({ success: true, result: tracks });
+            } else {
+                console.log("album._id is not in artist.albums");
+                return res.status(404).json({ success: false, message: 'Album not found in artist albums' });
+            }
+        } else {
+            console.error("artist.albums is not an array");
+            return res.status(500).json({ success: false, message: 'Internal server error' });
         }
     } catch (error) {
         console.error(error);
