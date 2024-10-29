@@ -133,10 +133,11 @@ export const albumfetch = Catchasyncerror(async (req, res, next) => {
             });
 
             const albums = await Promise.all(albumsPromises);
-            return res.status(200).json({ success: true, result: albums });
+            return res.status(200).json({ success: true, result: albums, artistdetails:artistfile });
         } else {
             const albums = await Promise.all(artistfile.albums.map(async (file) => {
                 const album = await Album.findById(file._id);
+             
                /* if (album && album.image) {
                     uploadsPath = path.join(__dirname, '..', '..', '..', 'uploads',artistfile.name,album.title); // Adjusting the path to reach the uploads directory
                     const imagePath = path.join(uploadsPath, album.image); // Use the corrected uploads path
@@ -146,7 +147,7 @@ export const albumfetch = Catchasyncerror(async (req, res, next) => {
                 }*/
                 return album;
             }));
-            return res.status(200).json({ success: true, result: albums, imageblob:imageBlob });
+            return res.status(200).json({ success: true, result: albums, artistdetails:artistfile });
         }
     } catch (error) {
         console.error(error);
