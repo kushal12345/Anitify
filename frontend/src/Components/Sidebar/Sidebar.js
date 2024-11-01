@@ -21,12 +21,14 @@ const Sidebar = ({ setSidebarOpen }) => {
         name:"",
       });
       useEffect(()=>{
-        FetchArtist(cookies.User._id,setimage,setFormData);
-      },[cookies.User._id])
+        if(Userlogged){
+            FetchArtist(cookies.User._id,setimage,setFormData);
+        }
+      },[cookies])
 
 
     return (
-        <div className='h-[90%] text-sm overflow-hidden my-2 sidebar'>
+        <div className='h-[90%] text-white text-sm overflow-hidden my-2 sidebar'>
 
         <div className={`flex items-center w-full px-4 ${Userlogged?"":"hidden"}`}>
                 <div className="relative bg-white w-24 h-24 mr-4 rounded-full overflow-hidden border border-gray-300">
@@ -38,7 +40,7 @@ const Sidebar = ({ setSidebarOpen }) => {
                     <div className="absolute inset-0 rounded-full border-4 border-transparent hover:border-red-600 transition duration-300"></div>
                 </div>
             <div className='h-full'>
-                <span className="text-xl font-bold">{(Userlogged)?Userlogged.name:""}</span>            
+                <span className="text-xl font-bold">{(Userlogged)?formData.name:""}</span>            
             </div>
         </div>
          
