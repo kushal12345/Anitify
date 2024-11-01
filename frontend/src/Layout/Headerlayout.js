@@ -81,7 +81,7 @@ const HeaderLayout = () => {
         <div className={` absolute p-2 flex justify-end right-5 top-12 w-1/6 h-38 ${opened ? '' : 'hidden'}`}>
           <div className='glass bg-opacity-20 w-3/6'>
             <div className='flex items-center justify-center hover:bg-white hover:bg-opacity-25 hover:cursor-pointer hover:text-opacity-100 text-opacity-100 w-full h-[4vh] my-2'>
-              Profile
+              <Link to="/Profile">Profile</Link>
             </div>
 
             <div className='flex items-center justify-center hover:bg-white hover:bg-opacity-25 hover:cursor-pointer hover:text-opacity-100 text-opacity-100 w-full h-[4vh] my-2'>

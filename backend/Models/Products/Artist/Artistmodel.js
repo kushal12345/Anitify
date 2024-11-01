@@ -15,6 +15,10 @@ const artistSchema = new mongoose.Schema({
     bio: {
         type: String 
     },
+    
+    country:{
+        type:String,
+    },
 
     image:{
         type:String,

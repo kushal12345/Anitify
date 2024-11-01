@@ -6,12 +6,13 @@ import { FaHome, FaSearch, FaBook, FaChartLine, FaUpload } from 'react-icons/fa'
 import { IoAlbumsOutline } from "react-icons/io5";
 import api from '../../../../Services/api';
 import { baseURL } from '../../../../Services/config';
+import FetchArtist from '../../../Functions/Fetchartist';
 
 const ArtistSidebar = () => {
 
     const {cookies} = useContext(AuthContext)
     const [albums,setAlbums] = useState(Array(8).fill(0));
-
+    
 
     useEffect(()=>{
          const fetchAlbums = async () => {
@@ -24,6 +25,8 @@ const ArtistSidebar = () => {
             }
         }
         fetchAlbums();
+
+
     },[]);
     
   return (

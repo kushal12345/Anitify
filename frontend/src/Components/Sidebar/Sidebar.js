@@ -1,4 +1,4 @@
-import React,{useContext} from 'react'
+import React,{useContext, useState, useEffect} from 'react'
 import { BiLibrary } from "react-icons/bi";
 import { FaPlus } from "react-icons/fa";
 import Library from './Notlogged/Library';
@@ -7,17 +7,39 @@ import AuthContext from '../Hooks/Auth/AuthContext';
 import LoggedLibrary from './Logged/LoggedLibrary';
 import { Button } from '@mui/material';
 import { RxCross2 } from "react-icons/rx";
+import FetchArtist from '../Functions/Fetchartist';
+import { baseURL } from '../../Services/config';
 
 const Sidebar = ({ setSidebarOpen }) => {
     const {cookies} = useContext(AuthContext);
     const Userlogged = cookies.User 
-    
+    const [image,setimage] = useState("");
+    const [formData,setFormData] = useState({
+        country:"",
+        email:"",
+        bio:"",
+        name:"",
+      });
+      useEffect(()=>{
+        FetchArtist(cookies.User._id,setimage,setFormData);
+      },[cookies.User._id])
+
+
     return (
         <div className='h-[90%] text-sm overflow-hidden my-2 sidebar'>
 
         <div className={`flex items-center w-full px-4 ${Userlogged?"":"hidden"}`}>
-          <img src="https://placehold.co/50x50" height="60px" width="60px" alt="User  profile" className="rounded-full mr-4" />
-          <span className="text-xl font-bold">{(Userlogged)?Userlogged.name:""}</span>
+                <div className="relative bg-white w-24 h-24 mr-4 rounded-full overflow-hidden border border-gray-300">
+                    <img 
+                        src={image ? `${baseURL}/${cookies.User.name}/profile/${image}` : "https://placehold.co/50x50"} 
+                        alt="User  profile" 
+                        className="w-full h-full object-contain  rounded-full" 
+                    />
+                    <div className="absolute inset-0 rounded-full border-4 border-transparent hover:border-red-600 transition duration-300"></div>
+                </div>
+            <div className='h-full'>
+                <span className="text-xl font-bold">{(Userlogged)?Userlogged.name:""}</span>            
+            </div>
         </div>
          
          <Button variant="ghost" size="icon" className="lg:invisible text-white md:invisible xl:invisible sm:visible xs:visible" onClick={() => setSidebarOpen(false)}>

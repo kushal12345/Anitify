@@ -9,7 +9,7 @@ import ArtistRegister from './Components/Registration/Artistregister.js';
 import Artistlogin from './Components/Login/Login/Artistlogin.js';
 import { useContext } from 'react';
 import AuthContext from './Components/Hooks/Auth/AuthContext.js';
-
+import Profile from './Components/Profile/Profile.js';
 
 const App = () => {
   const {logout} = useContext(AuthContext);
@@ -40,6 +40,7 @@ const App = () => {
             <Route path="/ArtistRegister" element={<ProtectRoutes><ArtistRegister /></ProtectRoutes>} />
             <Route path="/Artistlogin" element={<ProtectRoutes><Artistlogin/></ProtectRoutes>} />
             <Route path="/home" element={<ProtectRoutes><Homeloggedin/></ProtectRoutes> }/>
+            <Route path="/Profile" element={<ProtectRoutes><Profile/></ProtectRoutes> }/>
         </Routes>
   )
 }

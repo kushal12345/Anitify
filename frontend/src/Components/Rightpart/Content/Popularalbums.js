@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FaPlayCircle } from "react-icons/fa";
 import api from '../../../Services/api';
 import { baseURL } from '../../../Services/config';
-
+import Loading from '../../Loading/Loading';
 const Popularalbums = () => {
   const [albums, setAlbums] = useState([]);
   const [artistName, setArtistName] = useState('');
@@ -36,7 +36,7 @@ const Popularalbums = () => {
     fetchAlbums();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div><Loading/></div>;
   if (error) return <div>{error}</div>;
 
   return (

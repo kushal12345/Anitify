@@ -240,7 +240,7 @@ const Addtrack = ({onClose}) => {
                                     </ul>
                                 </div>
                             )}
-                                                      </div>
+                      </div>
                         </div>
                         <div className="grid w-full max-w-sm items-center gap-1.5">
                           <label htmlFor="albumCover"  className='font-bold'>Album Cover</label>
