@@ -9,6 +9,9 @@ import { albumfetch } from '../../Controllers/Products/Album/AlbumController.js'
 import { trackfetch } from '../../Controllers/Products/Album/AlbumController.js';
 import { Artistfetch } from '../../Controllers/Artist/ArtistContoller.js';
 import { ArtistUpdate } from '../../Controllers/Artist/ArtistContoller.js';
+import { LikeAlbumController } from '../../Controllers/Products/Album/AlbumController.js';
+
+
 const router = express.Router();
 
 router.route("/register").post(Register).get((req,res)=>{
@@ -31,7 +34,7 @@ router.route("/Artistlogin").post(Artistlogin).get((req,res)=>{
 router.route("/protected").post(VerifyToken,ProtectRoute).get((req,res)=>{
     res.send("protected route working")
 });
-
+router.route('/Likealbums/:albumid').post(LikeAlbumController);
 router.route('/addtrack/:name/:albumTitle').post( upload.fields([{ name: 'music' }, { name: 'albumCover' }]), AlbumCreate );
 router.route('/artist/:name/:profile/:id').post(upload.fields([{name:'image'}]), ArtistUpdate )
 router.route('/albums/:id').get(albumfetch);

@@ -3,6 +3,8 @@ import { FaPlayCircle } from "react-icons/fa";
 import api from '../../../Services/api';
 import { baseURL } from '../../../Services/config';
 import Loading from '../../Loading/Loading';
+
+
 const Popularalbums = () => {
   const [albums, setAlbums] = useState([]);
   const [artistName, setArtistName] = useState('');
@@ -53,7 +55,7 @@ const Popularalbums = () => {
       {/* Body part */}
       <div className='h-5/6 mb-5 w-full grid xs:grid-cols-3 xs:grid-rows-2 sm:grid-cols-3 sm:grid-rows-2 md:grid-cols-6 md:grid-rows-1 lg:grid-cols-6 lg:grid-rows-1 xl:grid-cols-6 xl:grid-rows-1'>
         {
-          albums.map((album,index) => (
+          albums.slice(0,6).map((album,index) => (
             <div className='w-full px-1 items-center group' key={index}> {/* Use a unique key */}
               {/* Image and text content */}
               <div className='w-full h-auto flex items-center justify-center'>

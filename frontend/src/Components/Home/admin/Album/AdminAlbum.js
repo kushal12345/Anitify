@@ -4,12 +4,35 @@ import { FaArrowLeft } from "react-icons/fa";
 import { baseURL } from '../../../../Services/config';
 import AuthContext from '../../../Hooks/Auth/AuthContext';
 import api from '../../../../Services/api';
+import { CiHeart } from "react-icons/ci";
+import { FaHeart } from "react-icons/fa";
 
 const AdminAlbum = ({ setsecondPage, show }) => {
     const { cookies } = useContext(AuthContext);
     const [tracks, setTracks] = useState(Array(1).fill(0));
     const [totaltrack,settotaltrack] = useState(null);
     const [totaltime,settotaltime] = useState(null);
+    const [albumid,setalbumid] = useState(null);
+    const [liked,setliked] = useState(false);
+    const [likecounter, setlikecounter] = useState(0);    
+
+    const likerequest = async () => {
+        try {
+            await api.post(`/api/Likealbums/${show._id}`,{liked})
+            .then((response)=>{
+                const result = response.data.likeCount
+                setliked(!result.likestate);
+                setlikecounter(result.likecount);
+            })
+            .catch((error)=>{
+                console.log(error)
+                })
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     useEffect(() => {
         const fetchtracks = async () => {
             try {
@@ -20,7 +43,11 @@ const AdminAlbum = ({ setsecondPage, show }) => {
                 console.log('Error fetching album:', error);
             }
         };
+        
+        
+        
         fetchtracks();
+        
     }, [cookies.User._id, show.title]);
 
     const convertDuration = (milliseconds) => {
@@ -47,7 +74,12 @@ const AdminAlbum = ({ setsecondPage, show }) => {
                     <div>
                         <h1 className="text-3xl font-bold">{show.title}</h1>
                         <p className="text-sm text-muted-foreground">{cookies.User.name} • 2023 • 12 songs, 48 min</p>
+                        <div className='mt-5 w-auto flex items-center ' onClick={()=>{likerequest()}}>
+                           { !liked?  <CiHeart size={24} /> : <FaHeart size={24} />}
+                            <p className='mx-4'>{likecounter} Likes</p>
+                        </div>
                     </div>
+                    
                 </div>
             </div>
 

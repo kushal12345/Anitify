@@ -86,13 +86,25 @@ export const Artistlogin = Catchasyncerror(async(req,res,next)=> {
 
 export const Artistfetch = Catchasyncerror(async(req,res,next)=>{
     const {id} = req.params;
+    let artist;
     try {
         //check if ID is empty or not;
         if(!id){
             return res.status(400).json({success:false,message:"Please provide Artist id"})
         }
 
-        const artist = await Artist.findById(id);
+        if(id==="all"){
+            artist = await Artist.find();
+            if(!artist){
+                return res.status(400).json({success:false,message:"We currently don't have any artist"});
+            }
+        }else{
+            artist = await Artist.findById(id);
+            if(!artist){
+                return res.status(400).json({success:false,message:"Artist not found"})
+            }
+        }
+
         return res.status(200).json({success:false,result:artist});
     } catch (error) {
         console.log(error);

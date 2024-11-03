@@ -7,7 +7,9 @@ import path from "path";
 import Artist from "../../../Models/Products/Artist/Artistmodel.js";
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import { Buffer } from 'buffer'; // Import Buffer if needed
+import { Buffer } from 'buffer';
+import LikeAlbum from "../../../Models/Products/Album/LikeAlbum.js";
+
 
 export const AlbumCreate = Catchasyncerror(async (req, res, next) => {
     const { name } = req.params;
@@ -202,4 +204,72 @@ export const trackfetch = Catchasyncerror(async (req, res, next) => {
         console.error(error);
         return res.status(500).json({ success: false, message: `Server error: ${error.message}` });
     }
+});
+
+export const LikeAlbumController = Catchasyncerror(async (req, res, next) => {
+    const id = req.params.albumid;
+
+    // Check if the album exists
+    const album = await Album.findById(id);
+    if (!album) {
+        return res.status(404).json({ success: false, message: 'Album not found' });
+    }
+
+    const artist = await Artist.findOne({albums:id});
+    console.log("artist is ",artist);
+
+
+
+    // Check if a like record already exists for this album
+    let likedAlbum = await LikeAlbum.findOne({ album: id });
+
+    // If no like record exists, create one with initial count
+    if (!likedAlbum) {
+        likedAlbum = await LikeAlbum.create({
+            album: id,
+            likecount: 0, // Start the count at 0
+            likestate:false,
+            users:[],
+        });
+    }
+    const userId = artist._id;
+ 
+
+    // Handle like and unlike requests
+    if (req.body.liked === true) {
+        // Increase the like count
+  
+        if(!likedAlbum.users.includes(userId)) {
+            likedAlbum.likecount += 1;
+            likedAlbum.likestate=req.body.liked;
+            likedAlbum.users.push(userId);
+        }else{
+            //dislike decrease the like count
+            likedAlbum.likecount -= 1;
+            likedAlbum.likestate=req.body.liked;
+            likedAlbum.users = likedAlbum.users.filter(user =>  user !== userId);
+
+
+        }
+     
+    } else if (req.body.liked === false) {
+        // Decrease the like count  
+
+            if(likedAlbum.users.includes(userId)) {
+                likedAlbum.likecount -= 1;
+                likedAlbum.likestate=req.body.liked;
+                likedAlbum.users = likedAlbum.users.filter(user =>  user !== userId);
+            }else{
+                //increase like count
+                likedAlbum.likecount += 1;
+                likedAlbum.likestate=req.body.liked;
+                likedAlbum.users.push(userId);
+            }
+
+    } else {
+        return res.status(400).json({ success: false, message: 'Invalid like status' });
+    }
+    await likedAlbum.save();
+    console.log(`Updated like count for album ${id}:`, likedAlbum.likecount);
+    return res.status(200).json({ success: true, likeCount: likedAlbum });
 });

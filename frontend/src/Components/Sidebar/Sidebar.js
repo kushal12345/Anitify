@@ -19,13 +19,15 @@ const Sidebar = ({ setSidebarOpen }) => {
         email:"",
         bio:"",
         name:"",
+        image:""
       });
+
       useEffect(()=>{
         if(Userlogged){
-            FetchArtist(cookies.User._id,setimage,setFormData);
+            FetchArtist(cookies.User._id,setFormData);
         }
-      },[cookies])
-
+        setimage(formData.image);
+      },[cookies,setFormData,setimage,formData,Userlogged])
 
     return (
         <div className='h-[90%] text-white text-sm overflow-hidden my-2 sidebar'>

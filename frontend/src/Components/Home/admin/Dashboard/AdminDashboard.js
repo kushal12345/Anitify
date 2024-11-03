@@ -55,7 +55,7 @@ const AdminDashboard = ({setsecondPage, setshow}) => {
     <h2 className="text-2xl font-bold mb-4">Your Total Albums</h2>
     <div className="grid grid-cols-4 gap-4 my-5"> 
         {
-            albums.map((album, index)=>{
+            albums.slice(0, 4).map((album, index)=>{
                 return(
                     <div key={index} className="glass bg-opacity-35 w-full flex flex-col items-center justify-center p-4 rounded-lg hover:cursor-pointer" onClick={()=>{setsecondPage(true);setshow(album)}}>
                         <img src={`${baseURL}/${cookies.User.name}/${album.title}/${album.image}`} alt="Artist 1" className="w-24 h-24 overflow-hidden rounded-full mb-4" />

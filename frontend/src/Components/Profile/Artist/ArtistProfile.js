@@ -26,6 +26,7 @@ const ArtistProfile = () => {
     email:"",
     bio:"",
     name:"",
+    image:""
   });
 
 
@@ -99,8 +100,11 @@ const ArtistProfile = () => {
   }
 
   useEffect(()=>{
-    FetchArtist(User._id, setimage, setFormData);    
-  },[User._id])
+    if(User){
+      FetchArtist(User._id, setFormData);
+    }
+    setimage(formData.image);
+  },[User._id,setFormData,formData,setimage])
     
      if(loading){return(<div className='w-screen h-screen'><Loading/></div>)}
     
