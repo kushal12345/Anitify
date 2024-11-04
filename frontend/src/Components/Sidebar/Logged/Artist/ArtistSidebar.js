@@ -11,17 +11,21 @@ import FetchArtist from '../../../Functions/Fetchartist';
 const ArtistSidebar = () => {
 
     const {cookies} = useContext(AuthContext)
-    const [albums,setAlbums] = useState(Array(8).fill(0));
-    
+    const [albums,setAlbums] = useState([]);
+    const [loading, setLoading] = useState(false);
+
 
     useEffect(()=>{
          const fetchAlbums = async () => {
+            setLoading(true);
             try {
                const response = await api.get(`/api/albums/${cookies.User._id}`);
                const albums = response.data;
                albums.result?setAlbums(albums.result):setAlbums(Array(8).fill(0))
             } catch (error) {
                 console.log('Error fetching album:',error);
+            } finally {
+                setLoading(false);
             }
         }
         fetchAlbums();
@@ -67,6 +71,9 @@ const ArtistSidebar = () => {
                     </div>
         {
            albums.map((album, index) => {
+            if (!album || !album.title || !album.image) {
+                return null;
+            }
                 return (
                 <div key={index} className='flex text-sm  w-full h-auto overflow-hidden hover:bg-white hover:bg-opacity-35'>
                     {/* Image part  */}

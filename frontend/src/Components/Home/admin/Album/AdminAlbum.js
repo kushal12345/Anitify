@@ -14,14 +14,18 @@ const AdminAlbum = ({ setsecondPage, show }) => {
     const [totaltime,settotaltime] = useState(null);
     const [albumid,setalbumid] = useState(null);
     const [liked,setliked] = useState(false);
-    const [likecounter, setlikecounter] = useState(0);    
-
-    const likerequest = async () => {
+    const [likecounter, setlikecounter] = useState(0); 
+    
+    
+    const likerequest = async (newliked) => {
+        //setliked(newliked);
+        console.log("like status changed to ",newliked);
         try {
-            await api.post(`/api/Likealbums/${show._id}`,{liked})
+            await api.post(`/api/Likealbums/${show._id}`,{newliked})
             .then((response)=>{
                 const result = response.data.likeCount
-                setliked(!result.likestate);
+                console.log(result);
+                
                 setlikecounter(result.likecount);
             })
             .catch((error)=>{
@@ -31,6 +35,15 @@ const AdminAlbum = ({ setsecondPage, show }) => {
         } catch (error) {
             console.log(error);
         }
+    }
+
+    const handlelikeclick = () => {
+        setliked(prevLiked => {
+            const newliked = !prevLiked;
+            console.log(newliked);
+            likerequest(newliked);
+            return newliked;
+        })
     }
 
     useEffect(() => {
@@ -44,11 +57,25 @@ const AdminAlbum = ({ setsecondPage, show }) => {
             }
         };
         
+        const fetchLike = async () => {
+            console.log(show._id);
+            try {
+                const response = await api.get(`/api/album/likestatus/${show._id}`);
+                const likes = response.data.result;
+                likes[0] ? setliked(likes[0].likestate):setliked(false); 
+                likes[0] ? setlikecounter(likes[0].likecount) : setlikecounter(0);
+                console.log(likes);
+                console.log(liked);
+                console.log(likecounter);
+            } catch (error) {
+                console.log(error);
+            }
+        }
         
-        
+        fetchLike();
         fetchtracks();
         
-    }, [cookies.User._id, show.title]);
+    }, [cookies.User._id, show]);
 
     const convertDuration = (milliseconds) => {
         const totalSeconds = Math.floor(milliseconds / 1000);
@@ -74,9 +101,10 @@ const AdminAlbum = ({ setsecondPage, show }) => {
                     <div>
                         <h1 className="text-3xl font-bold">{show.title}</h1>
                         <p className="text-sm text-muted-foreground">{cookies.User.name} • 2023 • 12 songs, 48 min</p>
-                        <div className='mt-5 w-auto flex items-center ' onClick={()=>{likerequest()}}>
-                           { !liked?  <CiHeart size={24} /> : <FaHeart size={24} />}
-                            <p className='mx-4'>{likecounter} Likes</p>
+                        <div className='mt-5 w-auto flex items-center ' onClick={handlelikeclick}>
+                           {/* CI heart is empty heart and Faheart is liked one */}
+                           { liked? <FaHeart size={24} /> : <CiHeart size={24} /> }
+                            <p className='mx-4'>{likecounter} Likes {liked?"1":"0"}</p>
                         </div>
                     </div>
                     

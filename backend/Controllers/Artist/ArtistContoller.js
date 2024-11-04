@@ -3,112 +3,113 @@ import Catchasyncerror from "../../Middleware/Catchasyncerror.js";
 import Usert from "../../Models/Users/Usermodel.js";
 import Artist from "../../Models/Products/Artist/Artistmodel.js";
 
-
-export const ArtistRegister = Catchasyncerror(async(req,res,next) => {
+export const ArtistRegister = Catchasyncerror(async (req, res, next) => {
     try {
-        const {id} = req.params;
+        const { id } = req.params;
+
+        const userfind = await Usert.findById(id);
         
-        const userfind = await Usert.findById(id)
-        
-        if(userfind){
+        if (userfind) {
+            // Check if the artist already exists
+            const existingArtist = await Artist.findOne({ email: userfind.email });
+            if (existingArtist) {
+                return res.status(400).json({ success: false, message: "An artist with this email already exists." });
+            }
+
             try {
                 await Artist.create({
-                    _id:id,
+                    _id: id,
                     name: userfind.name,
                     email: userfind.email,
-                    country:userfind.country,
-                 })
-                 return res.status(200).json({success:false,message:"Sucessfully Registered as Artist"});                 
+                    country: userfind.country,
+                });
+                return res.status(200).json({ success: true, message: "Successfully Registered as Artist" });
             } catch (error) {
-                console.log("During Registration artist ",error)
-                return res.status(400).json({success:false,message:"Something went wrong"});
+                console.error("During Registration artist:", error);
+                return res.status(500).json({ success: false, message: "Something went wrong during registration." });
             }            
-        }else{
-            return res.status(400).json({success:false,message:"You are not Registered in Aurora. Please register first"})
+        } else {
+            return res.status(400).json({ success: false, message: "You are not registered in Aurora. Please register first." });
         }
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
         logger(error);
-        res.status(400).json({success:false,message:"Unknown Error"});    
+        res.status(500).json({ success: false, message: "Unknown error occurred during registration." });    
     }
-})
+});
 
-
-export const ArtistUpdate = Catchasyncerror(async(req,res,next) => {
+export const ArtistUpdate = Catchasyncerror(async (req, res, next) => {
     try {
-        const {id} = req.params.id;
-        const {profile} = req.params.profile;
-        const {name, email, bio, country} = req.body;
-        const avatar = req.files.image ?req.files.image[0].filename : null;
+        const { id } = req.params; // Corrected to use req.params directly
+        const { name, email, bio, country } = req.body;
+        const avatar = req.files.image ? req.files.image[0].filename : null;
 
-        const userfind = await Artist.findById(req.params.id);
+        const userfind = await Artist.findById(id);
         
-        if(userfind){
+        if (userfind) {
             try {
-                const update = await Artist.updateMany({
-                    name: name,
-                    email: email,
-                    bio: bio,
-                    country:country,
-                    image:avatar
-                 })
-                 if(update){
-                    console.log("updated");
-                    return res.status(200).json({success:true,message:"Sucessfully Updated Artist"});
-                 }
+                const updatedArtist = await Artist.findByIdAndUpdate(id, {
+                    name,
+                    email,
+                    bio,
+                    country,
+                    image: avatar
+                }, { new: true }); // Return the updated document
+
+                if (updatedArtist) {
+                    return res.status(200).json({ success: true, message: "Successfully Updated Artist", artist: updatedArtist });
+                }
             } catch (error) {
-                console.log("During Registration artist ",error)
-                return res.status(400).json({success:false,message:"Something went wrong"});
+                console.error("During Updating artist:", error);
+                return res.status(500).json({ success: false, message: "Something went wrong during update." });
             }            
-        }else{
-            return res.status(400).json({success:false,message:"You are not Registered in Aurora. Please register first"})
+        } else {
+            return res.status(400).json({ success: false, message: "You are not registered in Aurora. Please register first." });
         } 
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
         logger(error);
-        res.status(400).json({success:false,message:"Unknown Error"});    
+        res.status(500).json({ success: false, message: "Unknown error occurred during update." });    
     }
-})
+});
 
-
-
-export const Artistlogin = Catchasyncerror(async(req,res,next)=> {
+export const Artistlogin = Catchasyncerror(async (req, res, next) => {
     try {
-        
+        // Implement login logic here
     } catch (error) {
-        console.log(error);
+        console.error(error);
         logger(error);
-        res.status(400).json({success:false,message:"Unknown Error"});
+        res.status(500).json({ success: false, message: "Unknown error occurred during login." });
     }
-}) 
+}); 
 
-export const Artistfetch = Catchasyncerror(async(req,res,next)=>{
-    const {id} = req.params;
+export const Artistfetch = Catchasyncerror(async (req, res, next) => {
+    const { id } = req.params;
     let artist;
     try {
-        //check if ID is empty or not;
-        if(!id){
-            return res.status(400).json({success:false,message:"Please provide Artist id"})
+        // Check if ID is empty or not
+        if (!id) {
+            return res.status(400).json({ success: false, message: "Please provide Artist id" });
         }
 
-        if(id==="all"){
+        if (id === "all") {
             artist = await Artist.find();
-            if(!artist){
-                return res.status(400).json({success:false,message:"We currently don't have any artist"});
+            if (!artist || artist.length === 0) {
+                return res.status(404).json({ success: false, message: "We currently don't have any artists" });
             }
-        }else{
+        } else {
             artist = await Artist.findById(id);
-            if(!artist){
-                return res.status(400).json({success:false,message:"Artist not found"})
+            if (!artist) {
+                return res.status(404).json({ success: false, message: "Artist not found" });
             }
         }
 
-        return res.status(200).json({success:false,result:artist});
+        return res.status(200).json({ success: true, result: artist });
     } catch (error) {
-        console.log(error);
+        console.error(error);
         logger(error);
-        res.status(400).json({success:false,message:"Unknown Error"});
+        res.status(500).json({ success: false, message: "Unknown error occurred during fetching artist." });
     }
-})
+});

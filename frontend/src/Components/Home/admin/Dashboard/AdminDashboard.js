@@ -7,7 +7,7 @@ import api from '../../../../Services/api';
 
 const AdminDashboard = ({setsecondPage, setshow}) => {
     const {cookies} = useContext(AuthContext);
-    const [albums,setAlbums] = useState(Array(4).fill(0));
+    const [albums,setAlbums] = useState([]);
 
     useEffect(()=>{
         const fetchAlbums = async () => {
@@ -56,6 +56,9 @@ const AdminDashboard = ({setsecondPage, setshow}) => {
     <div className="grid grid-cols-4 gap-4 my-5"> 
         {
             albums.slice(0, 4).map((album, index)=>{
+              if (!album || !album.title || !album.image) {
+                return null;
+            }
                 return(
                     <div key={index} className="glass bg-opacity-35 w-full flex flex-col items-center justify-center p-4 rounded-lg hover:cursor-pointer" onClick={()=>{setsecondPage(true);setshow(album)}}>
                         <img src={`${baseURL}/${cookies.User.name}/${album.title}/${album.image}`} alt="Artist 1" className="w-24 h-24 overflow-hidden rounded-full mb-4" />

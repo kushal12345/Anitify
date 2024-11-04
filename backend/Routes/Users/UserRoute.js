@@ -10,7 +10,7 @@ import { trackfetch } from '../../Controllers/Products/Album/AlbumController.js'
 import { Artistfetch } from '../../Controllers/Artist/ArtistContoller.js';
 import { ArtistUpdate } from '../../Controllers/Artist/ArtistContoller.js';
 import { LikeAlbumController } from '../../Controllers/Products/Album/AlbumController.js';
-
+import { FetchLikealbum } from '../../Controllers/Products/Album/AlbumController.js';
 
 const router = express.Router();
 
@@ -40,7 +40,7 @@ router.route('/artist/:name/:profile/:id').post(upload.fields([{name:'image'}]),
 router.route('/albums/:id').get(albumfetch);
 router.route('/artist/:id').get(Artistfetch);
 router.route('/tracks/:id/:title').get(trackfetch);
-
+router.route('/album/likestatus/:albumid').get(FetchLikealbum);
    
 //router.route("/login").post(Login);
 export default router;

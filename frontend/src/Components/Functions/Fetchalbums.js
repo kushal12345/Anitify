@@ -1,12 +1,20 @@
+import api from "../../Services/api";
 
-
-export const fetchAlbums = async () => {
+ const fetchAlbums =  (userId, setdata, album, name) => {
     try {
-       const response = await api.get(`/api/albums/${cookies.User._id}`);
-       const albums = response.data;
-       console.log(albums);
-       albums.result?setAlbums(albums.result):setAlbums(Array(8).fill(0))
+        api.get(`/api/albums/${userId}`)
+        .then(response => {
+          const data = response.data;
+           setdata(data);
+           album(data.result[0])
+           name(data.artistdetails[0])
+          })
+        .catch(e => {
+          console.error(e);
+        })
     } catch (error) {
         console.log('Error fetching album:',error);
     }
 }
+
+export default fetchAlbums;

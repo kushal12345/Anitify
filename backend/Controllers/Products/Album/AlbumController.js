@@ -208,7 +208,6 @@ export const trackfetch = Catchasyncerror(async (req, res, next) => {
 
 export const LikeAlbumController = Catchasyncerror(async (req, res, next) => {
     const id = req.params.albumid;
-
     // Check if the album exists
     const album = await Album.findById(id);
     if (!album) {
@@ -234,36 +233,29 @@ export const LikeAlbumController = Catchasyncerror(async (req, res, next) => {
     }
     const userId = artist._id;
  
-
+    console.log("like state",req.body.newliked);
     // Handle like and unlike requests
-    if (req.body.liked === true) {
+    if (req.body.newliked === true) {
         // Increase the like count
   
         if(!likedAlbum.users.includes(userId)) {
             likedAlbum.likecount += 1;
-            likedAlbum.likestate=req.body.liked;
+            likedAlbum.likestate=req.body.newliked;
             likedAlbum.users.push(userId);
         }else{
-            //dislike decrease the like count
-            likedAlbum.likecount -= 1;
-            likedAlbum.likestate=req.body.liked;
-            likedAlbum.users = likedAlbum.users.filter(user =>  user !== userId);
-
-
+            console.log("already liked");
         }
      
-    } else if (req.body.liked === false) {
+    } else if (req.body.newliked === false) {
         // Decrease the like count  
 
             if(likedAlbum.users.includes(userId)) {
                 likedAlbum.likecount -= 1;
-                likedAlbum.likestate=req.body.liked;
-                likedAlbum.users = likedAlbum.users.filter(user =>  user !== userId);
+                likedAlbum.likestate=req.body.newliked;
+                likedAlbum.users.pull(userId);
             }else{
                 //increase like count
-                likedAlbum.likecount += 1;
-                likedAlbum.likestate=req.body.liked;
-                likedAlbum.users.push(userId);
+                console.log("you havenot liked yet");
             }
 
     } else {
@@ -273,3 +265,17 @@ export const LikeAlbumController = Catchasyncerror(async (req, res, next) => {
     console.log(`Updated like count for album ${id}:`, likedAlbum.likecount);
     return res.status(200).json({ success: true, likeCount: likedAlbum });
 });
+
+
+export const FetchLikealbum  = Catchasyncerror(async (req,res,next)=>{
+    const id = req.params.albumid;
+
+    const album = await LikeAlbum.find({album: id});
+
+    if(!album){
+        return res.status(404).json({ success: false, message: 'Album not found'})
+    }
+    console.log("Fetch Like album data",album);
+    return res.status(200).json({ success: true, result: album});
+
+})

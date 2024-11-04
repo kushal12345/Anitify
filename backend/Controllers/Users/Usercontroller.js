@@ -20,7 +20,7 @@ export const Register  = CatchAsncErrors( async(req,res,next) => {
             const user = await Usert.create({
                 name,password,email,country
             });
-            sendToken(user,201,res);
+            sendToken(user,user,201,res);
         }
     } catch (error) {
         console.log(error);
