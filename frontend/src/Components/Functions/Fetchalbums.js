@@ -1,6 +1,7 @@
 import api from "../../Services/api";
 
  const fetchAlbums =  (userId, setdata, album, name) => {
+  
     try {
         api.get(`/api/albums/${userId}`)
         .then(response => {

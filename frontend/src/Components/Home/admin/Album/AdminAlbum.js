@@ -9,74 +9,104 @@ import { FaHeart } from "react-icons/fa";
 
 const AdminAlbum = ({ setsecondPage, show }) => {
     const { cookies } = useContext(AuthContext);
-    const [tracks, setTracks] = useState(Array(1).fill(0));
-    const [totaltrack,settotaltrack] = useState(null);
-    const [totaltime,settotaltime] = useState(null);
-    const [albumid,setalbumid] = useState(null);
-    const [liked,setliked] = useState(false);
-    const [likecounter, setlikecounter] = useState(0); 
-    
-    
-    const likerequest = async (newliked) => {
-        //setliked(newliked);
-        console.log("like status changed to ",newliked);
+    const [tracks, setTracks] = useState([]);
+    const [albums, setAlbums] = useState(show ? show[0] : null);
+    const [artist, setArtist] = useState(show[1] ? show[1] : null);
+    const [liked, setLiked] = useState(false);
+    const [likeCounter, setLikeCounter] = useState(0); 
+
+    const [User  , setUser  ] = useState({
+        _id: "",
+        name: ""
+    });
+
+  
+    // Set user based on cookies or artist
+    useEffect(() => {
+       if (artist) {
+            setUser  ({
+                _id: artist._id,
+                name: artist.name
+            });
+        }
+    }, [ artist]);
+
+    const likerequest = async (newLiked) => {
+        console.log("like status changed to ", newLiked);
         try {
-            await api.post(`/api/Likealbums/${show._id}`,{newliked})
-            .then((response)=>{
-                const result = response.data.likeCount
-                console.log(result);
-                
-                setlikecounter(result.likecount);
-            })
-            .catch((error)=>{
-                console.log(error)
-                })
-            
+            const response = await api.post(`/api/Likealbums/${albums._id}`, { newLiked });
+            const result = response.data.likeCount;
+            console.log(result);
+            setLikeCounter(result.likecount);
         } catch (error) {
             console.log(error);
         }
-    }
+    };
 
-    const handlelikeclick = () => {
-        setliked(prevLiked => {
-            const newliked = !prevLiked;
-            console.log(newliked);
-            likerequest(newliked);
-            return newliked;
-        })
-    }
-
-    useEffect(() => {
-        const fetchtracks = async () => {
-            try {
-                const response = await api.get(`/api/tracks/${cookies.User._id}/${show.title}`);
-                const tracks = response.data;
-                tracks.result ? setTracks(tracks.result) : setTracks(Array(1).fill(0));
-            } catch (error) {
-                console.log('Error fetching album:', error);
-            }
-        };
-        
-        const fetchLike = async () => {
-            console.log(show._id);
-            try {
-                const response = await api.get(`/api/album/likestatus/${show._id}`);
-                const likes = response.data.result;
-                likes[0] ? setliked(likes[0].likestate):setliked(false); 
-                likes[0] ? setlikecounter(likes[0].likecount) : setlikecounter(0);
-                console.log(likes);
-                console.log(liked);
-                console.log(likecounter);
-            } catch (error) {
-                console.log(error);
-            }
+    const handleLikeClick = () => {
+        if(cookies.User && artist.name ){
+            (cookies.User.name===artist.name)?
+                        setLiked(prevLiked => {
+                            const newLiked = !prevLiked;
+                            console.log(newLiked);
+                            likerequest(newLiked);
+                            return newLiked;
+                        })
+                        :
+                        setLiked(prevLiked => {
+                            likerequest(prevLiked);
+                            return prevLiked;
+                        });
+        }else{
+            setLiked(prevLiked => {
+                likerequest(prevLiked);
+                return prevLiked;
+            });
         }
         
-        fetchLike();
-        fetchtracks();
-        
-    }, [cookies.User._id, show]);
+    };
 
+    // Fetch tracks based on user and albums
+    useEffect(() => {
+        const fetchTracks = async () => {
+            if (User._id && albums) {
+                try {
+                    const response = await api.get(`/api/tracks/${User._id}/${albums.title}`);
+                    const tracks = response.data;
+                    setTracks(tracks.result || []);
+                } catch (error) {
+                    console.log('Error fetching album:', error);
+                }
+            }
+        };
+        fetchTracks();
+    }, [User , albums, artist]);
+
+    // Fetch likes
+    useEffect(() => {
+        const fetchLike = async () => {
+            if (show && show._id) {
+                try {
+                    const response = await api.get(`/api/album/likestatus/${show._id}`);
+                    const likes = response.data.result;
+                    if (likes && likes.length > 0) {
+                        setLiked(likes[0].likestate);
+                        setLikeCounter(likes[0].likecount);
+                    } else {
+                        setLiked(false);
+                        setLikeCounter(0);
+                    }
+                    console.log(likes);
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        };
+        fetchLike();
+    }, [show]);
+
+
+    // Function to convert duration from milliseconds to hours, minutes, and seconds
     const convertDuration = (milliseconds) => {
         const totalSeconds = Math.floor(milliseconds / 1000);
         const hours = Math.floor(totalSeconds / 3600);
@@ -84,6 +114,8 @@ const AdminAlbum = ({ setsecondPage, show }) => {
         const seconds = totalSeconds % 60;
         return { hours, minutes, seconds };
     };
+
+
 
     return (
         <div className='h-[90%] overflow-hidden grid grid-rows-8 grid-flow-col gap-1'>
@@ -95,16 +127,17 @@ const AdminAlbum = ({ setsecondPage, show }) => {
                     <img
                         alt="Album cover"
                         className="aspect-square rounded-md object-cover"
-                        src={`${baseURL}/${cookies.User.name}/${show.title}/${show.image}`}
+                        src={`${baseURL}/${User.name}/${albums.title}/${albums.image}`}
                         style={{ height: '15%', width: '15%' }}
                     />
+
                     <div>
-                        <h1 className="text-3xl font-bold">{show.title}</h1>
-                        <p className="text-sm text-muted-foreground">{cookies.User.name} • 2023 • 12 songs, 48 min</p>
-                        <div className='mt-5 w-auto flex items-center ' onClick={handlelikeclick}>
+                        <h1 className="text-3xl font-bold">{albums?.title || 'Unknown Album'}</h1>
+                        <p className="text-sm text-muted-foreground">{User.name || 'Unknown Artist'}  • 2023 • 12 songs, 48 min</p>
+                        <div className='mt-5 w-auto flex items-center ' onClick={handleLikeClick}>
                            {/* CI heart is empty heart and Faheart is liked one */}
-                           { liked? <FaHeart size={24} /> : <CiHeart size={24} /> }
-                            <p className='mx-4'>{likecounter} Likes {liked?"1":"0"}</p>
+                           {  liked? <FaHeart size={24} /> : <CiHeart size={24} /> }
+                            <p className='mx-4'>{likeCounter} Likes</p>
                         </div>
                     </div>
                     

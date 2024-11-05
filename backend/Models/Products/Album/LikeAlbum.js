@@ -15,14 +15,9 @@ const likealbumSchema = new mongoose.Schema({
     },
     
     users:[{
-        type:mongoose.Schema.Types.ObjectId,
+        type:[mongoose.Schema.Types.ObjectId],
         ref:"User",
-        validate: {
-            validator: function(v) {
-                return this.users.indexOf(v) === -1;
-            },
-            message: props=> `${props.value} is already in the user's array`
-        }
+        default: []
     }],
     album:{
         type:mongoose.Schema.Types.ObjectId,

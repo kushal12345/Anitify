@@ -6,4 +6,4 @@ Frontend
 3. artist profile bio is undefined and i cannot re-edit it
 4. upload tracks - i think collab artist is not necessary but still it should not be empty 
 5. on home page when not logged in popular albums is not showing anything
-
+6. show popup notification in Adminalbum when notlogged user tries to like saying login first

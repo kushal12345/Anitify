@@ -10,7 +10,6 @@ import { dirname } from 'path';
 import { Buffer } from 'buffer';
 import LikeAlbum from "../../../Models/Products/Album/LikeAlbum.js";
 
-
 export const AlbumCreate = Catchasyncerror(async (req, res, next) => {
     const { name } = req.params;
     const { albumTitle, artist, genre, selectedDate } = req.body;
@@ -18,6 +17,14 @@ export const AlbumCreate = Catchasyncerror(async (req, res, next) => {
     const musicFiles = req.files.music ? req.files.music.map(file => file.filename) : [];
     const albumCoverFile = req.files.albumCover ? req.files.albumCover[0].filename : null;
 
+    if (!musicrawfile || musicrawfile.length === 0) {
+        return res.status(400).json({ success: false, message: "Music files are required." });
+    }
+    
+    // Check if album cover file is provided
+    if (!albumCoverFile) {
+        return res.status(400).json({ success: false, message: "Album cover file is required." });
+    }
 
     console.log('Received data:', {
         username: req.params.name,
@@ -29,74 +36,89 @@ export const AlbumCreate = Catchasyncerror(async (req, res, next) => {
         albumCover: albumCoverFile
     });
 
-    if (name && albumTitle && artist && genre && selectedDate && musicFiles.length > 0 && albumCoverFile) {
-        const album = await Album.findOne({ title: albumTitle });
-        if (album) {
-            console.log(`${albumTitle} already exists`);
-            return res.status(400).json({ message: `${albumTitle} already exists` });
+    // Check if all required fields are present
+    if (!name || !albumTitle || !artist || !genre || !selectedDate || musicFiles.length === 0 || !albumCoverFile) {
+        return res.status(400).json({ success: false, message: "Received data is incomplete" });
+    }
+
+    // Check if the album already exists
+    const album = await Album.findOne({ title: albumTitle });
+    if (album) {
+        console.log(`${albumTitle} already exists`);
+        return res.status(400).json({ message: `${albumTitle} already exists` });
+    }
+
+    // Check for duplicate tracks
+   /* for (const file of musicFiles) {
+        const track = await Track.findOne({ title: file });
+        if (track) {
+            return res.status(400).json({ message: `${file} already exists` });
         }
+    }*/
 
-        for (const file of musicFiles) {
-            const track = await Track.findOne({ title: file }); 
-            if (track) {
-                return res.status(400).json({ message: `${file} already exists` });
-            }
+    //check for duplicates but improved approach
+    const existingTracks = await Track.find({ title: { $in: musicFiles } });
+
+    for (const file of musicFiles) {
+        if (existingTracks.some(track => track.title === file)) {
+            return res.status(400).json({ message: `${file} already exists` });
         }
+    }    
 
-        const artistas = await Artist.findOne({name: name});
+    // Find the artist
+    const artistas = await Artist.findOne({ name: name });
+    if (!artistas) {
+        return res.status(404).json({ message: 'Artist not found' });
+    }
 
-        try {
-            const albumadd = await Album.create({
-                title: albumTitle,
-                artist: artistas._id,
-                collabartist: artist,
-                releaseDate: selectedDate,
-                image: albumCoverFile,
-            });
-           
-            if (albumadd) {
-                for (const file of musicrawfile) {
-                    const Trackasas = await Track.create({
-                        title: file.originalname,
-                        duration: file.size,
-                        album: albumadd._id// Associate the track with the album
-                    });
+    try {
+        const albumadd = await Album.create({
+            title: albumTitle,
+            artist: artistas._id,
+            collabartist: artist,
+            releaseDate: selectedDate,
+            image: albumCoverFile,
+        });
 
-                    //if track added update albummodel with Track id for ref
-                    if(Trackasas){
-                        // Update Album model with Track ID for reference
-                        await Album.updateOne(
-                            { _id: albumadd._id },
-                            {
-                                $push: {
-                                    tracks: Trackasas._id // Use $push to add Track ID to the array
-                                }
+        if (albumadd) {
+            for (const file of musicrawfile) {
+                const Trackasas = await Track.create({
+                    title: file.originalname,
+                    duration: file.size,
+                    album: albumadd._id // Associate the track with the album
+                });
+
+                // If track added, update Album model with Track ID for reference
+                if (Trackasas) {
+                    await Album.updateOne(
+                        { _id: albumadd._id },
+                        {
+                            $push: {
+                                tracks: Trackasas._id // Use $push to add Track ID to the array
                             }
-                        );
+                        }
+                    );
+                }
+            }
+            // Update Artist model with album model
+            await Artist.updateOne(
+                { _id: artistas._id },
+                {
+                    $push: {
+                        albums: albumadd._id // Use $push to add Album ID to the array
                     }
                 }
-                //update Artist model with album model
-                await Artist.updateOne(
-                    { _id: artistas._id }, // Use artistas._id instead of albumadd._id
-                    {
-                        $push: {
-                            albums: albumadd._id // Use $push to add Album ID to the array
-                        }
-                    }
-                );
-            }
-            
-            return res.status(201).json({
-                success: true,
-                message: 'Album and tracks added successfully'
-            });
-
-        } catch (error) {
-            console.error(error);
-            return res.status(500).json({ success: false, message: "Server error" });
+            );
         }
-    } else {
-        return res.status(400).json({ success: false, message: "Received data is empty" });
+
+        return res.status(201).json({
+            success: true,
+            message: 'Album and tracks added successfully'
+        });
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ success: false, message: "Server error" });
     }
 });
 
@@ -107,6 +129,9 @@ export const albumfetch = Catchasyncerror(async (req, res, next) => {
     const id = req.params.id;
     let artistfile;
    
+    if(!id){
+        return res.status(400).json({ success: false, message: "Missing album id"});
+    }
 
     try {
         if (id === 'all') {
@@ -208,6 +233,10 @@ export const trackfetch = Catchasyncerror(async (req, res, next) => {
 
 export const LikeAlbumController = Catchasyncerror(async (req, res, next) => {
     const id = req.params.albumid;
+
+    if(!id){
+        return res.status(400).json({ success: false, message: 'Please provide album id'});
+    }
     // Check if the album exists
     const album = await Album.findById(id);
     if (!album) {
@@ -217,6 +246,9 @@ export const LikeAlbumController = Catchasyncerror(async (req, res, next) => {
     const artist = await Artist.findOne({albums:id});
     console.log("artist is ",artist);
 
+    if(!artist) {
+        return res.status(404).json({ success: false, message: 'Artist not found'})
+    }
 
 
     // Check if a like record already exists for this album
@@ -232,6 +264,11 @@ export const LikeAlbumController = Catchasyncerror(async (req, res, next) => {
         });
     }
     const userId = artist._id;
+
+    if (typeof req.body.newliked !== 'boolean') {
+        return res.status(400).json({ success: false, message: 'Invalid like status' });
+    }
+
  
     console.log("like state",req.body.newliked);
     // Handle like and unlike requests
@@ -241,7 +278,9 @@ export const LikeAlbumController = Catchasyncerror(async (req, res, next) => {
         if(!likedAlbum.users.includes(userId)) {
             likedAlbum.likecount += 1;
             likedAlbum.likestate=req.body.newliked;
-            likedAlbum.users.push(userId);
+            if(!likedAlbum.users.includes(userId)){
+                likedAlbum.users.push(userId);
+            }
         }else{
             console.log("already liked");
         }
@@ -264,18 +303,25 @@ export const LikeAlbumController = Catchasyncerror(async (req, res, next) => {
     await likedAlbum.save();
     console.log(`Updated like count for album ${id}:`, likedAlbum.likecount);
     return res.status(200).json({ success: true, likeCount: likedAlbum });
+    
 });
 
 
 export const FetchLikealbum  = Catchasyncerror(async (req,res,next)=>{
     const id = req.params.albumid;
 
-    const album = await LikeAlbum.find({album: id});
+    if(!id){
+        return res.status(404).json({ success: false, message: 'Invalid album id'})
+    }
 
+    const album = await LikeAlbum.find({album: id});
     if(!album){
         return res.status(404).json({ success: false, message: 'Album not found'})
     }
-    console.log("Fetch Like album data",album);
+    if (album.length === 0) {
+        return res.status(404).json({ success: false, message: 'Album not found' });
+    }
+    
     return res.status(200).json({ success: true, result: album});
 
 })

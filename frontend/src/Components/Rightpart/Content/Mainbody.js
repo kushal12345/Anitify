@@ -1,15 +1,15 @@
 import React from 'react'
 import Popularartist from './Popularartist'
 import Popularalbums from './Popularalbums'
-const Mainbody = () => {
+const Mainbody = ({setsecondPage, setshow}) => {
   return (
     <div className='h-auto  grid grid-rows-2' >
         <div>
-          <Popularartist/>
+          <Popularartist setsecondPage={setsecondPage}  setshow={setshow}/>
         </div>
 
         <div>
-          <Popularalbums/>
+          <Popularalbums setsecondPage={setsecondPage}  setshow={setshow}/>
         </div>  
     </div>
   )

@@ -5,22 +5,30 @@ import { baseURL } from '../../../Services/config';
 import Loading from '../../Loading/Loading';
 import fetchAlbums from '../../Functions/Fetchalbums';
 
-const Popularalbums = () => {
+const Popularalbums = ({setsecondPage, setshow}) => {
   const [albums, setAlbums] = useState([]);
   const [artistName, setArtistName] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [formData,setformData] = useState([]);
+  const [finalalbum,setfinalalbum] = useState([]);
 
- 
+
   useEffect(() => {
-    setLoading(true);
-    fetchAlbums('all',setformData, setAlbums, setArtistName );
-    setLoading(false); 
-   
-  }, [setformData,setAlbums,setArtistName]);
-  console.log(albums);
-  
+    const loadAlbums = async () => {
+        setLoading(true);
+        await fetchAlbums('all', setformData, setAlbums, setArtistName);
+        setLoading(false);
+    };
+
+    loadAlbums();
+}, [setformData, setAlbums, setArtistName]);
+
+useEffect(() => {
+    setfinalalbum([albums, artistName]);
+}, [albums, artistName]); 
+
+// Run this effect whenever albums or artistName changes
   if (loading) return <div><Loading/></div>;
   if (error) return <div>{error}</div>;
 
@@ -38,12 +46,12 @@ const Popularalbums = () => {
       {/* Body part */}
       <div className='h-5/6 mb-5 w-full grid xs:grid-cols-3 xs:grid-rows-2 sm:grid-cols-3 sm:grid-rows-2 md:grid-cols-6 md:grid-rows-1 lg:grid-cols-6 lg:grid-rows-1 xl:grid-cols-6 xl:grid-rows-1'>
         {
-          albums.slice(0,6).map((album,index) => {
+          finalalbum[0] && finalalbum[0].slice(0,6).map((album,index) => {
             if (!album || !artistName.name || !album.title || !album.image) {
               return null;
             }
             return (
-            <div className='w-full px-1 items-center group' key={index}> {/* Use a unique key */}
+            <div className='w-full px-1 items-center group' key={index} onClick={()=>{setsecondPage("albums");setshow([album,finalalbum[1]])}}> {/* Use a unique key */}
               {/* Image and text content */}
               <div className='w-full h-auto flex items-center justify-center'>
                 <div  className='w-11/12  relative aspect-square overflow-hidden shadow-xl'>
