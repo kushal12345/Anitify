@@ -3,11 +3,6 @@ import mongoose from "mongoose";
 
 
 const likealbumSchema = new mongoose.Schema({
-    likecount: {
-        type:Number,
-        default:0,
-        min:[0, 'likecount cannot be less than 0']
-    },
 
     likestate:{
         type:Boolean,
@@ -17,7 +12,7 @@ const likealbumSchema = new mongoose.Schema({
     users:[{
         type:[mongoose.Schema.Types.ObjectId],
         ref:"User",
-        default: []
+        default:[]
     }],
     album:{
         type:mongoose.Schema.Types.ObjectId,

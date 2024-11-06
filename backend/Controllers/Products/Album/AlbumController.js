@@ -186,7 +186,8 @@ export const albumfetch = Catchasyncerror(async (req, res, next) => {
 export const trackfetch = Catchasyncerror(async (req, res, next) => {
     const id = req.params.id;
     const title = req.params.title;
-
+    
+ 
     try {
         if (!id || !title) {
             return res.status(400).json({ success: false, message: 'Please provide both id and title' });
@@ -194,14 +195,12 @@ export const trackfetch = Catchasyncerror(async (req, res, next) => {
 
         // Await the database calls to get the actual artist and album
         const artist = await Artist.findById(id);
-        console.log("Track searching artist:", artist);
 
         if (!artist) {
             return res.status(404).json({ success: false, message: 'Artist not found' });
         }
 
         const albumt = await Album.findOne({ title: title }); // Use findOne to get a single album
-        console.log("Track Searching album:", albumt);
 
         // Check if the album was found
         if (!albumt) {
@@ -214,7 +213,6 @@ export const trackfetch = Catchasyncerror(async (req, res, next) => {
             const albumIds = artist.albums.map(albumId => albumId.toString());
 
             if (albumIds.includes(albumt._id.toString())) {
-                console.log("album._id is in artist.albums");
                 const tracks = await Track.find({ album: albumt._id });
                 return res.status(200).json({ success: true, result: tracks });
             } else {
@@ -231,24 +229,42 @@ export const trackfetch = Catchasyncerror(async (req, res, next) => {
     }
 });
 
+
+
+
+
+
+
 export const LikeAlbumController = Catchasyncerror(async (req, res, next) => {
     const id = req.params.albumid;
+    const likelike = req.body.newLiked;
+    const Authority = req.body.Authority;
 
-    if(!id){
-        return res.status(400).json({ success: false, message: 'Please provide album id'});
+    if(!id && !likelike){
+        console.log("Please provide details first");
+        return res.status(400).json({ success: false, message: 'Please provide details on LikeAlbumController'});        
     }
     // Check if the album exists
     const album = await Album.findById(id);
     if (!album) {
+        console.log("No album found");
         return res.status(404).json({ success: false, message: 'Album not found' });
     }
 
-    const artist = await Artist.findOne({albums:id});
-    console.log("artist is ",artist);
-
-    if(!artist) {
-        return res.status(404).json({ success: false, message: 'Artist not found'})
+    
+    console.log(Authority);
+    if(Authority !== 'artist' && Authority !== 'user'){
+        console.log("Invalid Authority");
+        return res.status(404).json({ success: false, message: 'Invalid Authority' });
     }
+
+    const artist = await Artist.findOne({albums:id});
+    if(!artist) {
+        console.log("No user found");
+        return res.status(404).json({ success: false, message: 'User not found'})
+    }
+
+    console.log("artist",artist);
 
 
     // Check if a like record already exists for this album
@@ -258,39 +274,37 @@ export const LikeAlbumController = Catchasyncerror(async (req, res, next) => {
     if (!likedAlbum) {
         likedAlbum = await LikeAlbum.create({
             album: id,
-            likecount: 0, // Start the count at 0
             likestate:false,
             users:[],
         });
     }
     const userId = artist._id;
+    console.log("User Id are",userId);
 
-    if (typeof req.body.newliked !== 'boolean') {
+
+  /*  if (typeof req.body.newliked !== 'boolean') {
+        console.log("not Boolean");
         return res.status(400).json({ success: false, message: 'Invalid like status' });
     }
+    */
 
- 
-    console.log("like state",req.body.newliked);
-    // Handle like and unlike requests
-    if (req.body.newliked === true) {
-        // Increase the like count
   
+    // Handle like and unlike requests
+    if (likelike === true) {
+        // Increase the like count
         if(!likedAlbum.users.includes(userId)) {
-            likedAlbum.likecount += 1;
-            likedAlbum.likestate=req.body.newliked;
-            if(!likedAlbum.users.includes(userId)){
-                likedAlbum.users.push(userId);
-            }
+            likedAlbum.likestate=likelike;
+            likedAlbum.users.push(userId);
         }else{
             console.log("already liked");
         }
      
-    } else if (req.body.newliked === false) {
+    } else if (likelike === false) {
         // Decrease the like count  
 
             if(likedAlbum.users.includes(userId)) {
-                likedAlbum.likecount -= 1;
-                likedAlbum.likestate=req.body.newliked;
+                console.log("when disliked users is included inarray")
+                likedAlbum.likestate=likelike;
                 likedAlbum.users.pull(userId);
             }else{
                 //increase like count
@@ -301,7 +315,7 @@ export const LikeAlbumController = Catchasyncerror(async (req, res, next) => {
         return res.status(400).json({ success: false, message: 'Invalid like status' });
     }
     await likedAlbum.save();
-    console.log(`Updated like count for album ${id}:`, likedAlbum.likecount);
+    console.log(`Updated like count for album ${id}:`, likedAlbum.users.length);
     return res.status(200).json({ success: true, likeCount: likedAlbum });
     
 });

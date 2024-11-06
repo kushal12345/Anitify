@@ -7,3 +7,5 @@ Frontend
 4. upload tracks - i think collab artist is not necessary but still it should not be empty 
 6. show popup notification in Adminalbum when notlogged user tries to like saying login first
 7. sometimes image not loading properly image glitch
+8. logout after x time without any activity
+9. when i refresh page i get loggedout

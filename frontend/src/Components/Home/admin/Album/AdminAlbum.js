@@ -32,9 +32,9 @@ const AdminAlbum = ({ setsecondPage, show }) => {
     }, [ artist]);
 
     const likerequest = async (newLiked) => {
-        console.log("like status changed to ", newLiked);
+        console.log("like status changed to ", {newLiked});
         try {
-            const response = await api.post(`/api/Likealbums/${albums._id}`, { newLiked });
+            const response = await api.post(`/api/Likealbums/${albums._id}`, {"newLiked": newLiked,"Authority": cookies.Authority});
             const result = response.data.likeCount;
             console.log(result);
             setLikeCounter(result.likecount);
@@ -53,9 +53,9 @@ const AdminAlbum = ({ setsecondPage, show }) => {
                             return newLiked;
                         })
                         :
-                        setLiked(prevLiked => {
-                            likerequest(prevLiked);
-                            return prevLiked;
+                        setLiked(() => {
+                            likerequest(null);
+                            return null;
                         });
         }else{
             setLiked(prevLiked => {
@@ -65,6 +65,7 @@ const AdminAlbum = ({ setsecondPage, show }) => {
         }
         
     };
+
 
     // Fetch tracks based on user and albums
     useEffect(() => {
@@ -85,25 +86,25 @@ const AdminAlbum = ({ setsecondPage, show }) => {
     // Fetch likes
     useEffect(() => {
         const fetchLike = async () => {
-            if (show && show._id) {
+            if (albums && albums._id) {
                 try {
-                    const response = await api.get(`/api/album/likestatus/${show._id}`);
+                    const response = await api.get(`/api/album/likestatus/${albums._id}`);
                     const likes = response.data.result;
+                    console.log(likes[0]);
                     if (likes && likes.length > 0) {
                         setLiked(likes[0].likestate);
-                        setLikeCounter(likes[0].likecount);
+                        setLikeCounter(likes[0].users.length);
                     } else {
                         setLiked(false);
                         setLikeCounter(0);
                     }
-                    console.log(likes);
                 } catch (error) {
                     console.log(error);
                 }
             }
         };
         fetchLike();
-    }, [show]);
+    }, [albums,setLikeCounter,setLiked]);
 
 
     // Function to convert duration from milliseconds to hours, minutes, and seconds
@@ -134,9 +135,9 @@ const AdminAlbum = ({ setsecondPage, show }) => {
                     <div>
                         <h1 className="text-3xl font-bold">{albums?.title || 'Unknown Album'}</h1>
                         <p className="text-sm text-muted-foreground">{User.name || 'Unknown Artist'}  • 2023 • 12 songs, 48 min</p>
-                        <div className='mt-5 w-auto flex items-center ' onClick={handleLikeClick}>
+                        <div className='mt-5 w-auto flex items-center ' >
                            {/* CI heart is empty heart and Faheart is liked one */}
-                           {  liked? <FaHeart size={24} /> : <CiHeart size={24} /> }
+                           {  liked? <FaHeart onClick={handleLikeClick} size={24} /> : <CiHeart onClick={handleLikeClick} size={24} /> }
                             <p className='mx-4'>{likeCounter} Likes</p>
                         </div>
                     </div>
