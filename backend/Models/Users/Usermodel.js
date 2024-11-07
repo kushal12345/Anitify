@@ -24,6 +24,9 @@ const userSchema  = new mongoose.Schema({
         unique:true,
         validate:[validator.isEmail,"Please Enter valid Email"],
     },
+    image:{
+        type:String,
+    },
     country:{
         type:String,
         required:true

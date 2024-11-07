@@ -3,10 +3,10 @@ import React, { useState,useEffect } from 'react'
 import { useRef } from 'react';*/
 import Bodylayout from '../../../Layout/bodylayout';
 import Headerlayout from '../../../Layout/Headerlayout';
-import Loggedrightpart from '../../Rightpart/Loggedin/Loggedrightpart';
 import AuthContext from '../../Hooks/Auth/AuthContext';
 import { useContext } from 'react';
 import Adminloggedin from '../admin/Adminloggedin';
+import Loggedrightdash from './Loggedrightpartdash.js/Loggedrightdash';
 
 const Homeloggedin = () => {
   const {sidebarOpen,cookies} = useContext(AuthContext);
@@ -24,7 +24,7 @@ const Homeloggedin = () => {
             <div className='z-0  h-auto'>
                 <Bodylayout>
                     {
-                      (cookies.Authority==='artist')?<Adminloggedin/>:<Loggedrightpart/>
+                      (cookies.Authority==='artist')?<Adminloggedin/>:<Loggedrightdash/>
                     }
 
                 </Bodylayout>  

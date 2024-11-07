@@ -41,32 +41,58 @@ export const ArtistRegister = Catchasyncerror(async (req, res, next) => {
 
 export const ArtistUpdate = Catchasyncerror(async (req, res, next) => {
     try {
-        const { id } = req.params; // Corrected to use req.params directly
-        const { name, email, bio, country } = req.body;
+        const { id } = req.params;
+        const { nameprarms } = req.params.name;
+        const { name, email, bio,auth, country } = req.body;
         const avatar = req.files.image ? req.files.image[0].filename : null;
+        let userfind;
 
-        const userfind = await Artist.findById(id);
-        
-        if (userfind) {
-            try {
-                const updatedArtist = await Artist.findByIdAndUpdate(id, {
-                    name,
-                    email,
-                    bio,
-                    country,
-                    image: avatar
-                }, { new: true }); // Return the updated document
+        if(auth==='artist'){
+            userfind = await Artist.findById(id);
+            if (userfind) {
+                try {
+                    const updatedArtist = await Artist.findByIdAndUpdate(id, {
+                        name,
+                        email,
+                        bio,
+                        country,
+                        image: avatar
+                    }, { new: true }); // Return the updated document
+    
+                    if (updatedArtist) {
+                        return res.status(200).json({ success: true, message: "Successfully Updated Artist", artist: updatedArtist });
+                    }
+                } catch (error) {
+                    console.error("During Updating artist:", error);
+                    return res.status(500).json({ success: false, message: "Something went wrong during update." });
+                }            
+            } else {
+                return res.status(400).json({ success: false, message: "You are not registered in Aurora. Please register first." });
+            } 
+        }else if(auth === 'user'){
+            userfind = await Usert.findById(id);
+            if (userfind) {
+                try {
+                    const updatedArtist = await Usert.findByIdAndUpdate(id, {
+                        name,
+                        email,
+                        country,
+                        image: avatar
+                    }, { new: true }); // Return the updated document
+    
+                    if (updatedArtist) {
+                        return res.status(200).json({ success: true, message: "Successfully Updated Artist", artist: updatedArtist });
+                    }
+                } catch (error) {
+                    console.error("During Updating artist:", error);
+                    return res.status(500).json({ success: false, message: "Something went wrong during update." });
+                }            
+            } else {
+                console.log("No user found");
+                return res.status(400).json({ success: false, message: "You are not registered in Aurora. Please register first." });
+            } 
+        }
 
-                if (updatedArtist) {
-                    return res.status(200).json({ success: true, message: "Successfully Updated Artist", artist: updatedArtist });
-                }
-            } catch (error) {
-                console.error("During Updating artist:", error);
-                return res.status(500).json({ success: false, message: "Something went wrong during update." });
-            }            
-        } else {
-            return res.status(400).json({ success: false, message: "You are not registered in Aurora. Please register first." });
-        } 
 
     } catch (error) {
         console.error(error);
@@ -74,6 +100,10 @@ export const ArtistUpdate = Catchasyncerror(async (req, res, next) => {
         res.status(500).json({ success: false, message: "Unknown error occurred during update." });    
     }
 });
+
+
+
+
 
 export const Artistlogin = Catchasyncerror(async (req, res, next) => {
     try {
@@ -102,7 +132,8 @@ export const Artistfetch = Catchasyncerror(async (req, res, next) => {
         } else {
             artist = await Artist.findById(id);
             if (!artist) {
-                return res.status(404).json({ success: false, message: "Artist not found" });
+                artist = await Usert.findById(id);
+                //return res.status(404).json({ success: false, message: "Artist not found" });
             }
         }
 

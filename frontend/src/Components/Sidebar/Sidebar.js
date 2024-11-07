@@ -32,19 +32,19 @@ const Sidebar = ({ setSidebarOpen }) => {
     return (
         <div className='h-[90%] text-white text-sm overflow-hidden my-2 sidebar'>
 
-        <div className={`flex items-center w-full px-4 ${Userlogged?"":"hidden"}`}>
-                <div className="relative bg-white w-24 h-24 mr-4 rounded-full overflow-hidden border border-gray-300">
-                    <img 
-                        src={image ? `${baseURL}/${cookies.User.name}/profile/${image}` : "https://placehold.co/50x50"} 
-                        alt="User  profile" 
-                        className="w-full h-full object-contain  rounded-full" 
-                    />
-                    <div className="absolute inset-0 rounded-full border-4 border-transparent hover:border-red-600 transition duration-300"></div>
+            <div className={`flex items-center w-full px-4 ${Userlogged?"":"hidden"}`}>
+                    <div className="relative bg-white w-24 h-24 mr-4 rounded-full overflow-hidden border border-gray-300">
+                        <img 
+                            src={image ? `${baseURL}/${cookies.User.name}/profile/${image}` : "https://placehold.co/50x50"} 
+                            alt="User  profile" 
+                            className="w-full h-full object-contain  rounded-full" 
+                        />
+                        <div className="absolute inset-0 rounded-full border-4 border-transparent hover:border-red-600 transition duration-300"></div>
+                    </div>
+                <div className='h-full'>
+                    <span className="text-lg font-bold">{(Userlogged)?formData.name:""}</span>            
                 </div>
-            <div className='h-full'>
-                <span className="text-xl font-bold">{(Userlogged)?formData.name:""}</span>            
             </div>
-        </div>
          
          <Button variant="ghost" size="icon" className="lg:invisible text-white md:invisible xl:invisible sm:visible xs:visible" onClick={() => setSidebarOpen(false)}>
             <RxCross2 className='text-white' size={24} />

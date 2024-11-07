@@ -65,6 +65,7 @@ const ArtistProfile = () => {
         formelement.append('email',formData.email);
         formelement.append('bio',formData.bio);
         formelement.append('country',formData.country);
+        formelement.append('auth', cookies.Authority);
         formelement.append('image',avatar);
         
       
