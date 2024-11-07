@@ -37,7 +37,7 @@ const Sidebar = ({ setSidebarOpen }) => {
                         <img 
                             src={image ? `${baseURL}/${cookies.User.name}/profile/${image}` : "https://placehold.co/50x50"} 
                             alt="User  profile" 
-                            className="w-full h-full object-contain  rounded-full" 
+                            className="w-full h-full object-cover  rounded-full" 
                         />
                         <div className="absolute inset-0 rounded-full border-4 border-transparent hover:border-red-600 transition duration-300"></div>
                     </div>

@@ -57,7 +57,7 @@ useEffect(() => {
                 <div  className='w-11/12  relative aspect-square overflow-hidden shadow-xl'>
                   <img src={album.image?`${baseURL}/${artistName.name}/${album.title}/${album.image}`:'https://upload.wikimedia.org/wikipedia/commons/f/f8/No-image-available-4X3.png'}
                     
-                    className='object-cover'
+                    className='h-full w-full object-cover'
                     alt={album.title} /> {/* Use the album title as the alt text */}
                   <div className='absolute bottom-3 right-5 text-gray-500 aspect-square rounded-full hidden group-hover:block'>
                     <FaPlayCircle color='#1E90FF' size="36px" />

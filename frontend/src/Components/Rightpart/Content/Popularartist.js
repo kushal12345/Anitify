@@ -42,7 +42,7 @@ if(loading) {return(<div className='w-full h-full'><Loading/></div>)}
                       <div className='w-full h-auto flex items-center justify-center'>
                         <div className='w-11/12 bg-white relative aspect-square rounded-full  overflow-hidden shadow-xl '>
                           <img src={data.image?`${baseURL}/${data.name}/profile/${data.image}`:'https://upload.wikimedia.org/wikipedia/commons/f/f8/No-image-available-4X3.png'} 
-                            className='w-full h-full object-contain'
+                            className='w-full h-full object-cover'
                             alt='Image description'/>
                           <div className='absolute bottom-3 right-5 text-gray-500 aspect-square rounded-full hidden group-hover:block'>
                             <FaPlayCircle color='#1E90FF' size="36px"  />
