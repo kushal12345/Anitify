@@ -6,7 +6,6 @@ import Loading from '../../Loading/Loading';
 import FetchArtist from '../../Functions/Fetchartist';
 
 const Popularartist = () => {
-    const [artist,setartist] = useState([]);
     const [loading, setloading] = useState(false);
     const [formData,setformData] = useState([]);
 

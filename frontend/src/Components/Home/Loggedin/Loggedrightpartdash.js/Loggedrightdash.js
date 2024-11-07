@@ -7,7 +7,7 @@ const Loggedrightdash = () => {
     const [show, setshow] = useState([]);
 
   return (
-    <div className='h-full p-2 pl-5 -z-[1] overflow-y-scroll  [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]'>
+    <div className='h-full p-2  -z-[1] overflow-y-scroll  [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]'>
          {
                 (secondpage==="albums") ? (
                   <AdminAlbum setsecondPage={setsecondPage} show={show}/>
