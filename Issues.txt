@@ -9,4 +9,3 @@ Frontend
 7. sometimes image not loading properly image glitch
 8. logout after x time without any activity
 9. when i refresh page i get loggedout
-10 fetchalbums update => albums(all artist),albums(single artist),

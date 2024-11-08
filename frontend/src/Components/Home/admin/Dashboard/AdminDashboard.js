@@ -6,6 +6,7 @@ import api from '../../../../Services/api';
 import fetchAlbums from '../../../Functions/Fetchalbums';
 import Loading from '../../../Loading/Loading';
 import FetchArtist from '../../../Functions/Fetchartist';
+import { FaPlayCircle } from "react-icons/fa";
 
 const AdminDashboard = ({setsecondPage, setshow}) => {
     const {cookies} = useContext(AuthContext);
@@ -17,6 +18,14 @@ const AdminDashboard = ({setsecondPage, setshow}) => {
     const [finalalbumaa,setfinalalbumaa] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [formDataartist,setformDataartist] = useState([]);
+   
+    useEffect(() => {
+      setLoading(true);
+      FetchArtist('all',setformDataartist);
+      setLoading(false);     
+    },[setformData])
+
 
 
     useEffect(() => {
@@ -93,6 +102,8 @@ if (error) return <div>{error}</div>;
             })
         }
     </div>
+
+
     <h2 className="text-2xl font-bold mb-4">Popular Albums Right Now</h2>
     <div className="grid grid-cols-4 gap-4 my-5"> 
         {
@@ -112,27 +123,31 @@ if (error) return <div>{error}</div>;
 
 
   
-
-    <h2 className="text-2xl my-8 font-bold mb-4">Your Top Artists</h2>
-    <div className="grid grid-cols-4 gap-4 my-5">
-    <div className="glass bg-opacity-35 w-full flex flex-col items-center justify-center p-4 rounded-lg">
-      <img src="https://placehold.co/100x100" alt="Artist 1" className="rounded-full mb-4" />
-      <p className="text-center">Artist 1</p>
-    </div>
-    <div className="glass bg-opacity-35 flex flex-col items-center justify-center p-4 rounded-lg">
-      <img src="https://placehold.co/100x100" alt="Artist 2" className="rounded-full mb-4" />
-      <p className="text-center">Artist 2</p>
-    </div>
-    <div className="glass bg-opacity-35 flex flex-col items-center justify-center p-4 rounded-lg">
-      <img src="https://placehold.co/100x100" alt="Artist 3" className="rounded-full mb-4" />
-      <p className="text-center">Artist 3</p>
-    </div>
-    <div className="glass bg-opacity-35 flex flex-col items-center justify-center p-4 rounded-lg">
-      <img src="https://placehold.co/100x100" alt="Artist 4" className="rounded-full mb-4" />
-      <p className="text-center">Artist 4</p>
-    </div>
-  </div>
-
+    <h2 className={`text-2xl my-8 font-bold mb-4 `}>Popular Artist's Right Now </h2>
+    <div className='h-5/6   mb-1 w-full grid xs:grid-cols-3 xs:grid-rows-2 sm:grid-cols-3 sm:grid-rows-2 md:grid-cols-6 md:grid-rows-1 lg:grid-cols-6 lg:grid-rows-1 xl:grid-cols-6 xl:grid-rows-1 '>
+              {
+                formDataartist.slice(0, 6).map((data, index) => {
+                  return (
+                    <div className='w-full h-auto group' key={index}>
+                      {/* image and text content */}
+                      <div className='w-full h-auto flex items-center justify-center'>
+                        <div className='w-8/12 bg-white relative aspect-square rounded-full  overflow-hidden shadow-xl '>
+                          <img src={data.image?`${baseURL}/${data.name}/profile/${data.image}`:'https://upload.wikimedia.org/wikipedia/commons/f/f8/No-image-available-4X3.png'} 
+                            className='w-full h-full object-cover'
+                            alt='Image description'/>
+                          <div className='absolute bottom-3 right-5 text-gray-500 aspect-square rounded-full hidden group-hover:block'>
+                            <FaPlayCircle color='#1E90FF' size="36px"  />
+                          </div>    
+                        </div>
+                      </div>
+                      <div className='w-full flex justify-center h-auto my-5'>
+                        {data.name}
+                      </div>
+                    </div>
+                  );
+                })
+              }
+            </div>
     
   </main></div>
   )
