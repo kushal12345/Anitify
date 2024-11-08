@@ -17,16 +17,18 @@ const Popularalbums = ({setsecondPage, setshow}) => {
   useEffect(() => {
     const loadAlbums = async () => {
         setLoading(true);
-        await fetchAlbums('all', setformData, setAlbums, setArtistName);
+        await fetchAlbums('all', setformData, setAlbums);
         setLoading(false);
     };
 
     loadAlbums();
-}, [setformData, setAlbums, setArtistName]);
+}, [setformData, setAlbums]);
 
-useEffect(() => {
-    setfinalalbum([albums, artistName]);
-}, [albums, artistName]); 
+useEffect(()=>{
+  setArtistName(formData.artist);
+  setfinalalbum(formData.result);
+},[formData])
+
 
 // Run this effect whenever albums or artistName changes
   if (loading) return <div><Loading/></div>;
@@ -46,16 +48,16 @@ useEffect(() => {
       {/* Body part */}
       <div className='h-5/6 mb-5 w-full grid xs:grid-cols-3 xs:grid-rows-2 sm:grid-cols-3 sm:grid-rows-2 md:grid-cols-6 md:grid-rows-1 lg:grid-cols-6 lg:grid-rows-1 xl:grid-cols-6 xl:grid-rows-1'>
         {
-          finalalbum[0] && finalalbum[0].slice(0,6).map((album,index) => {
-            if (!album || !artistName.name || !album.title || !album.image) {
+          finalalbum && finalalbum.slice(0,6).map((album,index) => {
+            if (!album || !album.artist || !album.title || !album.image) {
               return null;
             }
             return (
-            <div className='w-full px-1 items-center group' key={index} onClick={()=>{setsecondPage("albums");setshow([album,finalalbum[1]])}}> {/* Use a unique key */}
+            <div className='w-full px-1 items-center group' key={index} onClick={()=>{setsecondPage("albums");setshow([album,finalalbum])}}> {/* Use a unique key */}
               {/* Image and text content */}
               <div className='w-full h-auto flex items-center justify-center'>
                 <div  className='w-11/12  relative aspect-square overflow-hidden shadow-xl'>
-                  <img src={album.image?`${baseURL}/${artistName.name}/${album.title}/${album.image}`:'https://upload.wikimedia.org/wikipedia/commons/f/f8/No-image-available-4X3.png'}
+                  <img src={album.image?`${baseURL}/${album.artist}/${album.title}/${album.image}`:'https://upload.wikimedia.org/wikipedia/commons/f/f8/No-image-available-4X3.png'}
                     
                     className='h-full w-full object-cover'
                     alt={album.title} /> {/* Use the album title as the alt text */}
@@ -68,7 +70,7 @@ useEffect(() => {
                 <span className='text-lg'>{album.title}</span> {/* Display the album title */}
               </div>
               <div className='w-full flex justify-center h-auto mt-2'>
-                <span className='text-sm'>By {artistName.name ? artistName.name : 'Unknown Artist'}</span>
+                <span className='text-sm'>By {album.artist ? album.artist : 'Unknown Artist'}</span>
               </div>
             </div>
             )

@@ -13,7 +13,6 @@ const Loggedrightpart = ({setsecondPage, setshow}) => {
     const [albums,setAlbums] = useState([]);
     const [formData,setformData] = useState([]);
     const [finalalbum,setfinalalbum] = useState([]);
-    const [artistName, setArtistName] = useState(cookies.User ? cookies.User.name : null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [artist,setartist] = useState([]);
@@ -24,21 +23,20 @@ const Loggedrightpart = ({setsecondPage, setshow}) => {
         setLoading(false);     
       },[setartist])
   
-
-    useEffect(() => {
+      useEffect(() => {
         const loadAlbums = async () => {
             setLoading(true);
-            await fetchAlbums('all', setformData, setAlbums, setArtistName);
+            await fetchAlbums('all', setformData, setAlbums);
             setLoading(false);
-            };
-        
-            loadAlbums();
-        }, [setformData, setAlbums, setArtistName]);
-        
-        
-        useEffect(() => {
-            setfinalalbum([albums, artistName]);
-        }, [albums, artistName]); 
+        };
+    
+        loadAlbums();
+    }, [setformData, setAlbums]);
+    
+    useEffect(()=>{
+      setfinalalbum(formData.result);
+    },[formData])
+    
         
     // Run this effect whenever albums or artistName changes
     if (loading) return <div><Loading/></div>;
@@ -140,16 +138,16 @@ const Loggedrightpart = ({setsecondPage, setshow}) => {
                 </div>
                 
                 <div className=" h-auto w-full  grid xs:grid-cols-3 xs:grid-rows-2 sm:grid-cols-3 sm:grid-rows-2 md:grid-cols-6 md:grid-rows-1 lg:grid-cols-6 lg:grid-rows-1 xl:grid-cols-6 xl:grid-rows-1  gap-4">
-                {finalalbum[0] && finalalbum[0].slice(0, 4).map((album, index) => {
+                {finalalbum && finalalbum.slice(0, 4).map((album, index) => {
                      if (!album || !album.title || !album.image) {
                         return null;
                     }
                     return(
-                    <div key={index} className=" w-full h-auto px-3 py-3" onClick={()=>{setsecondPage("albums");setshow([album,finalalbum[1]])}}>
+                    <div key={index} className=" w-full h-auto px-3 py-3" onClick={()=>{setsecondPage("albums");setshow([album,finalalbum])}}>
                         <div className='text-[1rem] w-full h-auto hover:bg-opacity-25 hover:bg-white'>
                             {/* Image part */}
                             <div className='w-full aspect-square p-2'>
-                                <img src={album.image?`${baseURL}/${artistName.name}/${album.title}/${album.image}`:'https://upload.wikimedia.org/wikipedia/commons/f/f8/No-image-available-4X3.png'} className='w-full h-full object-cover' />
+                                <img src={album.image?`${baseURL}/${album.artist}/${album.title}/${album.image}`:'https://upload.wikimedia.org/wikipedia/commons/f/f8/No-image-available-4X3.png'} className='w-full h-full object-cover' />
                             </div> 
                             {/* Playlist Details */}
                             <div className='  w-full  h-auto py-3'>
@@ -157,7 +155,7 @@ const Loggedrightpart = ({setsecondPage, setshow}) => {
                                     {album.title}
                                 </div>
                                 <div className='w-full flex justify-center h-auto mt-2'>
-                                    <span className='text-sm'>By {artistName.name ? artistName.name : 'Unknown Artist'}</span>
+                                    <span className='text-sm'>By {album.artist ? album.artist : 'Unknown Artist'}</span>
                                 </div>
                             </div> 
                         </div>

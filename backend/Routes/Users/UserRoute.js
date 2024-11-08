@@ -39,8 +39,8 @@ router.route('/addtrack/:name/:albumTitle').post( upload.fields([{ name: 'music'
 router.route('/artist/:name/:profile/:id').post(upload.fields([{name:'image'}]), ArtistUpdate )
 router.route('/albums/:id').get(albumfetch);
 router.route('/artist/:id').get(Artistfetch);
-router.route('/tracks/:id/:title').get(trackfetch);
-router.route('/album/likestatus/:albumid').get(FetchLikealbum);
+router.route('/tracks/:id').get(trackfetch);
+router.route('/album/likestatus/:albumid/:logid').get(FetchLikealbum);
    
 //router.route("/login").post(Login);
 export default router;

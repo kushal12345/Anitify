@@ -1,14 +1,13 @@
 import api from "../../Services/api";
 
- const fetchAlbums =  (userId, setdata, album, name) => {
+ const fetchAlbums =  (userId, setdata, album) => {
   
     try {
         api.get(`/api/albums/${userId}`)
         .then(response => {
           const data = response.data;
            setdata(data);
-           album(data.result[0])
-           name(data.artistdetails[0])
+           album(data.result)
           })
         .catch(e => {
           console.error(e);

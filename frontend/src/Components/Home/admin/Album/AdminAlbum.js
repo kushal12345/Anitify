@@ -10,26 +10,20 @@ import { FaHeart } from "react-icons/fa";
 const AdminAlbum = ({ setsecondPage, show }) => {
     const { cookies } = useContext(AuthContext);
     const [tracks, setTracks] = useState([]);
-    const [albums, setAlbums] = useState(show ? show[0] : null);
-    const [artist, setArtist] = useState(show[1] ? show[1] : null);
+    const [albums, setAlbums] = useState(show ? show : null);
     const [liked, setLiked] = useState(false);
     const [likeCounter, setLikeCounter] = useState(0); 
 
-    const [User  , setUser  ] = useState({
-        _id: "",
-        name: ""
-    });
-
   
     // Set user based on cookies or artist
-    useEffect(() => {
+   /* useEffect(() => {
        if (artist) {
             setUser  ({
                 _id: artist._id,
-                name: artist.name
+                name: artist.artist
             });
         }
-    }, [ artist]);
+    }, [ artist]);*/
 
     const likerequest = async (newLiked) => {
         console.log("like status changed to ", {newLiked});
@@ -44,8 +38,8 @@ const AdminAlbum = ({ setsecondPage, show }) => {
     };
 
     const handleLikeClick = () => {
-        if(cookies.User && artist.name ){
-            (cookies.User.name===artist.name)?
+        if(cookies.User && albums.artist ){
+            (cookies.User.name===albums.artist)?
                         setLiked(prevLiked => {
                             const newLiked = !prevLiked;
                             console.log(newLiked);
@@ -70,9 +64,9 @@ const AdminAlbum = ({ setsecondPage, show }) => {
     // Fetch tracks based on user and albums
     useEffect(() => {
         const fetchTracks = async () => {
-            if (User._id && albums) {
+            if (albums) {
                 try {
-                    const response = await api.get(`/api/tracks/${User._id}/${albums.title}`);
+                    const response = await api.get(`/api/tracks/${albums._id}`);
                     const tracks = response.data;
                     setTracks(tracks.result || []);
                 } catch (error) {
@@ -81,18 +75,21 @@ const AdminAlbum = ({ setsecondPage, show }) => {
             }
         };
         fetchTracks();
-    }, [User , albums, artist]);
+    }, [albums]);
 
     // Fetch likes
     useEffect(() => {
         const fetchLike = async () => {
             if (albums && albums._id) {
                 try {
-                    const response = await api.get(`/api/album/likestatus/${albums._id}`);
+                    const response = await api.get(`/api/album/likestatus/${albums._id}/${cookies.User?cookies.User._id:null}`);
                     const likes = response.data.result;
-                    console.log(likes[0]);
                     if (likes && likes.length > 0) {
-                        setLiked(likes[0].likestate);
+                        if(response.data.likestatus === true){
+                            setLiked(likes[0].likestate);
+                        }else{
+                            setLiked(null);
+                        }
                         setLikeCounter(likes[0].users.length);
                     } else {
                         setLiked(false);
@@ -117,7 +114,6 @@ const AdminAlbum = ({ setsecondPage, show }) => {
     };
 
 
-
     return (
         <div className='h-[90%] overflow-hidden grid grid-rows-8 grid-flow-col gap-1'>
             <div className='w-full overflow-hidden p-2 row-span-3 bg-white bg-opacity-25 text-white rounded-xl'>
@@ -128,13 +124,13 @@ const AdminAlbum = ({ setsecondPage, show }) => {
                     <img
                         alt="Album cover"
                         className="aspect-square rounded-md object-cover"
-                        src={`${baseURL}/${User.name}/${albums.title}/${albums.image}`}
+                        src={`${baseURL}/${albums.artist}/${albums.title}/${albums.image}`}
                         style={{ height: '15%', width: '15%' }}
                     />
 
                     <div>
                         <h1 className="text-3xl font-bold">{albums?.title || 'Unknown Album'}</h1>
-                        <p className="text-sm text-muted-foreground">{User.name || 'Unknown Artist'}  • 2023 • 12 songs, 48 min</p>
+                        <p className="text-sm text-muted-foreground">{albums.artist || 'Unknown Artist'}  • 2023 • 12 songs, 48 min</p>
                         <div className='mt-5 w-auto flex items-center ' >
                            {/* CI heart is empty heart and Faheart is liked one */}
                            {  liked? <FaHeart onClick={handleLikeClick} size={24} /> : <CiHeart onClick={handleLikeClick} size={24} /> }

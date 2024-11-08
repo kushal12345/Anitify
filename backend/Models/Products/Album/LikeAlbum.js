@@ -9,17 +9,26 @@ const likealbumSchema = new mongoose.Schema({
         default:false
     },
     
-    users:[{
-        type:[mongoose.Schema.Types.ObjectId],
-        ref:"User",
-        default:[]
+    users: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        validate: {
+            validator: function(value) {
+                return mongoose.Types.ObjectId.isValid(value);
+            },
+            message: 'Invalid User ID'
+        }
     }],
     album:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'Album',
-        unique: true
+        ref:'Album'
     }
-});
+}, { timestamps: true });
+
+
+// Ensure that no unique index is applied to the 'users' field
+likealbumSchema.index({ users: 1 });  // Optional: add index for querying but without unique constraint
+
 
 const LikeAlbum = mongoose.model('LikeAlbum',likealbumSchema);
 export default LikeAlbum;

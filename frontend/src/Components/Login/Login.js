@@ -37,7 +37,7 @@ const Login = () => {
             try {
                 api.post(`/api/login`,user)
                 .then(res => {
-                     if(res.data.success===true){
+                     if(res && res.data && res.data.success===true){
                         login(res.data);
                         snackbar.current.setAlert(`Welcome Back ${res.data.user.name} `,"success");  
                         const timerId = setTimeout(()=>{

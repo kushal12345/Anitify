@@ -8,7 +8,6 @@ const Adminloggedin = () => {
   const {cookies} = useContext(AuthContext);
   const [secondpage,setsecondPage] = useState(false);
   const [show,setshow] = useState(null);
-
   return (
     <div className="h-screen mb-10 overflow-y-scroll [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ">
        {
