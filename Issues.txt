@@ -9,3 +9,11 @@ Frontend
 7. sometimes image not loading properly image glitch
 8. logout after x time without any activity
 9. when i refresh page i get loggedout
+10. phone responsive 
+11. like issue
+
+
+features
+==============
+1. Search for Friend, Add Friend
+2. Chat with Friends Listen to music together

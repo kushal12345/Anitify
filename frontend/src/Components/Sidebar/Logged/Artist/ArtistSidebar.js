@@ -89,8 +89,8 @@ const ArtistSidebar = () => {
                     </div>
                     <div className='flex items-center text-sm w-full h-1/2'>
                         <BsPinAngleFill color='green ' className=''/>
-                        <span className=''>.</span> 5 Songs  
-                        <span className=''>.</span>Ft.{album.collabartist}
+                        <span className=''></span> {album.tracks.length} Tracks 
+                        <span className=''>.</span>{album.releaseDate.split('-')[0]}
                     </div>
                     </div> 
                 </div>  
