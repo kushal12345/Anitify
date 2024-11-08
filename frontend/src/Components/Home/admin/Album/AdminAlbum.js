@@ -14,6 +14,7 @@ const AdminAlbum = ({ setsecondPage, show }) => {
     const [liked, setLiked] = useState(false);
     const [likeCounter, setLikeCounter] = useState(0); 
 
+    console.log(show)
   
     // Set user based on cookies or artist
    /* useEffect(() => {

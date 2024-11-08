@@ -128,6 +128,7 @@ const __dirname = dirname(__filename);
 export const albumfetch = Catchasyncerror(async (req, res, next) => {
     const id = req.params.id;
     let artistfile;
+
    
     if(!id){
         return res.status(400).json({ success: false, message: "Missing album id"});
@@ -144,50 +145,34 @@ export const albumfetch = Catchasyncerror(async (req, res, next) => {
                     artist: album.artist ? album.artist.name : null // Set the artist name or null if not found
                 };
             });
+
+            
         
             return res.status(200).json({ success: true, result: albumsWithArtists });
         } else {
-           /* artistfile = await Artist.findById(id);
-            if (!artistfile) {
-                return res.status(404).json({ success: false, message: 'Artist not found' });
-            }
-        
-       
-            if (Array.isArray(artistfile)) {
-                const albumsPromises = artistfile.map(async (artist) => {
-                    return await Promise.all(artist.albums.map(async (file) => {
-                        const album = await Album.findById(file._id);
-                        
-                        return album;
-                    }));
-                });
-
-                const albums = await Promise.all(albumsPromises);
-                return res.status(200).json({ success: true, result: albums, artistdetails:artistfile });
-            } else {
-                const albums = await Promise.all(artistfile.albums.map(async (file) => {
-                    const album = await Album.findById(file._id);
+                const artist = await Artist.findById(id);
                 
-               
-                    return album;
-                }));
-                return res.status(200).json({ success: true, result: albums, artistdetails:artistfile });
-            }*/
+                if (!artist) {
+                    return res.status(404).json({ success: false, message: "Artist not found"});
+                }
 
 
-                const albums = await Album.findById(id).populate('artist', 'name'); // Populate only the artist's name
+
+                const albums = await Album.find({artist:id}).populate('artist', 'name'); // Populate only the artist's name
 
                 if (!albums) {
                     return res.status(404).json({ success: false, message: 'Album not found' });
                 }
 
-                // Transform the albums to include only the necessary fields
-                const albumWithArtist = {
-                    ...albums.toObject(), // Convert mongoose document to plain object
-                    artist: albums.artist ? albums.artist.name : null // Set the artist name or null if not found
-                };
-            
-                return res.status(200).json({ success: true, result: albumWithArtist });
+                const albumsWithArtists = albums.map(album => {
+                return {
+                    ...album.toObject(), // Convert mongoose document to plain object
+                        artist: album.artist ? album.artist.name : null // Set the artist name or null if not found
+                    };
+                });
+                
+                console.log(albumsWithArtists);
+                return res.status(200).json({ success: true, result: albumsWithArtists });
         }
     } catch (error) {
         console.error(error);
@@ -252,14 +237,12 @@ export const LikeAlbumController = Catchasyncerror(async (req, res, next) => {
         return res.status(404).json({ success: false, message: 'User not found'})
     }
 
-    console.log("artist",artist);
 
 
     // Check if a like record already exists for this album
     let likedAlbum = await LikeAlbum.findOne({ album: id }) || await LikeAlbum.create({ album: id, likestate: false, users: [] });
 
     const userId = artist._id;
-    console.log("User Id are",userId);
 
 
   /*  if (typeof req.body.newliked !== 'boolean') {

@@ -10,25 +10,36 @@ import FetchArtist from '../../../Functions/Fetchartist';
 const AdminDashboard = ({setsecondPage, setshow}) => {
     const {cookies} = useContext(AuthContext);
     const [albums,setAlbums] = useState([]);
+    const [albumsas,setAlbumsas] = useState([]);
     const [formData,setformData] = useState([]);
+    const [formDataspecific,setformDataspecific] = useState([]);
     const [finalalbum,setfinalalbum] = useState([]);
+    const [finalalbumaa,setfinalalbumaa] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
 
-
+    useEffect(() => {
+      setLoading(true);
+      fetchAlbums(cookies.User._id, setformDataspecific, setAlbumsas)
+      setLoading(false); // Set loading false after fetch
+    }, [cookies]);
+    
     useEffect(() => {
       setLoading(true);
       fetchAlbums('all', setformData, setAlbums)
       setLoading(false); // Set loading false after fetch
     }, []);
 
-
-    
     useEffect(() => {
       //setfinalalbum([albums, artistName]);
       setfinalalbum(formData.result);
     }, [formData]);
+    
+    useEffect(() => {
+      //setfinalalbum([albums, artistName]);
+      setfinalalbumaa(formDataspecific.result);
+    }, [formDataspecific]);
 
 
 
@@ -65,7 +76,24 @@ if (error) return <div>{error}</div>;
       <button className="glass bg-opacity-40 text-white px-4 py-2 rounded-full mr-2">Recently Played</button>
       <button className="glass bg-opacity-40 text-white px-4 py-2 rounded-full">Artist Insights</button>
     </div>
-    <h2 className="text-2xl font-bold mb-4">Your Total Albums</h2>
+
+    <h2 className={`text-2xl my-8 font-bold mb-4 `}>Your Total Albums</h2>
+    <div className="grid grid-cols-4 gap-4 my-5">
+    {
+            finalalbumaa && finalalbumaa.slice(0, 4).map((album, index)=>{
+              if (!album || !album.title || !album.image) {
+                return null;
+              }
+                return(
+                    <div key={index} className="glass bg-opacity-35 w-full flex flex-col items-center justify-center p-4 rounded-lg hover:cursor-pointer" onClick={()=>{setsecondPage(true);setshow(album)}}>
+                        <img src={`${baseURL}/${album.artist}/${album.title}/${album.image}`} alt="Artist 1" className="w-24 h-24 overflow-hidden rounded-full mb-4" />
+                        <p className="text-center">{album.title}</p>
+                    </div>
+                )
+            })
+        }
+    </div>
+    <h2 className="text-2xl font-bold mb-4">Popular Albums Right Now</h2>
     <div className="grid grid-cols-4 gap-4 my-5"> 
         {
             finalalbum && finalalbum.slice(0, 4).map((album, index)=>{
@@ -83,25 +111,7 @@ if (error) return <div>{error}</div>;
     </div>
 
 
-    <h2 className="text-2xl my-8 font-bold mb-4">Other Top Artists</h2>
-    <div className="grid grid-cols-4 gap-4 my-5">
-      <div className="glass bg-opacity-35 w-full flex flex-col items-center justify-center p-4 rounded-lg">
-        <img src="https://placehold.co/100x100" alt="Artist 1" className="rounded-full mb-4" />
-        <p className="text-center">Artist 1</p>
-      </div>
-      <div className="glass bg-opacity-35 flex flex-col items-center justify-center p-4 rounded-lg">
-        <img src="https://placehold.co/100x100" alt="Artist 2" className="rounded-full mb-4" />
-        <p className="text-center">Artist 2</p>
-      </div>
-      <div className="glass bg-opacity-35 flex flex-col items-center justify-center p-4 rounded-lg">
-        <img src="https://placehold.co/100x100" alt="Artist 3" className="rounded-full mb-4" />
-        <p className="text-center">Artist 3</p>
-      </div>
-      <div className="glass bg-opacity-35 flex flex-col items-center justify-center p-4 rounded-lg">
-        <img src="https://placehold.co/100x100" alt="Artist 4" className="rounded-full mb-4" />
-        <p className="text-center">Artist 4</p>
-      </div>
-    </div>
+  
 
     <h2 className="text-2xl my-8 font-bold mb-4">Your Top Artists</h2>
     <div className="grid grid-cols-4 gap-4 my-5">

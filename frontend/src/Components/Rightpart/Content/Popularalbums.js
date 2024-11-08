@@ -53,7 +53,7 @@ useEffect(()=>{
               return null;
             }
             return (
-            <div className='w-full px-1 items-center group' key={index} onClick={()=>{setsecondPage("albums");setshow([album,finalalbum])}}> {/* Use a unique key */}
+            <div className='w-full px-1 items-center group' key={index} onClick={()=>{setsecondPage("albums");setshow(album)}}> {/* Use a unique key */}
               {/* Image and text content */}
               <div className='w-full h-auto flex items-center justify-center'>
                 <div  className='w-11/12  relative aspect-square overflow-hidden shadow-xl'>

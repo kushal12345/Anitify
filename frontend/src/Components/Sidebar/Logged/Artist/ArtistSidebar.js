@@ -7,31 +7,29 @@ import { IoAlbumsOutline } from "react-icons/io5";
 import api from '../../../../Services/api';
 import { baseURL } from '../../../../Services/config';
 import FetchArtist from '../../../Functions/Fetchartist';
+import fetchAlbums from '../../../Functions/Fetchalbums';
 
 const ArtistSidebar = () => {
 
     const {cookies} = useContext(AuthContext)
     const [albums,setAlbums] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [formData,setformData] = useState([]);
+    const [finalalbum,setfinalalbum] = useState([]);
 
+    useEffect(() => {
+        setLoading(true);
+        fetchAlbums(cookies.User._id, setformData, setAlbums)
+        setLoading(false); // Set loading false after fetch
+      }, [cookies]);
+      
+        
+    useEffect(() => {
+        //setfinalalbum([albums, artistName]);
+        setfinalalbum(formData.result);
+      }, [formData]);
+  
 
-    useEffect(()=>{
-         const fetchAlbums = async () => {
-            setLoading(true);
-            try {
-               const response = await api.get(`/api/albums/${cookies.User._id}`);
-               const albums = response.data;
-               albums.result?setAlbums(albums.result):setAlbums(Array(8).fill(0))
-            } catch (error) {
-                console.log('Error fetching album:',error);
-            } finally {
-                setLoading(false);
-            }
-        }
-        fetchAlbums();
-
-
-    },[]);
     
   return (
     <div className='h-full w-full '>
@@ -70,16 +68,17 @@ const ArtistSidebar = () => {
                         </div>
                     </div>
         {
-           albums.map((album, index) => {
+            finalalbum && finalalbum.map((album, index) => {
             if (!album || !album.title || !album.image) {
                 return null;
             }
+
                 return (
                 <div key={index} className='flex text-sm  w-full h-auto overflow-hidden hover:bg-white hover:bg-opacity-35'>
                     {/* Image part  */}
                     <div className='w-1/4 aspect-square p-2'>
                     <img 
-                        src={`${baseURL}/${cookies.User.name}/${album.title}/${album.image}`} 
+                        src={`${baseURL}/${album.artist}/${album.title}/${album.image}`} 
                         className='w-full h-full object-cover' 
                         alt={`${album.title} cover`} 
                     />                    </div> 

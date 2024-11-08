@@ -143,7 +143,7 @@ const Loggedrightpart = ({setsecondPage, setshow}) => {
                         return null;
                     }
                     return(
-                    <div key={index} className=" w-full h-auto px-3 py-3" onClick={()=>{setsecondPage("albums");setshow([album,finalalbum])}}>
+                    <div key={index} className=" w-full h-auto px-3 py-3" onClick={()=>{setsecondPage("albums");setshow(album)}}>
                         <div className='text-[1rem] w-full h-auto hover:bg-opacity-25 hover:bg-white'>
                             {/* Image part */}
                             <div className='w-full aspect-square p-2'>
