@@ -144,3 +144,33 @@ export const Artistfetch = Catchasyncerror(async (req, res, next) => {
         res.status(500).json({ success: false, message: "Unknown error occurred during fetching artist." });
     }
 });
+
+export const Userfetch = Catchasyncerror(async (req, res, next) => {
+    const { id } = req.params;
+    let artist;
+    try {
+        // Check if ID is empty or not
+        if (!id) {
+            return res.status(400).json({ success: false, message: "Please provide Artist id" });
+        }
+
+        if (id === "all") {
+            artist = await Usert.find();
+            if (!artist || artist.length === 0) {
+                return res.status(404).json({ success: false, message: "We currently don't have any artists" });
+            }
+        } else {
+            artist = await Usert.findById(id);
+            if (!artist) {
+                artist = await Usert.findById(id);
+                //return res.status(404).json({ success: false, message: "Artist not found" });
+            }
+        }
+
+        return res.status(200).json({ success: true, result: artist });
+    } catch (error) {
+        console.error(error);
+        logger(error);
+        res.status(500).json({ success: false, message: "Unknown error occurred during fetching artist." });
+    }
+});

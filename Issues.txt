@@ -11,6 +11,7 @@ Frontend
 9. when i refresh page i get loggedout
 10. phone responsive 
 11. like issue
+12  while login  email uppercase and lowercase matters fix it
 
 
 features

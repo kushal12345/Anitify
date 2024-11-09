@@ -46,7 +46,7 @@ useEffect(()=>{
         </div>
       </div>
       {/* Body part */}
-      <div className='h-5/6 mb-5 w-full grid xs:grid-cols-3 xs:grid-rows-2 sm:grid-cols-3 sm:grid-rows-2 md:grid-cols-6 md:grid-rows-1 lg:grid-cols-6 lg:grid-rows-1 xl:grid-cols-6 xl:grid-rows-1'>
+      <div className='h-auto mb-5 w-full grid xs:grid-cols-3 xs:grid-rows-1 sm:grid-cols-3 sm:grid-rows-1 md:grid-cols-6 md:grid-rows-1 lg:grid-cols-6 lg:grid-rows-1 xl:grid-cols-6 xl:grid-rows-1'>
         {
           finalalbum && finalalbum.slice(0,6).map((album,index) => {
             if (!album || !album.artist || !album.title || !album.image) {

@@ -6,6 +6,11 @@ import AuthContext from '../../../Hooks/Auth/AuthContext';
 import api from '../../../../Services/api';
 import { CiHeart } from "react-icons/ci";
 import { FaHeart } from "react-icons/fa";
+import FetchArtist from '../../../Functions/Fetchartist';
+import Loading from '../../../Loading/Loading';
+import FetchUser from '../../../Functions/Fetchuser';
+import debounce from '../../../../Middleware/debounce';
+import { useCallback } from 'react';
 
 const AdminAlbum = ({ setsecondPage, show }) => {
     const { cookies } = useContext(AuthContext);
@@ -13,35 +18,36 @@ const AdminAlbum = ({ setsecondPage, show }) => {
     const [albums, setAlbums] = useState(show ? show : null);
     const [liked, setLiked] = useState(false);
     const [likeCounter, setLikeCounter] = useState(0); 
+    const [loading, setloading] = useState(false);
+    const [user,setUser] = useState([]);
 
-    console.log(show)
-  
-    // Set user based on cookies or artist
-   /* useEffect(() => {
-       if (artist) {
-            setUser  ({
-                _id: artist._id,
-                name: artist.artist
-            });
-        }
-    }, [ artist]);*/
+    const likerequest = useCallback(
+        debounce(async (newLiked) => {
+            console.log("like status changed to ", { newLiked });
+            try {
+                const response = await api.post(`/api/Likealbums/${albums._id}/${cookies.User ? cookies.User._id : null}`, {
+                    "newLiked": newLiked,
+                    "Authority": cookies.Authority
+                });
+                const result = response.data.likeCount;
+                setLikeCounter(result.likeCount); // Ensure you are accessing the correct property
+            } catch (error) {
+                console.log(error);
+            }
+        }, 300),
+        [] // Dependency array for useCallback
+    );
 
-    const likerequest = async (newLiked) => {
-        console.log("like status changed to ", {newLiked});
-        try {
-            const response = await api.post(`/api/Likealbums/${albums._id}`, {"newLiked": newLiked,"Authority": cookies.Authority});
-            const result = response.data.likeCount;
-            console.log(result);
-            setLikeCounter(result.likecount);
-        } catch (error) {
-            console.log(error);
-        }
-    };
+       useEffect(()=>{
+            FetchUser("all",setUser);
+        },[setUser]);
 
-    const handleLikeClick = () => {
-        if(cookies.User && albums.artist ){
-            (cookies.User.name===albums.artist)?
-                        setLiked(prevLiked => {
+
+    const handleLikeClick = () => { 
+
+        if(cookies.User && albums.artist ){            
+            (cookies.User.name===albums.artist ||  user.some(item => item.name === cookies.User.name) )? 
+                            setLiked(prevLiked => {
                             const newLiked = !prevLiked;
                             console.log(newLiked);
                             likerequest(newLiked);
@@ -52,6 +58,7 @@ const AdminAlbum = ({ setsecondPage, show }) => {
                             likerequest(null);
                             return null;
                         });
+                 
         }else{
             setLiked(prevLiked => {
                 likerequest(prevLiked);
@@ -60,7 +67,7 @@ const AdminAlbum = ({ setsecondPage, show }) => {
         }
         
     };
-
+   
 
     // Fetch tracks based on user and albums
     useEffect(() => {
@@ -102,7 +109,7 @@ const AdminAlbum = ({ setsecondPage, show }) => {
             }
         };
         fetchLike();
-    }, [albums,setLikeCounter,setLiked]);
+    }, [albums,setLikeCounter,setLiked,likeCounter]);
 
 
     // Function to convert duration from milliseconds to hours, minutes, and seconds
@@ -114,6 +121,10 @@ const AdminAlbum = ({ setsecondPage, show }) => {
         return { hours, minutes, seconds };
     };
 
+
+   
+
+    if(loading) {return(<div className='w-full h-full'><Loading/></div>)}
 
     return (
         <div className='h-[90%] overflow-hidden grid grid-rows-8 grid-flow-col gap-1'>
@@ -135,7 +146,7 @@ const AdminAlbum = ({ setsecondPage, show }) => {
                         <div className='mt-5 w-auto flex items-center ' >
                            {/* CI heart is empty heart and Faheart is liked one */}
                            {  liked? <FaHeart onClick={handleLikeClick} size={24} /> : <CiHeart onClick={handleLikeClick} size={24} /> }
-                            <p className='mx-4'>{likeCounter} Likes</p>
+                            <p className='mx-4'>{likeCounter?likeCounter : null} Likes</p>
                         </div>
                     </div>
                     

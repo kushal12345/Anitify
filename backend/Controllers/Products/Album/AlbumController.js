@@ -213,8 +213,9 @@ export const LikeAlbumController = Catchasyncerror(async (req, res, next) => {
     const id = req.params.albumid;
     const likelike = req.body.newLiked;
     const Authority = req.body.Authority;
+    const userId = req.params.logid;
 
-    if(!id && !likelike){
+    if(!id && !likelike && !userId){
         console.log("Please provide details first");
         return res.status(400).json({ success: false, message: 'Please provide details on LikeAlbumController'});        
     }
@@ -225,7 +226,7 @@ export const LikeAlbumController = Catchasyncerror(async (req, res, next) => {
         return res.status(404).json({ success: false, message: 'Album not found' });
     }
 
-    
+  
     if(Authority !== 'artist' && Authority !== 'user'){
         console.log("Invalid Authority");
         return res.status(404).json({ success: false, message: 'Invalid Authority' });
@@ -241,23 +242,18 @@ export const LikeAlbumController = Catchasyncerror(async (req, res, next) => {
 
     // Check if a like record already exists for this album
     let likedAlbum = await LikeAlbum.findOne({ album: id }) || await LikeAlbum.create({ album: id, likestate: false, users: [] });
-
-    const userId = artist._id;
-
-
-  /*  if (typeof req.body.newliked !== 'boolean') {
-        console.log("not Boolean");
-        return res.status(400).json({ success: false, message: 'Invalid like status' });
-    }
-    */
-
-  
+    
+    
     // Handle like and unlike requests
     if (likelike === true) {
         // Increase the like count
         if(!likedAlbum.users.includes(userId)) {
+            console.log("passed")
             likedAlbum.likestate=likelike;
-            likedAlbum.users.push(userId);
+            if(!likedAlbum.users.includes(userId)){
+                likedAlbum.users.push(userId);
+            }
+
         }else{
             console.log("already liked");
         }
@@ -268,7 +264,9 @@ export const LikeAlbumController = Catchasyncerror(async (req, res, next) => {
             if(likedAlbum.users.includes(userId)) {
                 console.log("when disliked users is included inarray")
                 likedAlbum.likestate=likelike;
-                likedAlbum.users.pull(userId);
+                if(likedAlbum.users.includes(userId)){
+                    likedAlbum.users.pull(userId);
+                }
             }else{
                 //increase like count
                 console.log("you havenot liked yet");
@@ -287,7 +285,7 @@ export const LikeAlbumController = Catchasyncerror(async (req, res, next) => {
 export const FetchLikealbum  = Catchasyncerror(async (req,res,next)=>{
     const id = req.params.albumid;
     const loggedinID = req.params.logid;
-
+    
     if(!id){
         return res.status(404).json({ success: false, message: 'Invalid album id'})
     }
@@ -301,7 +299,7 @@ export const FetchLikealbum  = Catchasyncerror(async (req,res,next)=>{
     const abc =  album[0].users.includes(loggedinID);
     
     album.likestaus = abc;
-
+    
 
     if(!album){
         return res.status(404).json({ success: false, message: 'Album not found'})

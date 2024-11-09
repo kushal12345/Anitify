@@ -30,7 +30,7 @@ const Sidebar = ({ setSidebarOpen }) => {
       },[cookies,setFormData,setimage,formData,Userlogged])
 
     return (
-        <div className='h-[90%] text-white text-sm overflow-hidden my-2 sidebar'>
+        <div className='h-[90%] w-full text-white text-sm overflow-hidden my-2 sidebar'>
 
             <div className={`flex items-center w-full px-4 ${Userlogged?"":"hidden"}`}>
                     <div className="relative bg-white w-24 h-24 mr-4 rounded-full overflow-hidden border border-gray-300">

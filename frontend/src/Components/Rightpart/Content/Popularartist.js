@@ -22,7 +22,7 @@ if(loading) {return(<div className='w-full h-full'><Loading/></div>)}
 
     <div className='text-white h-auto py-3  w-full'>
             {/*Head part */}
-            <div className='h-1/6  grid grid-cols-6'>
+            <div className='h-auto  grid grid-cols-6'>
                 <div className=' col-start-1 py-3 col-end-5 flex px-3 items-center '>
                     <h2><span className='font-bold text-xl'>POPULAR ARTISTS</span></h2>
                 </div>
@@ -33,9 +33,9 @@ if(loading) {return(<div className='w-full h-full'><Loading/></div>)}
             </div>
             {/*body part */}
             
-            <div className='h-5/6   mb-1 w-full grid xs:grid-cols-3 xs:grid-rows-2 sm:grid-cols-3 sm:grid-rows-2 md:grid-cols-6 md:grid-rows-1 lg:grid-cols-6 lg:grid-rows-1 xl:grid-cols-6 xl:grid-rows-1 '>
+            <div className='h-auto   mb-1 w-full grid xs:grid-cols-3 xs:grid-rows-2 sm:grid-cols-3 sm:grid-rows-2 md:grid-cols-6 md:grid-rows-1 lg:grid-cols-6 lg:grid-rows-1 xl:grid-cols-6 xl:grid-rows-1 '>
               {
-                formData.slice(0, 6).map((data, index) => {
+                formData.map((data, index) => {
                   return (
                     <div className='w-full h-auto group' key={index}>
                       {/* image and text content */}
