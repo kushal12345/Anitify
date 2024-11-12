@@ -10,11 +10,22 @@ Frontend
 8. logout after x time without any activity
 9. when i refresh page i get loggedout
 10. phone responsive 
-11. like issue
-12  while login  email uppercase and lowercase matters fix it
+12  while login email uppercase and lowercase matters fix it
+13 when user logges in and selects profile picture and then upgrades account to artist then old image is removed
 
 
 features
 ==============
 1. Search for Friend, Add Friend
 2. Chat with Friends Listen to music together
+3. liked albums seperately
+
+
+what to do next
+=================
+1. implement Reponsiveness for android
+2. implement Playlist (CRUD)
+3. implement queue model
+
+
+

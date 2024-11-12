@@ -33,8 +33,8 @@ if(loading) {return(<div className='w-full h-full'><Loading/></div>)}
             </div>
             {/*body part */}
             
-            <div className='h-auto   mb-1 w-full grid xs:grid-cols-3 xs:grid-rows-2 sm:grid-cols-3 sm:grid-rows-2 md:grid-cols-6 md:grid-rows-1 lg:grid-cols-6 lg:grid-rows-1 xl:grid-cols-6 xl:grid-rows-1 '>
-              {
+            <div className=' h-auto mb-1 w-full grid xs:grid-cols-3 xs:grid-rows-1 sm:grid-cols-3 sm:grid-rows-1 md:grid-cols-6 md:grid-rows-1 lg:grid-cols-6 lg:grid-rows-1 xl:grid-cols-6 xl:grid-rows-1 '>
+            {
                 formData.map((data, index) => {
                   return (
                     <div className='w-full h-auto group' key={index}>
@@ -55,11 +55,10 @@ if(loading) {return(<div className='w-full h-full'><Loading/></div>)}
                     </div>
                   );
                 })
-              }
+              }                             
             </div>
-
-        </div>
-  )
-}
+            </div>
+      )
+    }
 
 export default Popularartist

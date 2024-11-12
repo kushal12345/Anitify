@@ -16,7 +16,7 @@ const ArtistSidebar = () => {
     const [loading, setLoading] = useState(false);
     const [formData,setformData] = useState([]);
     const [finalalbum,setfinalalbum] = useState([]);
-
+    
     useEffect(() => {
         setLoading(true);
         fetchAlbums(cookies.User._id, setformData, setAlbums)
@@ -28,7 +28,7 @@ const ArtistSidebar = () => {
         //setfinalalbum([albums, artistName]);
         setfinalalbum(formData.result);
       }, [formData]);
-  
+      
 
     
   return (

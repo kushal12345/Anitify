@@ -14,7 +14,8 @@ const playlistSchema = new mongoose.Schema({
     createdBy: { 
         type: mongoose.Schema.Types.ObjectId, 
         required: true, 
-        ref: 'User' }, // Can refer to both User and Artist
+        ref: 'User' 
+    }, // Can refer to both User and Artist
 
     creatorType: { 
         type: String, 

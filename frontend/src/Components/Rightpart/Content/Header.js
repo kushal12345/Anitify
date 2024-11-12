@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { LuChevronRightCircle } from "react-icons/lu";
 import { Link } from 'react-router-dom';
 import { Button } from '@mui/material'
@@ -9,9 +9,17 @@ import { useContext } from 'react';
 
 const Header = () => {
 
-    const {setSidebarOpen} = useContext(AuthContext);
+    const {setSidebarOpen,cookies,logout} = useContext(AuthContext);
 
-
+   useEffect(() => {
+        // Check if the User cookie exists and has a valid Token
+        if (cookies.User && typeof cookies.User === 'string') {
+            const user = JSON.parse(cookies.User);
+            if (user && user.Token) {
+                logout();
+            }
+        }
+    }, [cookies, logout]);
 
   return (
     <div className=' h-[8vh] text-white  w-full bg-white bg-opacity-10 backdrop-blur-md grid grid-cols-8'>

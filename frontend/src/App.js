@@ -11,6 +11,7 @@ import { useContext } from 'react';
 import AuthContext from './Components/Hooks/Auth/AuthContext.js';
 import Profile from './Components/Profile/Profile.js';
 
+
 const App = () => {
   const {logout} = useContext(AuthContext);
 
@@ -22,6 +23,8 @@ const App = () => {
     const cleanupLocalStorage = () => {
       logout();
     };
+
+
     window.addEventListener('beforeunload', cleanupLocalStorage);
     window.addEventListener("unload", cleanupLocalStorage);
     return () => {

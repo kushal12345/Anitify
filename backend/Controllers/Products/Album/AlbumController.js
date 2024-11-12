@@ -137,6 +137,11 @@ export const albumfetch = Catchasyncerror(async (req, res, next) => {
     try {
         if (id === 'all') {
             const albums = await Album.find().populate('artist', 'name'); // Populate only the artist's name
+
+
+            if (!albums || albums.length === 0) {
+                return res.status(404).json({ success: false, message: 'No albums found' });
+            }
         
             // Transform the albums to include only the necessary fields
             const albumsWithArtists = albums.map(album => {

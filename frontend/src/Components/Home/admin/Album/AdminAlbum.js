@@ -11,6 +11,8 @@ import Loading from '../../../Loading/Loading';
 import FetchUser from '../../../Functions/Fetchuser';
 import debounce from '../../../../Middleware/debounce';
 import { useCallback } from 'react';
+import usePagination from '../../../Pagination/Pagination';
+
 
 const AdminAlbum = ({ setsecondPage, show }) => {
     const { cookies } = useContext(AuthContext);
@@ -20,6 +22,16 @@ const AdminAlbum = ({ setsecondPage, show }) => {
     const [likeCounter, setLikeCounter] = useState(0); 
     const [loading, setloading] = useState(false);
     const [user,setUser] = useState([]);
+
+    //for pagination
+    const itemsPerPage = 10;
+    const {
+        currentItems,
+        totalPages,
+        currentPage,
+        handlePageChange,
+    } = usePagination(tracks, itemsPerPage);
+    //end pagination
 
     const likerequest = useCallback(
         debounce(async (newLiked) => {
@@ -158,9 +170,9 @@ const AdminAlbum = ({ setsecondPage, show }) => {
                     <h2 className="text-5xl font-semibold tracking-tight">Songs</h2>
                     <p className="text-sm text-muted-foreground">A list of songs from the album.</p>
                 </div>
-                <div className="overflow-y-scroll [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] h-4/5 pr-4">
+                <div className="overflow-y-scroll [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] h-3/5 pr-4">
                     <div className="space-y-2">
-                        {tracks.map((track, index) => {
+                        {currentItems.map((track, index) => {
                             const { hours, minutes, seconds } = convertDuration(track.duration || 0); // Use track.duration directly
                             return (
                                 <div key={index} className="flex items-center gap-4 cursor-pointer">
@@ -176,6 +188,18 @@ const AdminAlbum = ({ setsecondPage, show }) => {
                             );
                         })}
                     </div>
+                </div>
+                <div className="flex justify-center mt-4">
+                    {Array.from({ length: totalPages }, (_, index) => (
+                        <button
+                            key={index}
+                            onClick={() => handlePageChange(index + 1)}
+                            disabled={currentPage === index + 1}
+                            className={`mx-1 px-3 py-1 rounded ${currentPage === index + 1 ? 'bg-blue-500 text-white' : 'bg-gray-200 text-black'}`}
+                        >
+                            {index + 1}
+                        </button>
+                    ))}
                 </div>
             </div>
         </div>

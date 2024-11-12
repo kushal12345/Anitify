@@ -30,7 +30,7 @@ const Sidebar = ({ setSidebarOpen }) => {
       },[cookies,setFormData,setimage,formData,Userlogged])
 
     return (
-        <div className='h-[90%] w-full text-white text-sm overflow-hidden my-2 sidebar'>
+        <div className='h-[90%] w-full text-white text-sm overflow-hidden  sidebar'>
 
             <div className={`flex items-center w-full px-4 ${Userlogged?"":"hidden"}`}>
                     <div className="relative bg-white w-24 h-24 mr-4 rounded-full overflow-hidden border border-gray-300">
@@ -59,13 +59,13 @@ const Sidebar = ({ setSidebarOpen }) => {
         }    
         
         <div className='px-2 rounded-xl h-screen text-white  h-full '>
-                    <div className=" flex pr-4 justify-between mb-4 items-center gap-4">
+                    <div className=" flex pr-4 justify-between  items-center gap-4">
                         <div className="flex gap-2 items-center">
                             <BiLibrary className="font-bold text-[1.4rem]" />
                             <span className='font-bold text-lg'>Your library</span>
                         </div>
-                        <button className="rounded-2xl mx-2 px-1 py-1 bg-accent-blue hover:shadow-md hover:bg-black/25 rounded-[50%] p-2">
-                            <FaPlus className="font-bold text-[1.0rem]" />
+                        <button className="rounded-2xl mx-2 px-1 bg-accent-blue hover:shadow-md hover:bg-black/25 aspect-square rounded-[50%]">
+                            <FaPlus className="font-bold text-[0.8rem]" />
                         </button>
                     </div>
                     {

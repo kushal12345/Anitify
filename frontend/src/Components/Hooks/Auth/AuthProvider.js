@@ -14,8 +14,10 @@ const AuthProvider = ({children}) => {
         return datafetch ? true : false;
     })
 
+
+  
+
     const login = (data) => {
-        console.log(data);
         localStorage.setItem('User', JSON.stringify(data.user));
         localStorage.setItem('Authority', JSON.stringify(data.authority));
         localStorage.setItem('Token', data.token);
