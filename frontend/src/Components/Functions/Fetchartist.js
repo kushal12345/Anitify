@@ -2,7 +2,7 @@ import api from "../../Services/api";
 
 const FetchArtist = async(userId, setdata) => {
     try {
-       await api.get(`/api/artist/${userId}`)
+       await api.get(`/api/artist/${userId?userId:null}`)
         .then(response => {
           const data = response.data.result;
            setdata(data);

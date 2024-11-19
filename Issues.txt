@@ -12,7 +12,11 @@ Frontend
 10. phone responsive 
 12  while login email uppercase and lowercase matters fix it
 13 when user logges in and selects profile picture and then upgrades account to artist then old image is removed
-
+14 change your albums to playlist in sidebar and option to create a new playlist in sidebar
+15. /login i cannot back to home
+16 need to add like to tracks
+17 recommended songs based on likes and user's personal interest 
+18 
 
 features
 ==============
@@ -29,3 +33,6 @@ what to do next
 
 
 
+
+
+https://www.boomplay.com/songs/108762395

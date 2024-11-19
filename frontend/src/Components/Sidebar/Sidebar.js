@@ -10,7 +10,7 @@ import { RxCross2 } from "react-icons/rx";
 import FetchArtist from '../Functions/Fetchartist';
 import { baseURL } from '../../Services/config';
 
-const Sidebar = ({ setSidebarOpen }) => {
+const Sidebar = ({ setSidebarOpen,setplaylistpage }) => {
     const {cookies} = useContext(AuthContext);
     const Userlogged = cookies.User 
     const [image,setimage] = useState("");
@@ -33,7 +33,7 @@ const Sidebar = ({ setSidebarOpen }) => {
         <div className='h-[90%] w-full text-white text-sm overflow-hidden  sidebar'>
 
             <div className={`flex items-center w-full px-4 ${Userlogged?"":"hidden"}`}>
-                    <div className="relative bg-white w-24 h-24 mr-4 rounded-full overflow-hidden border border-gray-300">
+                    <div className="relative my-1 bg-white w-24 h-24 mr-4 rounded-full overflow-hidden border border-gray-300">
                         <img 
                             src={image ? `${baseURL}/${cookies.User.name}/profile/${image}` : "https://placehold.co/50x50"} 
                             alt="User  profile" 
@@ -62,7 +62,7 @@ const Sidebar = ({ setSidebarOpen }) => {
                     <div className=" flex pr-4 justify-between  items-center gap-4">
                         <div className="flex gap-2 items-center">
                             <BiLibrary className="font-bold text-[1.4rem]" />
-                            <span className='font-bold text-lg'>Your library</span>
+                            <span className='font-bold my-3 text-lg'>Your library</span>
                         </div>
                         <button className="rounded-2xl mx-2 px-1 bg-accent-blue hover:shadow-md hover:bg-black/25 aspect-square rounded-[50%]">
                             <FaPlus className="font-bold text-[0.8rem]" />
@@ -71,13 +71,13 @@ const Sidebar = ({ setSidebarOpen }) => {
                     {
             (Userlogged !== undefined)?
             <>
-                <LoggedLibrary/>
+                <LoggedLibrary  setplaylistpage={setplaylistpage}/>
             </>
 
             :
 
             <>
-                <Library/>
+                <Library setplaylistpage={setplaylistpage}/>
             </>
         }    
         </div>

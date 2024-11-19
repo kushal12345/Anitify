@@ -86,7 +86,7 @@ if (error) return <div>{error}</div>;
       <button className="glass bg-opacity-40 text-white px-4 py-2 rounded-full">Artist Insights</button>
     </div>
 
-    <h2 className={`text-2xl my-8 font-bold mb-4 `}>Your Total Albums</h2>
+    <h2 className={`text-2xl my-8 font-bold mb-4 `}> {finalalbumaa && finalalbumaa.length>=1 ? 'Your Total Albums':""}</h2>
     <div className="grid grid-cols-4 gap-4 my-5">
     {
             finalalbumaa && finalalbumaa.slice(0, 4).map((album, index)=>{

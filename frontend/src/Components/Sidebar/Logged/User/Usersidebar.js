@@ -4,8 +4,10 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { BsPinAngleFill } from "react-icons/bs";
 import { useContext } from 'react';
 import AuthContext from '../../../Hooks/Auth/AuthContext';
+import { MdAdd } from "react-icons/md";
+import { FaThumbsUp } from "react-icons/fa6";
 
-const Usersidebar = () => {
+const Usersidebar = ({setplaylistpage}) => {
     const {cookies} = useContext(AuthContext);
 
     const Scroll = (e) => {
@@ -68,10 +70,24 @@ const Usersidebar = () => {
                             <GiHamburgerMenu className=" mx-2 font-bold text-[1.0rem]" />
                         </div>
             </div> 
+
+                        {/* Liked playlist */}
+                    <div className='bg-white my-1 bg-opacity-20 rounded-sm'>
+                        <div  className=' text-sm flex items-center justify-center w-full h-auto overflow-hidden hover:bg-white hover:bg-opacity-35 hover:rounded-sm hover:cursor-pointer'>
+                            {/* Image part  */}
+                                <div className='py-1 w-1/4 h-full'>
+                                    <FaThumbsUp size={32}/>
+                                </div> 
+                                {/* Playlist Details */}
+                                <div className='w-2/3 font-bold'>
+                                    Liked Playlist
+                                </div> 
+                        </div> 
+                    </div>  
             
             {/* Playlist part  */}
                         {
-                            Array(8).fill(0).map((_, index) => {
+                            Array(2).fill(0).map((_, index) => {
                                 return (
                                 <div key={index} className='flex text-[1rem]  w-full h-auto hover:bg-white hover:bg-opacity-35'>
                                     {/* Image part  */}
@@ -92,7 +108,20 @@ const Usersidebar = () => {
                                 </div>  
                                 )
                             })
-                            }
+                        }
+                        {/* create playlist */}
+                        <div className='bg-white my-1 bg-opacity-20 rounded-lg'>
+                            <div  className=' text-sm flex items-center justify-center w-full h-auto overflow-hidden hover:bg-white hover:bg-opacity-35 hover:rounded-lg hover:cursor-pointer'>
+                                {/* Image part  */}
+                                    <div className='w-1/4 h-full'>
+                                        <MdAdd size={28}/>
+                                    </div> 
+                                    {/* Playlist Details */}
+                                    <div className='w-2/3 font-bold' onClick={()=>{setplaylistpage(true)}}>
+                                        Create New Playlist
+                                    </div> 
+                            </div> 
+                        </div>
         </div>
     </div>
   )

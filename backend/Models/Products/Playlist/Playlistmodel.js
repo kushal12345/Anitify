@@ -3,14 +3,17 @@ import mongoose from "mongoose";
 const playlistSchema = new mongoose.Schema({
     name: { 
         type: String, 
-        required: true 
     },
 
     tracks: [{ 
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'Track' 
     }],
-
+    
+    image:{
+        type: String
+    },
+    
     createdBy: { 
         type: mongoose.Schema.Types.ObjectId, 
         required: true, 
@@ -20,7 +23,8 @@ const playlistSchema = new mongoose.Schema({
     creatorType: { 
         type: String, 
         enum: ['user', 'artist'], 
-        required: true } // Indicates if creator is a user or artist
+        required: true 
+    } // Indicates if creator is a user or artist
 
 }, 
 { 

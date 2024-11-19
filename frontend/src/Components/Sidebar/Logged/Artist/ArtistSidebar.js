@@ -8,8 +8,12 @@ import api from '../../../../Services/api';
 import { baseURL } from '../../../../Services/config';
 import FetchArtist from '../../../Functions/Fetchartist';
 import fetchAlbums from '../../../Functions/Fetchalbums';
+import { MdAdd } from "react-icons/md";
+import { FaThumbsUp } from "react-icons/fa6";
 
-const ArtistSidebar = () => {
+
+
+const ArtistSidebar = ({setplaylistpage}) => {
 
     const {cookies} = useContext(AuthContext)
     const [albums,setAlbums] = useState([]);
@@ -61,12 +65,26 @@ const ArtistSidebar = () => {
                     <div className="flex pr-4 justify-between mb-4 items-center gap-4">
                         <div className="flex gap-2 items-center">
                             <IoAlbumsOutline className="font-bold text-[1.4rem]" />
-                            <span className='font-bold text-lg'>Your Albums</span>
+                            <span className='font-bold text-lg'>Your Playlist</span>
                         </div>
                         <div>
                             <span className='text-sm'>more</span>
                         </div>
                     </div>
+
+         {/* Liked playlist */}
+         <div className='bg-white my-1 bg-opacity-20 rounded-sm'>
+                    <div  className=' text-sm flex items-center justify-center w-full h-auto overflow-hidden hover:bg-white hover:bg-opacity-35 hover:rounded-sm hover:cursor-pointer'>
+                        {/* Image part  */}
+                            <div className='py-1 w-1/4 h-full'>
+                                <FaThumbsUp size={32}/>
+                            </div> 
+                            {/* Playlist Details */}
+                            <div className='w-2/3 font-bold'>
+                                Liked Playlist
+                            </div> 
+                    </div> 
+                </div>           
         {
             finalalbum && finalalbum.map((album, index) => {
             if (!album || !album.title || !album.image) {
@@ -97,6 +115,21 @@ const ArtistSidebar = () => {
                 )
             })
         }
+
+                {/* create playlist */}
+                <div className='bg-white my-1 bg-opacity-20 rounded-lg'>
+                    <div  className=' text-sm flex items-center justify-center w-full h-auto overflow-hidden hover:bg-white hover:bg-opacity-35 hover:rounded-lg hover:cursor-pointer'>
+                        {/* Image part  */}
+                            <div className='w-1/4 h-full'>
+                                <MdAdd size={28}/>
+                            </div> 
+                            {/* Playlist Details */}
+                            <div className='w-2/3 font-bold' onClick={()=>{setplaylistpage(true)}}>
+                                Create New Playlist
+                            </div> 
+                    </div> 
+                </div>
+                
         </div>
     </div>
   )
