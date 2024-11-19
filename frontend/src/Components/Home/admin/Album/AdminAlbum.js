@@ -20,7 +20,7 @@ const AdminAlbum = ({ setsecondPage, show }) => {
     const [albums, setAlbums] = useState(show ? show : null);
     const [liked, setLiked] = useState(false);
     const [trackliked, settrackLiked] = useState({});
-    const [tracklikeCounter, settrackLikeCounter] = useState(null); 
+    const [tracklikeCounter, settrackLikeCounter] = useState({}); 
     const [likeCounter, setLikeCounter] = useState(0); 
     const [loading, setloading] = useState(false);
     const [user, setUser ] = useState([]);
@@ -29,14 +29,10 @@ const AdminAlbum = ({ setsecondPage, show }) => {
     const itemsPerPage = 10;
     const { currentItems, totalPages, currentPage, handlePageChange } = usePagination(tracks, itemsPerPage);
 
-    const trackcounter = (id) => {
-        // Find the track in tracklikeCounter array
-        const track = tracklikeCounter ? tracklikeCounter.find(track => track._id === id):null;
-        
-        // If the track is found, return the number of likes; otherwise, return 0
-        //console.log(`likes for ${track.name}`,track.users.length);
-        return track ? track.users.length : 0;
-    };
+    const loggedaccess = () => {
+        return cookies.User && albums.artist && 
+               (cookies.User.name === albums.artist || user.some(item => item.name === cookies.User.name));
+    }
 
     const likerequest = async (newLiked, id, likedata) => {
             try {
@@ -48,7 +44,6 @@ const AdminAlbum = ({ setsecondPage, show }) => {
                 if (likedata === 'album') {
                     setLikeCounter(result.users.length);
                 } else if (likedata === 'track') {
-                    console.log(result);
                     settrackLikeCounter(prevState => ({
                         ...prevState,
                         [id]: result.users.length // Update only the specific track's like count
@@ -66,13 +61,13 @@ const AdminAlbum = ({ setsecondPage, show }) => {
     const handleLike = async(likedata, id) => {
         if (cookies.User && albums.artist) {
             if (cookies.User.name === albums.artist || user.some(item => item.name === cookies.User.name)) {
-                if (likedata === 'album') {
+                if (likedata === 'album' && loggedaccess()) {
                     setLiked(prevState => {
                         const newState = !prevState;
                         likerequest(newState, id, likedata);
                         return newState;
                     });
-                } else if (likedata === 'track') {
+                } else if (likedata === 'track' && !loggedaccess()) {
                     settrackLiked(prevState => ({
                         ...prevState,
                         [id]: !prevState[id],
@@ -83,7 +78,7 @@ const AdminAlbum = ({ setsecondPage, show }) => {
             } else {
                 likerequest(null, id, likedata);
                 if (likedata === 'album') {
-                    setLiked(null);
+                    setLiked(false);
                 }
             }
         } else {
@@ -134,13 +129,15 @@ const AdminAlbum = ({ setsecondPage, show }) => {
                         }
                             
                             if (param === 'album') {
-                            setLiked(likes[0].likestate);
+                            setLiked(loggedaccess() ? likes[0].likestate: false);
                             setLikeCounter(likes[0].users.length);
                         } else if (param === 'track') {
-                            settrackLiked(prevState => ({
-                                ...prevState,
-                                ...newTrackLiked // Update state with new liked states
-                            }));
+                            loggedaccess()?
+                                settrackLiked(prevState => ({
+                                    ...prevState,
+                                    ...newTrackLiked // Update state with new liked states
+                                })):
+                                settrackLiked({});
                             settrackLikeCounter(prevState => ({
                                 ...prevState,
                                 ...newTrackCounter //update state with new like track users array to find length as a counter
@@ -149,12 +146,12 @@ const AdminAlbum = ({ setsecondPage, show }) => {
                         }
                     } else {
                         // Handle case where likes array is empty
-                        if (param === 'album') {
+                        if (param === 'album' && !loggedaccess()) {
                             setLiked(false);
                             setLikeCounter(0);
-                        } else if (param === 'track') {
+                        } else if (param === 'track' && !loggedaccess()) {
                             settrackLiked({});
-                            settrackLikeCounter([]);
+                            settrackLikeCounter({});
                         }
                     }
                 } catch (error) {
@@ -173,7 +170,7 @@ const AdminAlbum = ({ setsecondPage, show }) => {
         };
 
         fetchLikesForTracks();
-        }, [albums, tracks, setLikeCounter, setLiked,trackcounter,trackliked, settrackLiked, settrackLikeCounter]);
+        }, [albums, tracks, setLikeCounter, setLiked,tracklikeCounter,trackliked, settrackLiked, settrackLikeCounter]);
 
     // Function to convert duration from milliseconds to hours, minutes, and seconds
     const convertDuration = (milliseconds) => {
