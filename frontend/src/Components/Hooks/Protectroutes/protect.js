@@ -12,9 +12,9 @@ export const ProtectRoutes = ({ children }) => {
   const inactivityTimeLimit = 300000; // 5 minutes (300,000 ms)
 
   useEffect(() => {
-    console.log(cookies.User);
+    //console.log(cookies.User);
     if (!cookies.User) {
-      console.log("No cookies found");
+      //console.log("No cookies found");
       setIsLoading(false);
       return;
     }
@@ -22,7 +22,7 @@ export const ProtectRoutes = ({ children }) => {
     // Check authentication
     api.post(`/api/protected`, { token: localStorage.getItem('Token'), user: cookies.User })
       .then((res) => {
-        console.log(res.data.success);
+        //console.log(res.data.success);
         if (res.data.success === true) {
           setIsAuthenticated(true);
         } else {
@@ -31,7 +31,7 @@ export const ProtectRoutes = ({ children }) => {
         }
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
         setIsAuthenticated(false);
         logout();
       })

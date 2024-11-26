@@ -44,16 +44,16 @@ const Playlisthome = ({setplaylistpage}) => {
         try {
            api.post(`/api/playlist/${cookies.User._id}`,formData)
            .then((response) => {
-                console.log(response);
+                //console.log(response);
             })
             .catch((error)=>{
-                console.log(error);
+                //console.log(error);
             })
             .finally(()=>{
 
             })
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
     },[])
 

@@ -27,15 +27,7 @@ export const AlbumCreate = Catchasyncerror(async (req, res, next) => {
         return res.status(400).json({ success: false, message: "Album cover file is required." });
     }
 
-    console.log('Received data:', {
-        username: req.params.name,
-        albumTitle,
-        artist,
-        genre,
-        selectedDate,
-        musicFiles,
-        albumCover: albumCoverFile
-    });
+    
 
     // Check if all required fields are present
     if (!name || !albumTitle || !artist || !genre || !selectedDate || musicFiles.length === 0 || !albumCoverFile) {
@@ -45,7 +37,7 @@ export const AlbumCreate = Catchasyncerror(async (req, res, next) => {
     // Check if the album already exists
     const album = await Album.findOne({ title: albumTitle });
     if (album) {
-        console.log(`${albumTitle} already exists`);
+        //console.log(`${albumTitle} already exists`);
         return res.status(400).json({ message: `${albumTitle} already exists` });
     }
 
@@ -118,7 +110,7 @@ export const AlbumCreate = Catchasyncerror(async (req, res, next) => {
         });
 
     } catch (error) {
-        console.error(error);
+        //console.error(error);
         return res.status(500).json({ success: false, message: "Server error" });
     }
 });
@@ -177,11 +169,11 @@ export const albumfetch = Catchasyncerror(async (req, res, next) => {
                     };
                 });
                 
-                console.log(albumsWithArtists);
+                //console.log(albumsWithArtists);
                 return res.status(200).json({ success: true, result: albumsWithArtists });
         }
     } catch (error) {
-        console.error(error);
+        //console.error(error);
         return res.status(500).json({ success: false, message: `Server error: ${error.message}` });
     }
 });
@@ -203,7 +195,7 @@ export const trackfetch = Catchasyncerror(async (req, res, next) => {
         return res.status(200).json({ success: true, result: Tracks });
       
     } catch (error) {
-        console.error(error);
+        //console.error(error);
         return res.status(500).json({ success: false, message: `Server error: ${error.message}` });
     }
     
@@ -222,18 +214,18 @@ export const LikeAlbumController = Catchasyncerror(async (req, res, next) => {
     const Authority = req.body.Authority;
     const userId = req.params.logid;
     
-    console.log("id",id);
-    console.log("likelike",likelike);
-    console.log("likedata",likedata);
-    console.log("Authority",Authority);
-    console.log("userId",userId);
+    //console.log("id",id);
+    //console.log("likelike",likelike);
+    //console.log("likedata",likedata);
+    //console.log("Authority",Authority);
+    //console.log("userId",userId);
 
 
 
     let dbdata,dblikedata,dbquery,artist;
     
     if(!id && !likelike && !userId && !likedata){
-        console.log("Please provide details first");
+        //console.log("Please provide details first");
         return res.status(400).json({ success: false, message: 'Please provide details on LikeAlbumController'});        
     }
     if(likedata==='album'){
@@ -243,7 +235,7 @@ export const LikeAlbumController = Catchasyncerror(async (req, res, next) => {
         artist = await Artist.findOne({albums:id});
 
         if(!artist) {
-            console.log("No user found");
+            //console.log("No user found");
             return res.status(404).json({ success: false, message: 'User not found'})
         }
 
@@ -256,7 +248,7 @@ export const LikeAlbumController = Catchasyncerror(async (req, res, next) => {
         artist = await Artist.find({albums:albumId});
 
         if(!artist) {
-            console.log("No user found");
+            //console.log("No user found");
             return res.status(404).json({ success: false, message: 'User not found'})
         }
 
@@ -271,13 +263,13 @@ export const LikeAlbumController = Catchasyncerror(async (req, res, next) => {
     // Check if the album exists
     const album = await dbdata.findById(id);
     if (!album) {
-        console.log("No album found");
+        //console.log("No album found");
         return res.status(404).json({ success: false, message: 'Album not found' });
     }
 
   
     if(Authority !== 'artist' && Authority !== 'user'){
-        console.log("Invalid Authority");
+        //console.log("Invalid Authority");
         return res.status(404).json({ success: false, message: 'Invalid Authority' });
     }
     
@@ -299,85 +291,78 @@ export const LikeAlbumController = Catchasyncerror(async (req, res, next) => {
     if (likelike === true) {
         // Increase the like count
         if(!likedAlbum.users.includes(userId)) {
-            console.log("passed")
+            //console.log("passed")
             likedAlbum.likestate=likelike;
             likedAlbum.users.push(userId);
 
         }else{
-            console.log("already liked");
+            //console.log("already liked");
         }
      
     } else if (likelike === false) {
         // Decrease the like count  
 
             if(likedAlbum.users.includes(userId)) {
-                console.log("when disliked users is included inarray")
+                //console.log("when disliked users is included inarray")
                 likedAlbum.likestate=likelike;
                 likedAlbum.users.pull(userId);
             }else{
                 //increase like count
-                console.log("you havenot liked yet");
+                //console.log("you havenot liked yet");
             }
 
     } else {
         return res.status(400).json({ success: false, message: 'Invalid like status' });
     }
     await likedAlbum.save();
-    console.log(`Updated like count for ${likedata} ${id}:`, likedAlbum.users.length);
-    console.log(likedAlbum);
+    //console.log(`Updated like count for ${likedata} ${id}:`, likedAlbum.users.length);
     return res.status(200).json({ success: true, likeCount: likedAlbum });
     
 });
 
-
-export const FetchLikealbum  = Catchasyncerror(async (req,res,next)=>{
+export const FetchLikealbum = Catchasyncerror(async (req, res, next) => {
     const id = req.params.albumid;
     const loggedinID = req.params.logid;
     const data = req.params.data;
-    
-    if(!id){
-        return res.status(404).json({ success: false, message: 'Invalid album id'})
+
+    if (!id) {
+        return res.status(400).json({ success: false, message: 'Invalid album id' });
     }
 
-    if(!data){
-        return res.status(404).json({ success: false, message: 'Invalid data'});
+    if (!data) {
+        return res.status(400).json({ success: false, message: 'Invalid data' });
     }
 
-    
-    if(data==='album'){
-            const album = await LikeAlbum.find({album: id});
-        
-            if (album.length === 0) {
-                return res.status(404).json({ success: false, message: 'Album not found' });
-            }
-            
-            const abc =  album[0].users.includes(loggedinID);
-            
-            album.likestaus = abc;
-            
+    if (data === 'album') {
+        let album = await LikeAlbum.find({ album: id });
 
-            if(!album){
-                return res.status(404).json({ success: false, message: 'Album not found'})
-            }
-            if (album.length === 0) {
-                return res.status(404).json({ success: false, message: 'Album not found' });
-            }
-            
-            return res.status(200).json({ success: true, result: album, likestatus: abc});
+        if (album.length === 0) {
+            album = await LikeAlbum.create({ album: id, likestate: false, users: [] });
+        }
 
-    }else if(data==='track'){
-  
-        let album;
-            album = await Liketracks.find().populate('track','title') || await Liketracks.create({ track: id, likestate: false, users: [] }) ;
+        const artist = await Album.findOne({ "_id": id }).populate('artist', 'name');
+        if (!artist) {
+            return res.status(404).json({ success: false, message: 'Artist not found' });
+        }
 
-            if(!album){
-                return res.status(404).json({ success: false, message: 'Track not found'});
-            }
-            const abc =  album && album.length > 0 ? album[0].users.includes(loggedinID):null;   
-            album.likestatus = abc;
-            
+        const isLiked = album.length > 0 ? album[0].users.includes(loggedinID) : false;
+        album.likestatus = isLiked;
 
-            return res.status(200).json({ success: true, result: album, likestatus: abc});
+        return res.status(200).json({ success: true, result: album, likestatus: isLiked, artist: artist.artist ? artist._id : null });
+
+    } else if (data === 'track') {
+        let album = await Liketracks.find().populate('track', 'title');
+
+        if (album.length === 0) {
+            album = await Liketracks.create({ track: id, likestate: false, users: [] });
+        }
+
+        const al = await Album.findOne({ track: id });
+        const artist = await Artist.findOne({ album: al });
+
+        const isLiked = album.length > 0 ? album[0].users.includes(loggedinID) : false;
+        album.likestatus = isLiked;
+
+        return res.status(200).json({ success: true, result: album, likestatus: isLiked, artist: artist.artist ? artist._id : null });
     }
-
-})
+});

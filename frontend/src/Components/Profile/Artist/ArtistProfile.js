@@ -49,7 +49,7 @@ const ArtistProfile = () => {
       setavatar(e.target.files[0]);
     } else {
       // Reject other file types
-      console.error('Only JPG or JPEG files are allowed');
+      //console.error('Only JPG or JPEG files are allowed');
     }
 
   }
@@ -78,23 +78,23 @@ const ArtistProfile = () => {
             }
           })
           .catch((error)=>{
-            console.log(error);
+            //console.log(error);
             setLoading(false)
           })
           .finally(() =>{
             setLoading(false)
           })
         } catch (error) {
-          console.log(error);
+          //console.log(error);
           setLoading(false);
         }
         
       } catch (error) {
-        console.log(error);
+        //console.log(error);
         setLoading(false);
       }
     }else{
-      console.log("Please Input all Data");
+      //console.log("Please Input all Data");
       setLoading(false);
     }
     

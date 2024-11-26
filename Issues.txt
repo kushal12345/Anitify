@@ -16,7 +16,12 @@ Frontend
 15. /login i cannot back to home
 16 need to add like to tracks
 17 recommended songs based on likes and user's personal interest 
-18 
+18 multiple users added on likealbum users array
+(priority)
+18 ERR_INSUFFICIENT_RESOURCES
+         http://localhost:9000/api/likestatus/album/67288a0db19c22dca21891a3/672887c6b19c22dca2188062 net::ERR_INSUFFICIENT_RESOURCES
+
+                cause: when i visit some albums or tracks which is not yet added in likealbums or liketrack database then this error is caused
 
 features
 ==============
@@ -32,7 +37,7 @@ what to do next
 3. implement queue model
 
 
-
-
+resources
+=============
 
 https://www.boomplay.com/songs/108762395

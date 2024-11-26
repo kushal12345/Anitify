@@ -25,7 +25,7 @@ export const ArtistRegister = Catchasyncerror(async (req, res, next) => {
                 });
                 return res.status(200).json({ success: true, message: "Successfully Registered as Artist" });
             } catch (error) {
-                console.error("During Registration artist:", error);
+                //console.error("During Registration artist:", error);
                 return res.status(500).json({ success: false, message: "Something went wrong during registration." });
             }            
         } else {
@@ -33,7 +33,7 @@ export const ArtistRegister = Catchasyncerror(async (req, res, next) => {
         }
 
     } catch (error) {
-        console.error(error);
+        //console.error(error);
         logger(error);
         res.status(500).json({ success: false, message: "Unknown error occurred during registration." });    
     }
@@ -63,7 +63,7 @@ export const ArtistUpdate = Catchasyncerror(async (req, res, next) => {
                         return res.status(200).json({ success: true, message: "Successfully Updated Artist", artist: updatedArtist });
                     }
                 } catch (error) {
-                    console.error("During Updating artist:", error);
+                    //console.error("During Updating artist:", error);
                     return res.status(500).json({ success: false, message: "Something went wrong during update." });
                 }            
             } else {
@@ -84,18 +84,18 @@ export const ArtistUpdate = Catchasyncerror(async (req, res, next) => {
                         return res.status(200).json({ success: true, message: "Successfully Updated Artist", artist: updatedArtist });
                     }
                 } catch (error) {
-                    console.error("During Updating artist:", error);
+                    //console.error("During Updating artist:", error);
                     return res.status(500).json({ success: false, message: "Something went wrong during update." });
                 }            
             } else {
-                console.log("No user found");
+                //console.log("No user found");
                 return res.status(400).json({ success: false, message: "You are not registered in Aurora. Please register first." });
             } 
         }
 
 
     } catch (error) {
-        console.error(error);
+        //console.error(error);
         logger(error);
         res.status(500).json({ success: false, message: "Unknown error occurred during update." });    
     }
@@ -109,7 +109,7 @@ export const Artistlogin = Catchasyncerror(async (req, res, next) => {
     try {
         // Implement login logic here
     } catch (error) {
-        console.error(error);
+        //console.error(error);
         logger(error);
         res.status(500).json({ success: false, message: "Unknown error occurred during login." });
     }
@@ -139,7 +139,7 @@ export const Artistfetch = Catchasyncerror(async (req, res, next) => {
 
         return res.status(200).json({ success: true, result: artist });
     } catch (error) {
-        console.error(error);
+        //console.error(error);
         logger(error);
         res.status(500).json({ success: false, message: "Unknown error occurred during fetching artist." });
     }
@@ -169,7 +169,7 @@ export const Userfetch = Catchasyncerror(async (req, res, next) => {
 
         return res.status(200).json({ success: true, result: artist });
     } catch (error) {
-        console.error(error);
+        //console.error(error);
         logger(error);
         res.status(500).json({ success: false, message: "Unknown error occurred during fetching artist." });
     }

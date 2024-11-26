@@ -109,7 +109,7 @@ const Addtrack = ({onClose}) => {
 
     } else {
       // Reject other file types
-      console.error('Only JPG or JPEG files are allowed');
+      //console.error('Only JPG or JPEG files are allowed');
     }
   };
 
@@ -120,14 +120,7 @@ const Addtrack = ({onClose}) => {
           return;
       }
     // Add your submission logic here
-    console.log('Form submitted:', {
-      music,
-      albumCover,
-      selectedDate,
-      albumTitle,
-      artist,
-      genre,
-    });
+    
     setLoading(true);
     const formData = new FormData();
     for (let i = 0; i < music.length; i++) {
@@ -138,11 +131,11 @@ const Addtrack = ({onClose}) => {
     formData.append('albumTitle',albumTitle);
     formData.append('artist',artist);
     formData.append('genre',genre);
-    console.log(formData);
+    //console.log(formData);
     try {
       api.post(`/api/addtrack/${cookies.User.name}/${albumTitle}`,formData)
       .then(res=>{
-        console.log(res.data);
+        //console.log(res.data);
         snackbar.current.setAlert("Sucessfully Added","success");
         const timerId = setTimeout(()=>{
           onClose();
@@ -152,15 +145,15 @@ const Addtrack = ({onClose}) => {
         }
       })
       .catch(error=>{
-        console.log(error.response.data.message);
+        //console.log(error.response.data.message);
         snackbar.current.setAlert(`${error.response.data.message}`, "error");
       })
       .finally(()=>{
         setLoading(false);
       })
     } catch (error) {
-      console.log(`${api} not found`);
-      console.log(`Error part ${error.json}`);
+      //console.log(`${api} not found`);
+      //console.log(`Error part ${error.json}`);
       snackbar.current.setAlert(`${api} not Found`,"error");
       setLoading(false);
     }

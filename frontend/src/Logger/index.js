@@ -5,7 +5,7 @@ const logError = (error) => {
     axios.post(`https://anitify-api.vercel.app/log-error`,{
       body: error,
     }).then(res=>{
-      console.log(res.data);
+      //console.log(res.data);
     })
   };
   

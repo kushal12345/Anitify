@@ -10,10 +10,10 @@ import api from "../../Services/api";
            album(data.result)
           })
         .catch(e => {
-          console.error(e);
+          ////console.error(e);
         })
     } catch (error) {
-        console.log('Error fetching album:',error);
+        ////console.log('Error fetching album:',error);
     }
 }
 

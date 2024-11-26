@@ -31,7 +31,7 @@ app.use(json());
 app.use(cors(corsOption));
 
 var publicDir = path.join(__dirname,"/uploads");
-console.log(publicDir);
+//console.log(publicDir);
 app.use(express.static(publicDir));
 /*
 app.use(cors({

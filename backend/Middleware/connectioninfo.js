@@ -24,7 +24,7 @@ const Connectioninfo = async (req, res, next) => {
     await fs.promises.mkdir(path.join(__dirname, '..', 'Logger', 'logs'), { recursive: true });
     await fs.promises.appendFile(path.join(__dirname, '..', 'Logger', 'logs', 'connInfo.log'), logData + '\n');
   } catch (error) {
-    console.log(error);
+    //console.log(error);
   }
 
   next();

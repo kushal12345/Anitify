@@ -51,20 +51,20 @@ const Login = () => {
                 })
                 .catch(error => {
                     
-                   // console.log(error);
+                   // //console.log(error);
                   snackbar.current.setAlert(`${error.response.data.message}`,"error");
                 })
                 .finally(() => {
                     setLoading(false);
                     });
             } catch (error) {
-                console.log(`${API_ADDRESS} not found`);
-                console.log(`Error part ${error.json}`);
+                //console.log(`${API_ADDRESS} not found`);
+                //console.log(`Error part ${error.json}`);
                 snackbar.current.setAlert(`${API_ADDRESS} not found`, "error");
                 setLoading(false); 
             }
         }else{
-            console.log("Please fill in  all the details");
+            //console.log("Please fill in  all the details");
             snackbar.current.setAlert("Please fill in all the details","error")
             setLoading(false);
         }

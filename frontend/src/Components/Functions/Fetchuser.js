@@ -8,10 +8,10 @@ const FetchUser = async(userId, setdata) => {
            setdata(data);
           })
         .catch(e => {
-          console.error(e);
+          //console.error(e);
         }) 
       } catch (error) {
-        console.log(error);
+        //console.log(error);
       }
 } 
 

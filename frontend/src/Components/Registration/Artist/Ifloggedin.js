@@ -29,7 +29,7 @@ const Ifloggedin = () => {
       try {
         api.post(`/api/artistregister/${cookies.User._id}`)
         .then(res=>{
-          console.log(res.data)
+          //console.log(res.data)
           snackbar.current.setAlert("Sucessfully Registered", "success");
           const timerId = setTimeout(() => {
           navigate("/home");
@@ -39,15 +39,15 @@ const Ifloggedin = () => {
           };  
         })
         .catch(error => {
-          console.log(error.response.data.message);
+          //console.log(error.response.data.message);
           snackbar.current.setAlert(`${error.response.data.message}`, "error");
         })
         .finally(() => {
           setLoading(false); // set loading to false when the request is complete
         });
       } catch (error) {
-          console.log(`${API_ADDRESS} not found`);
-          console.log(`Error part ${error.json}`);
+          //console.log(`${API_ADDRESS} not found`);
+          //console.log(`Error part ${error.json}`);
           snackbar.current.setAlert(`${API_ADDRESS} not found`, "error");
           setLoading(false);
       }

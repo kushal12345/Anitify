@@ -23,7 +23,7 @@ export const Register  = CatchAsncErrors( async(req,res,next) => {
             sendToken(user,user,201,res);
         }
     } catch (error) {
-        console.log(error);
+        //console.log(error);
         logger(error); 
         res.status(400).json({success:false,message:"Unknown Error"});    
     }
@@ -38,7 +38,7 @@ export const Login = CatchAsncErrors(async (req,res,next)=>{
         //see if email and password is empty
 
         if(!email || !password){
-            console.log("Empty email and password please enter again");
+            //console.log("Empty email and password please enter again");
             return res.status(400).json({success:false,message:"Empty Email and Password"});
         }
 
@@ -46,7 +46,7 @@ export const Login = CatchAsncErrors(async (req,res,next)=>{
         const artist = await Artist.findOne({email}); 
 
         if(!user){
-            console.log("User not found");
+            //console.log("User not found");
             authority = null;
             return res.status(400).json({success:false,message:"User Not Found"});            
         }else if(user && !artist){
@@ -61,14 +61,14 @@ export const Login = CatchAsncErrors(async (req,res,next)=>{
         const isMatch = await user.comparePassword(password);
 
         if(!isMatch){
-            console.log("Password is incorrect");
+            //console.log("Password is incorrect");
             return res.status(400).json({success:false,message:"Incorrect Password."});
         }
         //generate token
         sendToken(user,authority,200,res);
 
     } catch (error) {
-        console.log(error);
+        //console.log(error);
         logger(error);
         return res.status(400).json({success:false,message:error})
     }
