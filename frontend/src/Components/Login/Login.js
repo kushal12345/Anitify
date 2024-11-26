@@ -15,6 +15,7 @@ const Login = () => {
     const API_ADDRESS = `https://anitify-api.vercel.app`;
     const navigate = useNavigate();
     const {login}=useContext(AuthContext);
+    const snackbar = useRef(null);
 
     const [user,setUser] = useState({
         email:"",
@@ -70,7 +71,6 @@ const Login = () => {
         }
     }
 
-    const snackbar = useRef(null);
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 to-purple-100">
         <SnackbarAlert ref={snackbar}/>
@@ -111,7 +111,7 @@ const Login = () => {
                         autoComplete="email"
                         autoCorrect="off"
                         sx={{ width: '100%' }}
-                        value={user.name}
+                        value={user.email}
                         onChange={handleChange}
                         required
                         />

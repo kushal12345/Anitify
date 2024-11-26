@@ -192,7 +192,12 @@ const AdminAlbum = ({ setsecondPage, show }) => {
 /*        const fetchLikesForTracks = async () => {
             await Promise.all(tracks.map(track => fetchLike('track', track)));
         };
-*/
+
+        //removed this proimise request due to error of insufficent resources
+
+        */
+
+        
         const fetchLikesForTracks = async () => {
             for (const track of tracks) {
                 try {
