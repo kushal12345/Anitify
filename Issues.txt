@@ -20,6 +20,8 @@ Frontend
 (priority)
 20 code sanitization
 21 api fetch from backend takes time as time goes on (not fixed but it is slow)
+22 sorting tracks and albums
+23 album with tracks page fix on header total songs and totoal time  and year 
 
 
 features

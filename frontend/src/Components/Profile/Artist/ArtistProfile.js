@@ -40,7 +40,7 @@ const ArtistProfile = () => {
 
 
   const handleImageUpload = (e) => {
-    const file = e.target.files[0];
+    const file = e.target.files[0]?e.target.files[0]:null;
     const filename = file.name;
     const fileExtension = filename.split('.').pop().toUpperCase();
 

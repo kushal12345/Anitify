@@ -5,7 +5,7 @@ import { baseURL } from '../../../Services/config';
 import Loading from '../../Loading/Loading';
 import FetchArtist from '../../Functions/Fetchartist';
 
-const Popularartist = () => {
+const Popularartist = ({setsecondPage, setshow}) => {
     const [loading, setloading] = useState(false);
     const [formData,setformData] = useState([]);
 
@@ -37,7 +37,7 @@ if(loading) {return(<div className='w-full h-full'><Loading/></div>)}
             {
                 formData.map((data, index) => {
                   return (
-                    <div className='w-full h-auto group' key={index}>
+                    <div className='w-full h-auto group' key={index} onClick={()=>{setsecondPage("artist");setshow(data)}}>
                       {/* image and text content */}
                       <div className='w-full h-auto flex items-center justify-center'>
                         <div className='w-11/12 bg-white relative aspect-square rounded-full  overflow-hidden shadow-xl '>
