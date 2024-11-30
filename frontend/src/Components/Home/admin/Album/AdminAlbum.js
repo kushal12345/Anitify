@@ -137,19 +137,45 @@ const AdminAlbum = ({ setsecondPage, show }) => {
                         }
 
                         if (param === 'album') {
-                            loggedaccess() ?
+                            let userLikedTracks = false;
+                        
+                            for (const x of likes) {
+                               for(const y of x.users){
+                                if(y === cookies.User._id){
+                                    userLikedTracks = true;
+                                }else{
+                                    userLikedTracks = false;
+                                }
+                               }
+                            }
+
+                            (loggedaccess() && userLikedTracks) ?
                                 setLiked(likes[0].likestate)
                                 :
                                 setLiked(false);
 
                             setLikeCounter(likes[0].users.length);
                         } else if (param === 'track') {
-                            loggedaccess() ?
+                            let userLikedTracks = false;
+                        
+                            for (const x of likes) {
+                               for(const y of x.users){
+                                if(y === cookies.User._id){
+                                    userLikedTracks = true;
+                                }else{
+                                    userLikedTracks = false;
+                                }
+                               }
+                            }
+                            
+                            (loggedaccess() && userLikedTracks) ?
                                 settrackLiked(prevState => ({
                                     ...prevState,
                                     ...newTrackLiked // Update state with new liked states
-                                })) :
-                                settrackLiked({});
+                                })) 
+                            :
+                                settrackLiked({});    
+                            
                             settrackLikeCounter(prevState => ({
                                 ...prevState,
                                 ...newTrackCounter // Update state with new like track users array to find length as a counter

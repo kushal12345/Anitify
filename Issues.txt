@@ -18,8 +18,8 @@ Frontend
 17 recommended songs based on likes and user's personal interest 
 18 multiple users added on likealbum users array
 (priority)
-
-
+20 code sanitization
+21 api fetch from backend takes time as time goes on (not fixed but it is slow)
 
 
 features
