@@ -22,7 +22,10 @@ Frontend
 21 api fetch from backend takes time as time goes on (not fixed but it is slow)
 22 sorting tracks and albums
 23 album with tracks page fix on header total songs and totoal time  and year 
-
+24 after loggedin if a go back back then side bar is logged in and right page is not (half is logged in and half is not)
+Artistpagedetails
+==================
+1. fetch likes
 
 features
 ==============
