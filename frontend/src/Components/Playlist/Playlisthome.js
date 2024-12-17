@@ -9,15 +9,48 @@ import api from '../../Services/api';
 import { useContext } from 'react';
 import AuthContext from '../Hooks/Auth/AuthContext';
 import { FaEdit } from "react-icons/fa";
+import { FaPlayCircle } from "react-icons/fa";
+import { FaShuffle } from "react-icons/fa6";
+import { IoList } from "react-icons/io5";
 
-const Playlisthome = ({setplaylistpage}) => {
+
+const Playlisthome = ({setplaylistpage, fdata}) => {
     const [liked, setLiked] = useState(false);
+    const fetchdata = fdata?fdata:null;
     const [data,setdata] = useState();
     const {cookies} = useContext(AuthContext);
     const [name, setName] = useState("");
     const [tracks,settracks] = useState([]);
     const [image,setimage] = useState(null);
     const [isHovered, setIsHovered] = useState(false);
+
+    const [pagedata,setpagedata] = useState({
+        playlistname:"Name Your Playlist"
+        });
+
+        useEffect(() => {
+            if (fetchdata === "liked") {
+                setpagedata({
+                    playlistname: "Liked Songs"
+                });
+        
+                const fetchLikedTracks = async () => {
+                    try {
+                        const resp = await api.get(`/api/playlist/${cookies.User ? cookies.User._id : null}/${fetchdata}`);
+                        if (resp && resp.data.success) {
+                            settracks(resp.data.results); // Assuming you want to set the liked tracks to state
+                        } else {
+                            console.log("Error fetching liked tracks:", resp.data.msg);
+                        }
+                    } catch (error) {
+                        console.log("Error:", error);
+                    }
+                };
+        
+                fetchLikedTracks();
+            }
+        }, [fetchdata, cookies.User,setpagedata]);
+    
 
     
     const handleImageChange = (event) => {
@@ -31,7 +64,7 @@ const Playlisthome = ({setplaylistpage}) => {
         }
     };
 
-    useEffect(()=>{
+    {/*useEffect(()=>{
         const formData = new FormData();
         formData.append('name',name);
         for (let i = 0; i < tracks.length; i++){
@@ -55,12 +88,11 @@ const Playlisthome = ({setplaylistpage}) => {
         } catch (error) {
             //console.log(error);
         }
-    },[])
-
+    },[])*/}
 
 
   return (
-    <div className='h-[90%] overflow-hidden grid grid-rows-8 grid-flow-col gap-1'>
+    <div className='overflow-y-scroll [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] pr-4 h-auto mb-2 overflow-hidden grid grid-rows-8 grid-flow-col gap-1'>
             <div className='w-full overflow-hidden p-2 row-span-3 bg-white bg-opacity-25 text-white rounded-xl'>
                 <div className='w-full mb-2 hover:cursor-pointer' onClick={() => { setplaylistpage(false) }} >
                     <FaArrowLeft />
@@ -94,16 +126,16 @@ const Playlisthome = ({setplaylistpage}) => {
                     </div>
 
                     <div>
-                        <h1 className="text-3xl font-bold" 
-                            contentEditable 
+                    <p className="text-[] text-muted-foreground my-1">Playlist</p>
+                        <h1 className="text-4xl font-bold" 
+                            contentEditable={fetchdata ? "false" : "true"}  
                             suppressContentEditableWarning={true} 
                             onInput={(e)=>{setName(e.target.innerHTML)}}
                             onFocus={(e) => e.target.style.borderColor = '#007BFF'}
                             onBlur={(e) => e.target.style.borderColor = '#ccc'}
                         >
-                             Name Your Playlist
+                             {pagedata.playlistname}
                         </h1>
-                        <p className="text-sm text-muted-foreground">lorem ipsom</p>
                         <div className='mt-5 w-auto flex items-center ' >
                            {/* CI heart is empty heart and Faheart is liked one */}
                            {  liked? <FaHeart onClick={()=>{}} size={24} /> : <CiHeart onClick={()=>{}} size={24} /> }
@@ -116,26 +148,53 @@ const Playlisthome = ({setplaylistpage}) => {
 
             <div className='w-full h-auto row-span-5 px-2 mb-9 pb-3'>
                 <div className="h-1/5 mt-6 space-y-1">
-                    <h2 className="text-5xl font-semibold tracking-tight">Let's Start Adding songs to your playlist</h2>
+                    <h2 className="text-5xl font-semibold tracking-tight">{fetchdata?
+                            <div className='w-full my-2 flex '>
+                                <div className='w-1/2 flex'>
+                                    <div className='mx-2'>
+                                        <FaPlayCircle/>
+                                    </div>
+                                    <div className='mx-2'>
+                                        <FaShuffle/>                                
+                                    </div>
+                                </div>
+                                <div className='w-1/2 flex justify-end '>
+                                    <p className='text-sm flex items-center mx-2 font-normal'>Date added</p>
+                                    <div>
+                                        <IoList/>
+                                    </div>
+                                </div>
+                            </div>
+                        :
+                            "Let's Start Adding songs to your playlist"
+                        }
+                        </h2>
                     <p className="text-sm text-muted-foreground">{data?'asdasd':<Button variant='outlined' color='white'>Search music</Button>}</p>
                 </div>
-                <div className=" overflow-y-scroll [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] h-auto pr-4">
-                    <div className="space-y-2">
-                                <div  className="flex items-center gap-4 cursor-pointer">
-                                    <span className="text-sm font-medium text-muted-foreground w-4"> 1</span>
-                                    <div className="h-10 flex items-center w-10">
-                                        <RxAvatar alt="Song cover" />
+                <div className=" overflow-y-scroll h-80 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] h-auto pr-4">
+                    {
+                        tracks.map((track, index) => {
+                            return(
+                                <div className="space-y-2 " key={index}>
+                                    <div  className="flex items-center gap-4  cursor-pointer">
+                                        <span className="text-sm font-medium text-muted-foreground w-4"> {index + 1}</span>
+                                        <div className="h-10 flex items-center w-10">
+                                            <RxAvatar alt="Song cover" />
+                                        </div>
+                                        <div className="flex-1 space-y-1">
+                                            <p className="text-sm font-medium leading -none">{track.track.title}</p>
+                                        </div>
+                                        <div className="text-sm text-muted-foreground">time of song</div>
                                     </div>
-                                    <div className="flex-1 space-y-1">
-                                        <p className="text-sm font-medium leading -none">track title</p>
-                                    </div>
-                                    <div className="text-sm text-muted-foreground">time of song</div>
                                 </div>
-                    </div>
+
+                            );
+                        }) 
+                    }
                 </div>
 
 
-                <div className="h-1/5 mt-6 space-y-1">
+                <div className=" mb-3 h-1/5 mt-6 space-y-1">
                     <h2 className="text-5xl  font-semibold tracking-tight">Recommended Songs</h2>
                     <p className="text-sm text-muted-foreground">let's start choosing your favourite music.</p>
                 </div>

@@ -12,7 +12,7 @@ import { ArtistUpdate } from '../../Controllers/Artist/ArtistContoller.js';
 import { LikeAlbumController } from '../../Controllers/Products/Album/AlbumController.js';
 import { FetchLikealbum } from '../../Controllers/Products/Album/AlbumController.js';
 import { Userfetch } from '../../Controllers/Artist/ArtistContoller.js';
-
+import { PlaylistCreate } from '../../Controllers/Products/Playlist/PlaylistController.js';
 
 const router = express.Router();
 
@@ -44,7 +44,7 @@ router.route('/artist/:id').get(Artistfetch);
 router.route('/user/:id').get(Userfetch);
 router.route('/tracks/:id').get(trackfetch);
 router.route('/likestatus/:data/:albumid/:logid').get(FetchLikealbum);
-//router.route('/playlist/:id').post(PlaylistCreate);
+router.route('/playlist/:user_id/:likedstatus').get(PlaylistCreate);
    
 //router.route("/login").post(Login);
 export default router;

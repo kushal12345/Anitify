@@ -20,12 +20,12 @@ const playlistSchema = new mongoose.Schema({
         ref: 'User' 
     }, // Can refer to both User and Artist
 
-    creatorType: { 
+  /*  creatorType: { 
         type: String, 
         enum: ['user', 'artist'], 
         required: true 
     } // Indicates if creator is a user or artist
-
+*/
 }, 
 { 
     timestamps: true 

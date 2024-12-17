@@ -94,7 +94,7 @@ if (error) return <div>{error}</div>;
                 return null;
               }
                 return(
-                    <div key={index} className="glass bg-opacity-35 w-full flex flex-col items-center justify-center p-4 rounded-lg hover:cursor-pointer" onClick={()=>{setsecondPage(true);setshow(album)}}>
+                    <div key={index} className="glass bg-opacity-35 w-full flex flex-col items-center justify-center p-4 rounded-lg hover:cursor-pointer" onClick={()=>{setsecondPage("albums");setshow(album)}}>
                         <img src={`${baseURL}/${album.artist}/${album.title}/${album.image}`} alt="Artist 1" className="w-24 h-24 overflow-hidden rounded-full mb-4" />
                         <p className="text-center">{album.title}</p>
                     </div>
@@ -112,7 +112,7 @@ if (error) return <div>{error}</div>;
                 return null;
               }
                 return(
-                    <div key={index} className="glass bg-opacity-35 w-full flex flex-col items-center justify-center p-4 rounded-lg hover:cursor-pointer" onClick={()=>{setsecondPage(true);setshow(album)}}>
+                    <div key={index} className="glass bg-opacity-35 w-full flex flex-col items-center justify-center p-4 rounded-lg hover:cursor-pointer" onClick={()=>{setsecondPage("albums");setshow(album)}}>
                         <img src={`${baseURL}/${album.artist}/${album.title}/${album.image}`} alt="Artist 1" className="w-24 h-24 overflow-hidden rounded-full mb-4" />
                         <p className="text-center">{album.title}</p>
                     </div>
@@ -128,7 +128,7 @@ if (error) return <div>{error}</div>;
               {
                 formDataartist.slice(0, 6).map((data, index) => {
                   return (
-                    <div className='w-full h-auto group' key={index}>
+                    <div className='w-full h-auto group' key={index} onClick={()=>{setsecondPage("artist");setshow(data)}}>
                       {/* image and text content */}
                       <div className='w-full h-auto flex items-center justify-center'>
                         <div className='w-8/12 bg-white relative aspect-square rounded-full  overflow-hidden shadow-xl '>

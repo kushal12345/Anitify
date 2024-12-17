@@ -13,7 +13,7 @@ import { FaThumbsUp } from "react-icons/fa6";
 
 
 
-const ArtistSidebar = ({setplaylistpage}) => {
+const ArtistSidebar = ({setplaylistpage ,setfdata}) => {
 
     const {cookies} = useContext(AuthContext)
     const [albums,setAlbums] = useState([]);
@@ -73,7 +73,7 @@ const ArtistSidebar = ({setplaylistpage}) => {
                     </div>
 
          {/* Liked playlist */}
-         <div className='bg-white my-1 bg-opacity-20 rounded-sm'>
+         <div className='bg-white my-1 bg-opacity-20 rounded-sm' onClick={()=>{setplaylistpage(true);setfdata("liked")}}>
                     <div  className=' text-sm flex items-center justify-center w-full h-auto overflow-hidden hover:bg-white hover:bg-opacity-35 hover:rounded-sm hover:cursor-pointer'>
                         {/* Image part  */}
                             <div className='py-1 w-1/4 h-full'>
@@ -92,7 +92,7 @@ const ArtistSidebar = ({setplaylistpage}) => {
             }
 
                 return (
-                <div key={index} className='flex text-sm  w-full h-auto overflow-hidden hover:bg-white hover:bg-opacity-35'>
+                <div key={index} className='flex text-sm  w-full h-auto overflow-hidden hover:bg-white hover:bg-opacity-35' >
                     {/* Image part  */}
                     <div className='w-1/4 aspect-square p-2'>
                     <img 
@@ -124,7 +124,7 @@ const ArtistSidebar = ({setplaylistpage}) => {
                                 <MdAdd size={28}/>
                             </div> 
                             {/* Playlist Details */}
-                            <div className='w-2/3 font-bold' onClick={()=>{setplaylistpage(true)}}>
+                            <div className='w-2/3 font-bold' onClick={()=>{setplaylistpage(true);setfdata=(null)}}>
                                 Create New Playlist
                             </div> 
                     </div> 

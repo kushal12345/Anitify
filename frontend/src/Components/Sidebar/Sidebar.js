@@ -9,8 +9,8 @@ import { Button } from '@mui/material';
 import { RxCross2 } from "react-icons/rx";
 import FetchArtist from '../Functions/Fetchartist';
 import { baseURL } from '../../Services/config';
-
-const Sidebar = ({ setSidebarOpen,setplaylistpage }) => {
+import { ProtectRoutes } from '../Hooks/Protectroutes/protect';
+const Sidebar = ({ setSidebarOpen,setplaylistpage,setfdata }) => {
     const {cookies} = useContext(AuthContext);
     const Userlogged = cookies.User 
     const [image,setimage] = useState("");
@@ -71,13 +71,13 @@ const Sidebar = ({ setSidebarOpen,setplaylistpage }) => {
                     {
             (Userlogged !== undefined)?
             <>
-                <LoggedLibrary  setplaylistpage={setplaylistpage}/>
+                <ProtectRoutes><LoggedLibrary  setplaylistpage={setplaylistpage} setfdata={setfdata}/></ProtectRoutes>
             </>
 
             :
 
             <>
-                <Library setplaylistpage={setplaylistpage}/>
+                <Library setplaylistpage={setplaylistpage} />
             </>
         }    
         </div>

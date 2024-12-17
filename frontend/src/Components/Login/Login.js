@@ -1,4 +1,4 @@
-import React ,{useContext}from 'react';
+import React ,{useContext, useEffect}from 'react';
 import { Card, CardContent,CardActions, Typography, Button, TextField,Box } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Link } from 'react-router-dom';
@@ -14,13 +14,19 @@ const Login = () => {
     const [loading, setLoading] = useState(false);
     const API_ADDRESS = `https://anitify-api.vercel.app`;
     const navigate = useNavigate();
-    const {login}=useContext(AuthContext);
+    const {login,logout,cookies}=useContext(AuthContext);
     const snackbar = useRef(null);
 
     const [user,setUser] = useState({
         email:"",
         password:""
     });
+
+    useEffect(()=>{
+        if(cookies.User){
+            logout();
+        }
+    },[]);
 
     const handleChange = (e) => {
         const {name,value} = e.target;
@@ -81,8 +87,8 @@ const Login = () => {
         <div>
             <Card className="w-4/3 max-w-md shadow-lg p-5 px-8">
                 <Box>
-                    <Link to="/">
-                        <ArrowBackIcon/>
+                    <Link to="/" >
+                        <ArrowBackIcon onClick={logout}/>
                     </Link>
                 </Box>
                 <CardContent className=' flex items-center justify-center text-black'>

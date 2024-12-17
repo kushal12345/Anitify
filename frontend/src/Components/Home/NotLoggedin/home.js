@@ -17,7 +17,7 @@ const Home = () => {
       case PAGE_ALBUMS:
         return <AdminAlbum setsecondPage={setsecondPage} show={show} />;
       case PAGE_ARTIST:
-        return <Artistpage setsecondPage={setsecondPage} show={show} />;
+        return <Artistpage setsecondPage={setsecondPage} show={show} setshow={setshow} />;
       case PAGE_HOMENOTLOGGED:
         return <Container setsecondPage={setsecondPage} setshow={setshow} />;
       default:

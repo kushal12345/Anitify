@@ -12,8 +12,10 @@ import { MdFormatListBulletedAdd } from "react-icons/md";
 import Button from '@mui/material/Button';
 import fetchAlbums from '../Functions/Fetchalbums';
 import fetchLike from '../Functions/Fetchlike';
+import likerequest from '../Functions/Handlelike';
 
-const Artistpage = ({ setsecondPage, show }) => {
+
+const Artistpage = ({ setsecondPage, show, setshow}) => {
     const data = show ? show : null;
     const [albumpara1, setalbumpara1] = useState(null);
     const [albumpara2, setalbumpara2] = useState(null);
@@ -31,10 +33,36 @@ const Artistpage = ({ setsecondPage, show }) => {
         return cookies.User && user.some(item => item._id === cookies.User._id);
     };
 
+
     useEffect(() => {
         setloading(true);
         FetchUser ("all", setUser ).finally(() => setloading(false));
     }, [setUser ]);
+
+    const handleLike = async (likedata,state, id) => {
+        if (cookies.User && albumpara2.artist) {
+            if (cookies.User.name === albumpara2.artist || user.some(item => item.name === cookies.User.name)) {
+                    (loggedaccess() && state==="liked") ?
+                    setLikedAlbums(prevState => {
+                            const newState = !prevState;
+                            const responsea = likerequest(newState, id, likedata,cookies);
+                            if(responsea){
+                                return newState;
+                            }else{
+                                return null;
+                            }
+                        })
+                        :
+                        setLikedAlbums(false);
+            } else {
+                likerequest(null, id, likedata,cookies);
+                setLikedAlbums(false);
+            }
+        } else {
+            likerequest(null, id, likedata,cookies);
+            setLikedAlbums(prevState => prevState);
+        }
+    };
 
     useEffect(() => {
         fetchAlbums(data._id, setalbumpara1, setalbumpara2);
@@ -125,7 +153,7 @@ const Artistpage = ({ setsecondPage, show }) => {
                         {currentItems && currentItems.map((album, index) => {
                             const { hours, minutes, seconds } = convertDuration(album.duration || 0);
                             return (
-                                <div key={index} className="flex items-center gap-4 cursor-pointer">
+                                <div key={index} className="flex items-center gap-4 cursor-pointer"  onClick={()=>{setsecondPage("albums");setshow(album)}}>
                                     <span className="text-sm font-medium text-muted-foreground w-4">{index + 1}</span>
                                     <div className="h-10 flex items-center w-10">
                                         <img
@@ -141,9 +169,9 @@ const Artistpage = ({ setsecondPage, show }) => {
 
                                     <div className='flex-1 flex items-center'>
                                         {likedAlbums[album._id] ? (
-                                            <FaHeart size={24} />
+                                            <FaHeart onClick={()=>handleLike("album","liked",album._id)} size={24} />
                                         ) : (
-                                            <CiHeart size={24} />
+                                            <CiHeart onClick={()=>handleLike("album","notliked",album._id)} size={24} />
                                         )}
                                         <p className='mx-4'>{likeCounters[album._id] || 0} Likes</p>
                                     </div>
