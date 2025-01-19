@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
+import TrackContext from '../Hooks/Auth/TrackContext';
+import { useContext } from 'react';
+
 
 const useAudio = (url) => {
     const [audio, setAudio] = useState(new Audio(url));
-    const [playing, setPlaying] = useState(false);
 
-    const toggle = () => {
-        setPlaying(prev => !prev);
-    };
+    const {playing, setPlaying} = useContext(TrackContext);
+
+
+    const toggle = () => setPlaying(prev => !prev);
 
     useEffect(() => {
         const handleEnded = () => setPlaying(false);
@@ -19,15 +22,16 @@ const useAudio = (url) => {
     }, [audio]);
 
     useEffect(() => {
-        if (url && url !== undefined) {
-            const newAudio = new Audio(url);
-            setAudio(newAudio);
-            audio.src = url;
+        const newAudio = new Audio(url);
+        setAudio(newAudio);
+        audio.src = url;
+
+        if (url && url !== undefined) {  
             setPlaying(true);
-            
         }else{
             setPlaying(false);
         }
+
     }, [url]);
 
     useEffect(() => {
@@ -40,7 +44,7 @@ const useAudio = (url) => {
         }
     }, [playing, audio]);
 
-    return [playing, toggle];
+    return [ toggle];
 };
 
 export default useAudio;

@@ -16,7 +16,6 @@ import { PlaylistCreate } from '../../Controllers/Products/Playlist/PlaylistCont
 import { CurrentPlayingreg } from '../../Controllers/Products/Audio/CurrentPlayingController.js';
 import { FetchCurrentPlaying } from '../../Controllers/Products/Audio/CurrentPlayingController.js';
 
-
 const router = express.Router();
 
 router.route("/register").post(Register).get((req,res)=>{
