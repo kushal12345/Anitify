@@ -13,6 +13,9 @@ import { LikeAlbumController } from '../../Controllers/Products/Album/AlbumContr
 import { FetchLikealbum } from '../../Controllers/Products/Album/AlbumController.js';
 import { Userfetch } from '../../Controllers/Artist/ArtistContoller.js';
 import { PlaylistCreate } from '../../Controllers/Products/Playlist/PlaylistController.js';
+import { CurrentPlayingreg } from '../../Controllers/Products/Audio/CurrentPlayingController.js';
+import { FetchCurrentPlaying } from '../../Controllers/Products/Audio/CurrentPlayingController.js';
+
 
 const router = express.Router();
 
@@ -45,6 +48,7 @@ router.route('/user/:id').get(Userfetch);
 router.route('/tracks/:id').get(trackfetch);
 router.route('/likestatus/:data/:albumid/:logid').get(FetchLikealbum);
 router.route('/playlist/:user_id/:likedstatus').get(PlaylistCreate);
-   
+router.route('/currentplaying').post(CurrentPlayingreg);
+router.route('/fetchcurrentplaying/:id').get(FetchCurrentPlaying);
 //router.route("/login").post(Login);
 export default router;

@@ -4,7 +4,7 @@ import { BiSolidHome } from "react-icons/bi";
 import { FiSearch } from "react-icons/fi";
 const Logohomesearch = () => {
   return (
-    <div className='p-2 pr-8  pb-4  mb-2 justify-items-center rounded-xl  '>
+    <div className='p-2 pr-8  pb-4  mb-2 rounded-xl  '>
 
           <div className="flex py-1 mb-2 items-center text-white gap-0 "> 
               <TbBrandSpotify  style={{ width: 32, height: 32 }}/>

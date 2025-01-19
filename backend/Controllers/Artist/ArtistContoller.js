@@ -169,7 +169,7 @@ export const Userfetch = Catchasyncerror(async (req, res, next) => {
 
         return res.status(200).json({ success: true, result: artist });
     } catch (error) {
-        //console.error(error);
+        console.error(error);
         logger(error);
         res.status(500).json({ success: false, message: "Unknown error occurred during fetching artist." });
     }

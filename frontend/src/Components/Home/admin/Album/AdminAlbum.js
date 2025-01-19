@@ -13,6 +13,8 @@ import usePagination from '../../../Pagination/Pagination';
 import { MdFormatListBulletedAdd } from "react-icons/md";
 import Loading from '../../../Loading/Loading';
 import fetchLike from '../../../Functions/Fetchlike';
+import Playbar from '../../../Playbar/Playbar';
+
 
 const AdminAlbum = ({ setsecondPage, show }) => {
     const { cookies } = useContext(AuthContext);
@@ -24,6 +26,12 @@ const AdminAlbum = ({ setsecondPage, show }) => {
     const [likeCounter, setLikeCounter] = useState(0);
     const [loading, setloading] = useState(false);
     const [user, setUser ] = useState([]);
+    const [currentTrackUrl, setCurrentTrackUrl] = useState(null);
+    const [currentTitle, setCurrentTitle] = useState(null);
+    const [currentArtist, setCurrentArtist] = useState(null);
+    const [currentPlayingid, setCurrentPlayingid] = useState(null);
+
+
 
     // Pagination
     const itemsPerPage = 10;
@@ -218,7 +226,17 @@ const AdminAlbum = ({ setsecondPage, show }) => {
                         {currentItems.map((track, index) => {
                             const { hours, minutes, seconds } = convertDuration(track.duration || 0); // Use track.duration directly
                             return (
-                                <div key={index} className="flex items-center gap-4 cursor-pointer">
+                                <div key={index} 
+                                        onClick={
+                                            () => {
+                                            setCurrentTrackUrl(`${baseURL}/${encodeURIComponent(albums.artist)}/${encodeURIComponent(albums.title)}/${encodeURIComponent(track.title)}`);
+                                            setCurrentTitle(track.title); 
+                                            setCurrentArtist(albums.artist);
+                                            setCurrentPlayingid(track._id);
+                                            }
+                                          
+                                        }
+                                        className="flex items-center gap-4 cursor-pointer">
                                     <span className="text-sm font-medium text-muted-foreground w-4">{index + 1}</span>
                                     <div className="h-10 flex items-center w-10">
                                         <RxAvatar alt="Song cover" />
@@ -263,7 +281,11 @@ const AdminAlbum = ({ setsecondPage, show }) => {
                     ))}
                 </div>
             </div>
-        </div>
+                   
+            {currentTrackUrl && currentTitle && currentArtist && currentPlayingid && (
+                <Playbar url={currentTrackUrl} title={currentTitle} artist={currentArtist} id={currentPlayingid} />
+            )}        
+            </div>
     );
 };
 
