@@ -4,10 +4,12 @@ import { useContext } from 'react'
 import AuthContext from '../Components/Hooks/Auth/AuthContext'
 import Playbar from '../Components/Playbar/Playbar'
 import { ProtectRoutes } from '../Components/Hooks/Protectroutes/protect'
-import Playlisthome from '../Components/Playlist/Playlisthome'
+import Playlisthome from '../Components/Playlist/Playlisthome';
+import TrackContext from '../Components/Hooks/Auth/TrackContext';
 
 const Bodylayout = ({children}) => {
-  
+  const { currentTrackUrl,currentTitle,currentArtist,currentPlayingid } = useContext(TrackContext);
+
   const {sidebarOpen, setSidebarOpen }= useContext(AuthContext);
   const [playlistpage, setplaylistpage] = useState(false);
   const [fdata,setfdata]= useState(null);
@@ -22,8 +24,10 @@ const Bodylayout = ({children}) => {
             { playlistpage?<Playlisthome setplaylistpage={setplaylistpage} fdata={fdata} />:children}
         </div>
       </div>
-     <div className='w-full h-[10%]'>
-       <Playbar/>
+      <div className='w-full h-[10%]'>
+        {currentTrackUrl && currentTitle && currentArtist && currentPlayingid && (
+              <Playbar url={currentTrackUrl} title={currentTitle} artist={currentArtist} id={currentPlayingid} />
+        )}       
       </div>
     </div>
     

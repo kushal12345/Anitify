@@ -14,10 +14,12 @@ import { MdFormatListBulletedAdd } from "react-icons/md";
 import Loading from '../../../Loading/Loading';
 import fetchLike from '../../../Functions/Fetchlike';
 import Playbar from '../../../Playbar/Playbar';
-
+import TrackContext from '../../../Hooks/Auth/TrackContext';
 
 const AdminAlbum = ({ setsecondPage, show }) => {
     const { cookies } = useContext(AuthContext);
+    const {setCurrentTrackUrl, setCurrentTitle, setCurrentArtist, setCurrentPlayingid } = useContext(TrackContext);
+
     const [tracks, setTracks] = useState([]);
     const [albums, setAlbums] = useState(show ? show : null);
     const [liked, setLiked] = useState(false);
@@ -26,10 +28,10 @@ const AdminAlbum = ({ setsecondPage, show }) => {
     const [likeCounter, setLikeCounter] = useState(0);
     const [loading, setloading] = useState(false);
     const [user, setUser ] = useState([]);
-    const [currentTrackUrl, setCurrentTrackUrl] = useState(null);
-    const [currentTitle, setCurrentTitle] = useState(null);
-    const [currentArtist, setCurrentArtist] = useState(null);
-    const [currentPlayingid, setCurrentPlayingid] = useState(null);
+    //const [currentTrackUrl, setCurrentTrackUrl] = useState(null);
+    //const [currentTitle, setCurrentTitle] = useState(null);
+    //const [currentArtist, setCurrentArtist] = useState(null);
+    //const [currentPlayingid, setCurrentPlayingid] = useState(null);
 
 
 
@@ -282,9 +284,7 @@ const AdminAlbum = ({ setsecondPage, show }) => {
                 </div>
             </div>
                    
-            {currentTrackUrl && currentTitle && currentArtist && currentPlayingid && (
-                <Playbar url={currentTrackUrl} title={currentTitle} artist={currentArtist} id={currentPlayingid} />
-            )}        
+                  
             </div>
     );
 };
