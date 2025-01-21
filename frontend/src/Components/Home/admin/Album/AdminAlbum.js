@@ -13,38 +13,62 @@ import usePagination from '../../../Pagination/Pagination';
 import { MdFormatListBulletedAdd } from "react-icons/md";
 import Loading from '../../../Loading/Loading';
 import fetchLike from '../../../Functions/Fetchlike';
-import Playbar from '../../../Playbar/Playbar';
 import TrackContext from '../../../Hooks/Auth/TrackContext';
+import { useLike } from '../../../Hooks/Auth/LikeContext';
 
 const AdminAlbum = ({ setsecondPage, show }) => {
     const { cookies } = useContext(AuthContext);
-    const {setCurrentTrackUrl, setCurrentTitle, setCurrentArtist, setCurrentPlayingid } = useContext(TrackContext);
+    const {setTracklike,setCurrentTrackUrl, setCurrentTitle, setCurrentArtist, setCurrentPlayingid } = useContext(TrackContext);
+    const {user,
+        setUser ,
+        liked,
+        setLiked,
+        trackliked,
+        settrackLiked,
+        album,
+        setAlbum,
+        likeCounter,
+        setLikeCounter,
+        tracklikeCounter,
+        settrackLikeCounter,
+        handleLike,
+        likerequest} = useLike();
 
     const [tracks, setTracks] = useState([]);
     const [albums, setAlbums] = useState(show ? show : null);
-    const [liked, setLiked] = useState(false);
-    const [trackliked, settrackLiked] = useState({});
-    const [tracklikeCounter, settrackLikeCounter] = useState({});
-    const [likeCounter, setLikeCounter] = useState(0);
+   // const [liked, setLiked] = useState(false);
+    //const [trackliked, settrackLiked] = useState({});
+    //const [tracklikeCounter, settrackLikeCounter] = useState({});
+    //const [likeCounter, setLikeCounter] = useState(0);
     const [loading, setloading] = useState(false);
-    const [user, setUser ] = useState([]);
+    //const [user, setUser ] = useState([]);
     //const [currentTrackUrl, setCurrentTrackUrl] = useState(null);
     //const [currentTitle, setCurrentTitle] = useState(null);
     //const [currentArtist, setCurrentArtist] = useState(null);
     //const [currentPlayingid, setCurrentPlayingid] = useState(null);
 
+    
 
 
     // Pagination
     const itemsPerPage = 10;
     const { currentItems, totalPages, currentPage, handlePageChange } = usePagination(tracks, itemsPerPage);
 
+    
     const loggedaccess = () => {
         if (cookies.User && user && user.some(item => item._id === cookies.User._id)) {
             return true;
         }
     }
 
+    useEffect(() => {
+        if (albums) {
+            setAlbum(albums);
+        }
+    }, [albums,setAlbum]);
+
+    
+/*
     const likerequest = async (newLiked, id, likedata) => {
         try {
             const response = await api.post(`/api/likes/${likedata}/${id}/${cookies.User ? cookies.User._id : null}`, {
@@ -63,13 +87,13 @@ const AdminAlbum = ({ setsecondPage, show }) => {
         } catch (error) {
             console.log(error)
         }
-    };
+    };*/
 
     useEffect(() => {
         setloading(true);
         FetchUser ("all", setUser ).finally(() => setloading(false));
     }, [setUser ]);
-
+    /*
     const handleLike = async (likedata, id) => {
         if (cookies.User && albums.artist) {
             if (cookies.User.name === albums.artist || user.some(item => item.name === cookies.User.name)) {
@@ -106,9 +130,9 @@ const AdminAlbum = ({ setsecondPage, show }) => {
             }
         }
     };
-
+    */
     const handleLikeClick = (likedata, id) => {
-        handleLike(likedata, id);
+       handleLike(likedata, id);
     };
 
     useEffect(() => {
@@ -250,11 +274,12 @@ const AdminAlbum = ({ setsecondPage, show }) => {
 
                                     {/* Like Track Button */}
                                     <div className='flex-1 flex items-center'>
+                                    {setTracklike(trackliked[track._id])}
                                     {trackliked[track._id] ? (
                                             <FaHeart onClick={() => { handleLikeClick('track', track._id); }} size={24} />
                                         ) : (
                                             <CiHeart onClick={() => { handleLikeClick('track', track._id); }} size={24} />
-                                        )}                                        
+                                    )}                                        
                                         <p className='mx-4'>{tracklikeCounter && tracklikeCounter[track._id] !== undefined ? tracklikeCounter[track._id] : 0} Likes</p>
                                         </div>
                                      {/* ADD to Playlist Button */}

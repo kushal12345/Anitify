@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { FaBackward, FaPlay, FaPause, FaForward, FaHeart, FaRandom, FaVolumeUp } from 'react-icons/fa';
 import useAudio from '../Audio/useAudio';
 import api from '../../Services/api';
 import TrackContext from '../Hooks/Auth/TrackContext';
 import { useContext } from 'react';
+import { CiHeart } from "react-icons/ci";
+import { useLike } from '../Hooks/Auth/LikeContext';
 
 const Playbar = ({ url, title, artist, id }) => {
 
@@ -13,8 +15,8 @@ const Playbar = ({ url, title, artist, id }) => {
     //artist is the artist of the song
     //id is the id of the track
     const [toggle] = useAudio(url);
-    const {playing, setPlaying,titles, setTitles, artists, setArtists} = useContext(TrackContext);
-
+    const {Tracklike,currentPlayingid,playing,titles, setTitles, artists, setArtists} = useContext(TrackContext);
+    const {handleLike} = useLike();
     //const [titles, setTitles] = useState(title || "");
     //const [artists, setArtists] = useState(artist || "");
 
@@ -22,7 +24,7 @@ const Playbar = ({ url, title, artist, id }) => {
     useEffect(() => {
         setTitles(title);
         setArtists(artist);
-    }, [title, artist,playing]);
+    }, [title, setTitles,setArtists,artist,playing]);
     
     useEffect(() => {
         console.log('Title:', titles);
@@ -36,17 +38,17 @@ const Playbar = ({ url, title, artist, id }) => {
                 playing: playing,
                 title: titles,
                 artist: artists,
-                id: id
+                id: currentPlayingid
             });
        }
-    }, [titles, artists, playing, id]);
+    }, [titles, artists, playing, currentPlayingid]);
 
     // Fetch current playing track from the database
 
     useEffect(() => {
         const fetchCurrentPlaying = async () => {
             try {
-                const res = await api.get(`/api/fetchcurrentplaying/${id}`);
+                const res = await api.get(`/api/fetchcurrentplaying/${currentPlayingid}`);
                 if (res.data.current && res.data.current.length > 0) {
                     const currentTrack = res.data.current[0];
                     setTitles(currentTrack.title);
@@ -59,10 +61,10 @@ const Playbar = ({ url, title, artist, id }) => {
             }
         };
 
-        if(!titles,!artists){
+        if(!titles && !artists){
             fetchCurrentPlaying();
         }
-    }, [id,titles,artists]);
+    }, [currentPlayingid,setTitles, setArtists,titles,artists]);
 
 
     // Log when the playbar is updated
@@ -91,7 +93,13 @@ const Playbar = ({ url, title, artist, id }) => {
             </div>
             
             <div className="flex items-center">
-                <FaHeart className="mx-4" />
+                
+                {Tracklike ? (
+                    <FaHeart onClick={() => { handleLike('track', currentPlayingid); }} size={24} />
+                ) : (
+                    <CiHeart onClick={() => { handleLike('track', currentPlayingid); }} size={24} />
+                )}
+
                 <FaRandom className="mx-4" />
                 <FaVolumeUp className="mx-4" />
             </div>

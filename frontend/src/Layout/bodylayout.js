@@ -25,9 +25,9 @@ const Bodylayout = ({children}) => {
         </div>
       </div>
       <div className='w-full h-[10%]'>
-        {currentTrackUrl && currentTitle && currentArtist && currentPlayingid && (
-              <Playbar url={currentTrackUrl} title={currentTitle} artist={currentArtist} id={currentPlayingid} />
-        )}       
+        {
+              <Playbar url={currentTrackUrl?currentTrackUrl:null} title={currentTitle?currentTitle:null} artist={currentArtist?currentArtist:null} id={currentPlayingid?currentPlayingid:null} />
+        }       
       </div>
     </div>
     
