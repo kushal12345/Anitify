@@ -30,6 +30,7 @@ const useAudio = (url) => {
             setPlaying(true);
         }else{
             setPlaying(false);
+    
         }
 
     }, [url]);
@@ -44,7 +45,7 @@ const useAudio = (url) => {
         }
     }, [playing, audio]);
 
-    return [ toggle];
+    return [playing, toggle];
 };
 
 export default useAudio;

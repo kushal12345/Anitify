@@ -24,7 +24,7 @@ Frontend
 23 album with tracks page fix on header total songs and totoal time  and year 
 25 login page if logged in and visited logged page automatically redirect to homepage
 26 artist page has a list of albums and when logged un users tries to like or dislike albums not working
-
+27 pause audio on logout and on login
 features
 ==============
 1. Search for Friend, Add Friend

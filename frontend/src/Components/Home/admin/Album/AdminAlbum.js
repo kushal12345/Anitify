@@ -18,7 +18,7 @@ import { useLike } from '../../../Hooks/Auth/LikeContext';
 
 const AdminAlbum = ({ setsecondPage, show }) => {
     const { cookies } = useContext(AuthContext);
-    const {setTracklike,setCurrentTrackUrl, setCurrentTitle, setCurrentArtist, setCurrentPlayingid } = useContext(TrackContext);
+    const {setTracklike,setCurrentTrackUrl, setCurrentTitle, setCurrentArtist, setCurrentPlayingid,setPlaylist } = useContext(TrackContext);
     const {user,
         setUser ,
         liked,
@@ -60,6 +60,18 @@ const AdminAlbum = ({ setsecondPage, show }) => {
             return true;
         }
     }
+
+    const setplaylist = () => {
+        if (tracks && albums) {
+            const newPlaylist = tracks.map(track=>({
+                ...track,
+                url: `${baseURL}/${encodeURIComponent(albums.artist)}/${encodeURIComponent(albums.title)}/${encodeURIComponent(track.title)}`
+            }));
+
+            setPlaylist(newPlaylist);
+        }
+    }
+
 
     useEffect(() => {
         if (albums) {
@@ -255,10 +267,8 @@ const AdminAlbum = ({ setsecondPage, show }) => {
                                 <div key={index} 
                                         onClick={
                                             () => {
-                                            setCurrentTrackUrl(`${baseURL}/${encodeURIComponent(albums.artist)}/${encodeURIComponent(albums.title)}/${encodeURIComponent(track.title)}`);
-                                            setCurrentTitle(track.title); 
-                                            setCurrentArtist(albums.artist);
-                                            setCurrentPlayingid(track._id);
+                                                setplaylist();
+                                                setCurrentPlayingid(index);
                                             }
                                           
                                         }
@@ -274,7 +284,7 @@ const AdminAlbum = ({ setsecondPage, show }) => {
 
                                     {/* Like Track Button */}
                                     <div className='flex-1 flex items-center'>
-                                    {setTracklike(trackliked[track._id])}
+                                    
                                     {trackliked[track._id] ? (
                                             <FaHeart onClick={() => { handleLikeClick('track', track._id); }} size={24} />
                                         ) : (

@@ -10,9 +10,10 @@ const TrackProvider = ({children}) => {
     const [currentArtist, setCurrentArtist] = useState(null);
     const [currentPlayingid, setCurrentPlayingid] = useState(null);
     const [Tracklike, setTracklike] = useState(null);
-    
+    const [playlist, setPlaylist] = useState([]);
+
     return(
-        <TrackContext.Provider value={{Tracklike, setTracklike,currentPlayingid, setCurrentPlayingid,currentArtist, setCurrentArtist, currentTrackUrl, setCurrentTrackUrl,currentTitle, setCurrentTitle, playing, setPlaying,titles, setTitles, artists, setArtists}}>
+        <TrackContext.Provider value={{playlist, setPlaylist, Tracklike, setTracklike,currentPlayingid, setCurrentPlayingid,currentArtist, setCurrentArtist, currentTrackUrl, setCurrentTrackUrl,currentTitle, setCurrentTitle, playing, setPlaying,titles, setTitles, artists, setArtists}}>
             {children}
         </TrackContext.Provider>
     );

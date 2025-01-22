@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaBackward, FaPlay, FaPause, FaForward, FaHeart, FaRandom, FaVolumeUp } from 'react-icons/fa';
 import useAudio from '../Audio/useAudio';
 import api from '../../Services/api';
@@ -7,48 +7,49 @@ import { useContext } from 'react';
 import { CiHeart } from "react-icons/ci";
 import { useLike } from '../Hooks/Auth/LikeContext';
 
-const Playbar = ({ url, title, artist, id }) => {
-
-
-    //url is the audio url
-    //title is the title of the track
-    //artist is the artist of the song
-    //id is the id of the track
-    const [toggle] = useAudio(url);
-    const {Tracklike,currentPlayingid,playing,titles, setTitles, artists, setArtists} = useContext(TrackContext);
+const Playbar = ({ playlist, initalTrackIndex = 0, currentPlayingid }) => {
+    //const [toggle] = useAudio(url);
+    const {Tracklike} = useContext(TrackContext);
     const {handleLike} = useLike();
-    //const [titles, setTitles] = useState(title || "");
-    //const [artists, setArtists] = useState(artist || "");
+
+    console.log("currentPlayingid:",currentPlayingid);
+    
+    const [currentTrackIndex, setCurrentTrackIndex] = useState(currentPlayingid ? currentPlayingid :  initalTrackIndex);
+    
+    const currentTrack = playlist[currentTrackIndex];
+    const [playing, toggle] = useAudio(currentTrack?currentTrack.url:null);
+    const [titles, setTitles] = useState(currentTrack?currentTrack.title:null);
+    const [artists,setArtists] = useState(currentTrack?currentTrack.artist:null);
 
     // Update titles and artists when props change
     useEffect(() => {
-        setTitles(title);
-        setArtists(artist);
-    }, [title, setTitles,setArtists,artist,playing]);
+        setTitles(currentTrack?currentTrack.title:null);
+        setArtists(currentTrack?currentTrack.artist:null);
+    }, [currentTrack]);
     
-    useEffect(() => {
-        console.log('Title:', titles);
-        console.log('Artist:', artists);
-    }, [titles, artists]);
+    
 
     // Update current playing track in the database if playing is true and the track has changed
     useEffect(() => {
-       if(playing){
+       if(playing && currentTrack){
             api.post(`/api/currentplaying`, {
                 playing: playing,
                 title: titles,
                 artist: artists,
-                id: currentPlayingid
+                id: currentTrack._id
+            }).catch(error => {
+                console.error('Error updating current playing:', error);
             });
        }
-    }, [titles, artists, playing, currentPlayingid]);
+    }, [titles, artists, playing, currentTrack]);
 
     // Fetch current playing track from the database
 
     useEffect(() => {
         const fetchCurrentPlaying = async () => {
             try {
-                const res = await api.get(`/api/fetchcurrentplaying/${currentPlayingid}`);
+                if(currentTrack){
+                const res = await api.get(`/api/fetchcurrentplaying/${currentTrack._id}`);
                 if (res.data.current && res.data.current.length > 0) {
                     const currentTrack = res.data.current[0];
                     setTitles(currentTrack.title);
@@ -56,6 +57,7 @@ const Playbar = ({ url, title, artist, id }) => {
                 } else {
                     console.log("No current playing data found.");
                 }
+            }
             } catch (error) {
                 console.error('Error fetching current playing:', error);
             }
@@ -64,10 +66,23 @@ const Playbar = ({ url, title, artist, id }) => {
         if(!titles && !artists){
             fetchCurrentPlaying();
         }
-    }, [currentPlayingid,setTitles, setArtists,titles,artists]);
+    }, [currentTrack,setTitles, setArtists,titles,artists]);
 
+    useEffect(() => {
+        console.log("Playbar updated with:", { url: currentTrack?currentTrack.url:null, title: currentTrack?currentTrack.title:null, artist: currentTrack?currentTrack.artist:null });
+    }, [currentTrack]);
 
-    // Log when the playbar is updated
+    const handleNextTrack = () => {
+        setCurrentTrackIndex((prevIndex) => (prevIndex + 1) % playlist.length);
+    };
+
+    const handlePreviousTrack = () => {
+        setCurrentTrackIndex((prevIndex) => (prevIndex - 1 + playlist.length) % playlist.length);
+    };
+
+   useEffect(()=>{
+        setCurrentTrackIndex(currentPlayingid);
+   },[currentPlayingid]);
  
 
     return (
@@ -83,21 +98,21 @@ const Playbar = ({ url, title, artist, id }) => {
             </div>
     
             <div className="flex-1 flex justify-center items-center">
-                <FaBackward className="mx-4" />
+                <FaBackward className="mx-4" onClick={handlePreviousTrack} />
                 {playing ? (
-                    <FaPause className="mx-4" onClick={()=>toggle()} />
+                    <FaPause className="mx-4" onClick={toggle} />
                 ) : (
-                    <FaPlay className="mx-4 " onClick={()=>toggle()} />
+                    <FaPlay className="mx-4 " onClick={toggle} />
                 )}
-                <FaForward className="mx-4" />
+                <FaForward className="mx-4" onClick={handleNextTrack} />
             </div>
             
             <div className="flex items-center">
                 
                 {Tracklike ? (
-                    <FaHeart onClick={() => { handleLike('track', currentPlayingid); }} size={24} />
+                    <FaHeart onClick={() => { handleLike('track', currentTrack.id); }} size={24} />
                 ) : (
-                    <CiHeart onClick={() => { handleLike('track', currentPlayingid); }} size={24} />
+                    <CiHeart onClick={() => { handleLike('track', currentTrack.id); }} size={24} />
                 )}
 
                 <FaRandom className="mx-4" />

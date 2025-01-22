@@ -8,11 +8,13 @@ import Playlisthome from '../Components/Playlist/Playlisthome';
 import TrackContext from '../Components/Hooks/Auth/TrackContext';
 
 const Bodylayout = ({children}) => {
-  const { currentTrackUrl,currentTitle,currentArtist,currentPlayingid } = useContext(TrackContext);
+  const { currentTrackUrl,currentTitle,currentArtist,currentPlayingid, playlist } = useContext(TrackContext);
 
   const {sidebarOpen, setSidebarOpen }= useContext(AuthContext);
   const [playlistpage, setplaylistpage] = useState(false);
   const [fdata,setfdata]= useState(null);
+
+  console.log("playlist items:",playlist);
 
   return ( 
     <div className='h-screen'>
@@ -26,7 +28,7 @@ const Bodylayout = ({children}) => {
       </div>
       <div className='w-full h-[10%]'>
         {
-              <Playbar url={currentTrackUrl?currentTrackUrl:null} title={currentTitle?currentTitle:null} artist={currentArtist?currentArtist:null} id={currentPlayingid?currentPlayingid:null} />
+              <Playbar playlist={playlist}  currentPlayingid={currentPlayingid} />
         }       
       </div>
     </div>
