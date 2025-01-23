@@ -11,20 +11,23 @@ const Playbar = ({ playlist, initalTrackIndex = 0, currentPlayingid }) => {
     //const [toggle] = useAudio(url);
     const {Tracklike} = useContext(TrackContext);
     const {handleLike} = useLike();
-
+    console.log("playlist:",playlist);
     console.log("currentPlayingid:",currentPlayingid);
     
     const [currentTrackIndex, setCurrentTrackIndex] = useState(currentPlayingid ? currentPlayingid :  initalTrackIndex);
     
     const currentTrack = playlist[currentTrackIndex];
+    console.log("currentTrack:",currentTrack);
+
+    
     const [playing, toggle] = useAudio(currentTrack?currentTrack.url:null);
-    const [titles, setTitles] = useState(currentTrack?currentTrack.title:null);
-    const [artists,setArtists] = useState(currentTrack?currentTrack.artist:null);
+    const [titles, setTitles] = useState(currentTrack.title?currentTrack.title:currentTrack.track.title);
+    const [artists,setArtists] = useState(currentTrack.artist?currentTrack.artist:currentTrack.album.artist.name);
 
     // Update titles and artists when props change
     useEffect(() => {
-        setTitles(currentTrack?currentTrack.title:null);
-        setArtists(currentTrack?currentTrack.artist:null);
+        setTitles(currentTrack.title?currentTrack.title:currentTrack.track.title);
+        setArtists(currentTrack.artist?currentTrack.artist:currentTrack.album.artist.name);
     }, [currentTrack]);
     
     
@@ -110,9 +113,9 @@ const Playbar = ({ playlist, initalTrackIndex = 0, currentPlayingid }) => {
             <div className="flex items-center">
                 
                 {Tracklike ? (
-                    <FaHeart onClick={() => { handleLike('track', currentTrack.id); }} size={24} />
+                    <FaHeart onClick={() => { handleLike('track', currentTrack.track._id?currentTrack.track._id:currentTrack.id); }} size={24} />
                 ) : (
-                    <CiHeart onClick={() => { handleLike('track', currentTrack.id); }} size={24} />
+                    <CiHeart onClick={() => { handleLike('track', currentTrack.track._id?currentTrack.track._id:currentTrack.id); }} size={24} />
                 )}
 
                 <FaRandom className="mx-4" />

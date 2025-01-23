@@ -41,7 +41,7 @@ router.route("/protected").post(VerifyToken,ProtectRoute).get((req,res)=>{
 router.route('/likes/:likedata/:albumid/:logid').post(LikeAlbumController);
 router.route('/addtrack/:name/:albumTitle').post( upload.fields([{ name: 'music' }, { name: 'albumCover' }]), AlbumCreate );
 router.route('/artist/:name/:profile/:id').post(upload.fields([{name:'image'}]), ArtistUpdate )
-router.route('/albums/:id').get(albumfetch);
+router.route('/albums/:fetchbytracksorartist/:id').get(albumfetch);
 router.route('/artist/:id').get(Artistfetch);
 router.route('/user/:id').get(Userfetch);
 router.route('/tracks/:id').get(trackfetch);

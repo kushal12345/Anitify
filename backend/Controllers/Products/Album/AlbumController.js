@@ -10,7 +10,7 @@ import { dirname } from 'path';
 import { Buffer } from 'buffer';
 import LikeAlbum from "../../../Models/Products/Album/LikeAlbum.js";
 import Liketracks from "../../../Models/Products/Track/LikeTrack.js";
-
+import mongoose from "mongoose";
 export const AlbumCreate = Catchasyncerror(async (req, res, next) => {
     const { name } = req.params;
     const { albumTitle, artist, genre, selectedDate } = req.body;
@@ -120,62 +120,104 @@ const __dirname = dirname(__filename);
 
 export const albumfetch = Catchasyncerror(async (req, res, next) => {
     const id = req.params.id;
-    let artistfile;
-
-   
+    const fetchbytracksorartist = req.params.fetchbytracksorartist;
+    
     if(!id){
         return res.status(400).json({ success: false, message: "Missing album id"});
     }
 
-    try {
-        if (id === 'all') {
-            const albums = await Album.find().populate('artist', 'name'); // Populate only the artist's name
-
-
-            if (!albums || albums.length === 0) {
-                return res.status(404).json({ success: false, message: 'No albums found' });
-            }
-        
-            // Transform the albums to include only the necessary fields
-            const albumsWithArtists = albums.map(album => {
-                return {
-                    ...album.toObject(), // Convert mongoose document to plain object
-                    artist: album.artist ? album.artist.name : null // Set the artist name or null if not found
-                };
-            });
-
+    if(fetchbytracksorartist === "artist"){
+        //fetch by artist id
+        try {
+            let artistfile;
+            if (id === 'all') {
+                const albums = await Album.find().populate('artist', 'name'); // Populate only the artist's name
+    
+    
+                if (!albums || albums.length === 0) {
+                    return res.status(404).json({ success: false, message: 'No albums found' });
+                }
             
-        
-            return res.status(200).json({ success: true, result: albumsWithArtists });
-        } else {
-                const artist = await Artist.findById(id);
-                
-                if (!artist) {
-                    return res.status(404).json({ success: false, message: "Artist not found"});
-                }
-
-
-
-                const albums = await Album.find({artist:id}).populate('artist', 'name'); // Populate only the artist's name
-
-                if (!albums) {
-                    return res.status(404).json({ success: false, message: 'Album not found' });
-                }
-
+                // Transform the albums to include only the necessary fields
                 const albumsWithArtists = albums.map(album => {
-                return {
-                    ...album.toObject(), // Convert mongoose document to plain object
+                    return {
+                        ...album.toObject(), // Convert mongoose document to plain object
                         artist: album.artist ? album.artist.name : null // Set the artist name or null if not found
                     };
                 });
+    
                 
-                //console.log(albumsWithArtists);
+            
                 return res.status(200).json({ success: true, result: albumsWithArtists });
+            } else {
+                    const artist = await Artist.findById(id);
+                    
+                    if (!artist) {
+                        return res.status(404).json({ success: false, message: "Artist not found"});
+                    }
+    
+    
+    
+                    const albums = await Album.find({artist:id}).populate('artist', 'name'); // Populate only the artist's name
+    
+                    if (!albums) {
+                        return res.status(404).json({ success: false, message: 'Album not found' });
+                    }
+    
+                    const albumsWithArtists = albums.map(album => {
+                    return {
+                        ...album.toObject(), // Convert mongoose document to plain object
+                            artist: album.artist ? album.artist.name : null // Set the artist name or null if not found
+                        };
+                    });
+                    
+                    //console.log(albumsWithArtists);
+                    return res.status(200).json({ success: true, result: albumsWithArtists });
+            }
+        } catch (error) {
+            //console.error(error);
+            return res.status(500).json({ success: false, message: `Server error: ${error.message}` });
         }
-    } catch (error) {
-        //console.error(error);
-        return res.status(500).json({ success: false, message: `Server error: ${error.message}` });
+
+    }else if (fetchbytracksorartist === "tracks") {
+        // Fetch by like track id
+        try {
+            if (id) {
+                // Log the id to see its value
+                console.log("Fetching track with ID:", id);
+                
+                // Check if id is a valid ObjectId
+                if (!mongoose.Types.ObjectId.isValid(id)) {
+                    return res.status(400).json({ success: false, message: "Invalid track ID format" });
+                }
+    
+                const Tracksf = await Liketracks.findById(id);
+                console.log("Fetched tracks:", Tracksf.track);
+    
+                if (!Tracksf) {
+                    return res.status(404).json({ success: false, message: 'Track not found' });
+                }
+
+                const Albumf = await Album.find({tracks:Tracksf.track}).populate('artist','name');
+                console.log("Fetched Album:", Albumf);
+                if (!Albumf) {
+                    return res.status(404).json({ success: false, message: 'Album not found' });
+                }
+
+                return res.status(200).json({ success: true, result: Albumf });
+            } else {
+                return res.status(400).json({ success: false, message: "Track ID is required" });
+            }
+        } catch (error) {
+            console.error("Error occurred:", error); // Log the error
+            return res.status(500).json({ success: false, message: `Server error: ${error.message}` });
+        }
+    }else{
+        return res.status(400).json({ success: false, message: "Invalid fetchbytracksorartist type"});
     }
+    
+
+
 });
 
 

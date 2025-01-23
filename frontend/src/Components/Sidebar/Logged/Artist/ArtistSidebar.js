@@ -84,7 +84,7 @@ const ArtistSidebar = ({setplaylistpage ,setfdata}) => {
                                 Liked Playlist
                             </div> 
                     </div> 
-                </div>           
+        </div>           
         {
             finalalbum && finalalbum.map((album, index) => {
             if (!album || !album.title || !album.image) {

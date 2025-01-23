@@ -12,6 +12,8 @@ import { FaEdit } from "react-icons/fa";
 import { FaPlayCircle } from "react-icons/fa";
 import { FaShuffle } from "react-icons/fa6";
 import { IoList } from "react-icons/io5";
+import { useLike } from '../Hooks/Auth/LikeContext';
+import TrackContext from '../Hooks/Auth/TrackContext';
 
 
 const Playlisthome = ({setplaylistpage, fdata}) => {
@@ -23,7 +25,24 @@ const Playlisthome = ({setplaylistpage, fdata}) => {
     const [tracks,settracks] = useState([]);
     const [image,setimage] = useState(null);
     const [isHovered, setIsHovered] = useState(false);
+    const [albums,setAlbums] = useState([]);
 
+    const {setTracklike,setCurrentTrackUrl, setCurrentTitle, setCurrentArtist, setCurrentPlayingid,setPlaylist } = useContext(TrackContext);
+    const {user,
+        setUser ,
+        //liked,
+        //setLiked,
+        trackliked,
+        settrackLiked,
+        album,
+        setAlbum,
+        likeCounter,
+        setLikeCounter,
+        tracklikeCounter,
+        settrackLikeCounter,
+        handleLike,
+        likerequest} = useLike();
+    
     const [pagedata,setpagedata] = useState({
         playlistname:"Name Your Playlist"
         });
@@ -90,7 +109,36 @@ const Playlisthome = ({setplaylistpage, fdata}) => {
         }
     },[])*/}
 
+        const fetchAlbums = async (id) => {
+            if(id){
+                const response = await api.get(`/api/albums/tracks/${id}`);
+                console.log(response.data.result);
+                const result = response.data.result;
+                return result;
+            }
+            
+            
+        };
+        
+       
+        const setplaylist = async () => {
+            if (tracks && tracks.length > 0) {
+                // Create an array of promises to fetch album data for each track
+                const newPlaylist = await Promise.all(tracks.map(async (track) => {
+                    const albumData = await fetchAlbums(track._id); // Fetch album data for the track
+                    
+                    return {
+                        ...track,
+                        album: albumData[0], // Set the fetched album data
+                        url: `${baseURL}/${encodeURIComponent(albumData[0].artist.name)}/${encodeURIComponent(albumData[0].title)}/${encodeURIComponent(track.track.title)}`
+                    };
+                }));
+                setPlaylist(newPlaylist);
+            }
 
+            
+        
+        };
   return (
     <div className='overflow-y-scroll [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] pr-4 h-auto mb-2 overflow-hidden grid grid-rows-8 grid-flow-col gap-1'>
             <div className='w-full overflow-hidden p-2 row-span-3 bg-white bg-opacity-25 text-white rounded-xl'>
@@ -175,7 +223,13 @@ const Playlisthome = ({setplaylistpage, fdata}) => {
                     {
                         tracks.map((track, index) => {
                             return(
-                                <div className="space-y-2 " key={index}>
+                                <div className="space-y-2 "  onClick={
+                                    () => {
+                                        setplaylist();
+                                        setCurrentPlayingid(index);
+                                    }
+                                  
+                                } key={index}>
                                     <div  className="flex items-center gap-4  cursor-pointer">
                                         <span className="text-sm font-medium text-muted-foreground w-4"> {index + 1}</span>
                                         <div className="h-10 flex items-center w-10">
@@ -232,4 +286,4 @@ const Playlisthome = ({setplaylistpage, fdata}) => {
   )
 }
 
-export default Playlisthome
+export default Playlisthome;
