@@ -65,6 +65,7 @@ const AdminAlbum = ({ setsecondPage, show }) => {
         if (tracks && albums) {
             const newPlaylist = tracks.map(track=>({
                 ...track,
+                album: albums,
                 url: `${baseURL}/${encodeURIComponent(albums.artist)}/${encodeURIComponent(albums.title)}/${encodeURIComponent(track.title)}`
             }));
 

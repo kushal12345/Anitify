@@ -50,7 +50,7 @@ const Playbar = ({ playlist, initalTrackIndex = 0, currentPlayingid }) => {
         : 
             null);
         setArtists(currentTrack ? 
-            (currentTrack.artist || currentTrack.album?.artist?.name || null) 
+            (currentTrack.album?.artist || currentTrack.album?.artist?.name || null) 
         : 
             null);
     }, [currentTrack]);
