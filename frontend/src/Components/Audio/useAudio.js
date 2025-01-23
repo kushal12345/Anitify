@@ -3,7 +3,7 @@ import TrackContext from '../Hooks/Auth/TrackContext';
 import { useContext } from 'react';
 
 
-const useAudio = (url) => {
+const useAudio = (url ,onEnded) => {
     const [audio, setAudio] = useState(new Audio(url));
 
     const {playing, setPlaying} = useContext(TrackContext);
@@ -12,14 +12,17 @@ const useAudio = (url) => {
     const toggle = () => setPlaying(prev => !prev);
 
     useEffect(() => {
-        const handleEnded = () => setPlaying(false);
+        const handleEnded = () => {
+            setPlaying(false)
+            onEnded();
+        };
         audio.addEventListener('ended', handleEnded);
 
         return () => {
             audio.pause();
             audio.removeEventListener('ended', handleEnded);
         };
-    }, [audio]);
+    }, [audio, onEnded]);
 
     useEffect(() => {
         const newAudio = new Audio(url);

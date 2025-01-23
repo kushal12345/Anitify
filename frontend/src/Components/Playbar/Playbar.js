@@ -9,6 +9,14 @@ import { useLike } from '../Hooks/Auth/LikeContext';
 
 const Playbar = ({ playlist, initalTrackIndex = 0, currentPlayingid }) => {
     //const [toggle] = useAudio(url);
+    const handleNextTrack = () => {
+        setCurrentTrackIndex((prevIndex) => (prevIndex + 1) % playlist.length);
+    };
+
+    const handlePreviousTrack = () => {
+        setCurrentTrackIndex((prevIndex) => (prevIndex - 1 + playlist.length) % playlist.length);
+    };
+
     const {Tracklike} = useContext(TrackContext);
     const {handleLike} = useLike();
     console.log("playlist:",playlist);
@@ -20,14 +28,31 @@ const Playbar = ({ playlist, initalTrackIndex = 0, currentPlayingid }) => {
     console.log("currentTrack:",currentTrack);
 
     
-    const [playing, toggle] = useAudio(currentTrack?currentTrack.url:null);
-    const [titles, setTitles] = useState(currentTrack.title?currentTrack.title:currentTrack.track.title);
-    const [artists,setArtists] = useState(currentTrack.artist?currentTrack.artist:currentTrack.album.artist.name);
+    const [playing, toggle] = useAudio(currentTrack?currentTrack.url:null,handleNextTrack);
+    
+    const [titles, setTitles] = useState(
+        currentTrack ? 
+            (currentTrack.title || currentTrack.track?.title || null) 
+        : 
+            null
+    );
+    const [artists,setArtists] = useState(
+        currentTrack ? 
+        (currentTrack.artist || currentTrack.album?.artist?.name || null) 
+    : 
+        null
+);
 
     // Update titles and artists when props change
     useEffect(() => {
-        setTitles(currentTrack.title?currentTrack.title:currentTrack.track.title);
-        setArtists(currentTrack.artist?currentTrack.artist:currentTrack.album.artist.name);
+        setTitles(currentTrack ? 
+            (currentTrack.title || currentTrack.track?.title || null) 
+        : 
+            null);
+        setArtists(currentTrack ? 
+            (currentTrack.artist || currentTrack.album?.artist?.name || null) 
+        : 
+            null);
     }, [currentTrack]);
     
     
@@ -75,13 +100,7 @@ const Playbar = ({ playlist, initalTrackIndex = 0, currentPlayingid }) => {
         console.log("Playbar updated with:", { url: currentTrack?currentTrack.url:null, title: currentTrack?currentTrack.title:null, artist: currentTrack?currentTrack.artist:null });
     }, [currentTrack]);
 
-    const handleNextTrack = () => {
-        setCurrentTrackIndex((prevIndex) => (prevIndex + 1) % playlist.length);
-    };
-
-    const handlePreviousTrack = () => {
-        setCurrentTrackIndex((prevIndex) => (prevIndex - 1 + playlist.length) % playlist.length);
-    };
+  
 
    useEffect(()=>{
         setCurrentTrackIndex(currentPlayingid);
