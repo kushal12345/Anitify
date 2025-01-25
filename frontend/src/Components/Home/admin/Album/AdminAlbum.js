@@ -144,9 +144,16 @@ const AdminAlbum = ({ setsecondPage, show }) => {
         }
     };
     */
-    const handleLikeClick = (likedata, id) => {
-       handleLike(likedata, id);
-    };
+    const handleLikeClick = useCallback((likedata, id) => {
+        if (likedata === 'track') {
+            // Update the track liked state
+            settrackLiked(prevState => ({
+                ...prevState,
+                [id]: !prevState[id], // Toggle the like status for the specific track
+            }));
+        }
+        handleLike(likedata, id); // Call the existing handleLike function
+    }, [handleLike, settrackLiked]);
 
     useEffect(() => {
         const fetchTracks = debounce(async () => {
@@ -285,7 +292,6 @@ const AdminAlbum = ({ setsecondPage, show }) => {
 
                                     {/* Like Track Button */}
                                     <div className='flex-1 flex items-center'>
-                                    {setTracklike(trackliked[track._id])}
                                     {trackliked[track._id] ? (
                                             <FaHeart onClick={() => { handleLikeClick('track', track._id); }} size={24} />
                                         ) : (

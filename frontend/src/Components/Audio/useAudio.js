@@ -1,54 +1,82 @@
-import { useState, useEffect } from 'react';
-import TrackContext from '../Hooks/Auth/TrackContext';
-import { useContext } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
+const useAudio = (url, onEnded) => {
+    const audioRef = useRef(new Audio());
+    const [playing, setPlaying] = useState(false);
+    const [currentTime, setCurrentTime] = useState(0);
+    const [duration, setDuration] = useState(0);
 
-const useAudio = (url ,onEnded) => {
-    const [audio, setAudio] = useState(new Audio(url));
-
-    const {playing, setPlaying} = useContext(TrackContext);
-
-
-    const toggle = () => setPlaying(prev => !prev);
+    const toggle = () => {
+        setPlaying(prev => !prev);
+    };
 
     useEffect(() => {
+        const audio = audioRef.current;
+
         const handleEnded = () => {
-            setPlaying(false)
-            onEnded();
+            setPlaying(false);
+            if (onEnded) {
+                onEnded();
+            }
         };
+
+        const handleTimeUpdate = () => {
+            setCurrentTime(audio.currentTime);
+            setDuration(audio.duration);
+        };
+
         audio.addEventListener('ended', handleEnded);
+        audio.addEventListener('timeupdate', handleTimeUpdate);
 
         return () => {
-            audio.pause();
             audio.removeEventListener('ended', handleEnded);
+            audio.removeEventListener('timeupdate', handleTimeUpdate);
         };
-    }, [audio, onEnded]);
+    }, [onEnded]);
 
     useEffect(() => {
-        const newAudio = new Audio(url);
-        setAudio(newAudio);
-        audio.src = url;
+        const audio = audioRef.current;
 
-        if (url && url !== undefined) {  
-            setPlaying(true);
-        }else{
-            setPlaying(false);
-    
+        if (url) {
+            // Stop any currently playing audio
+            if (playing) {
+                audio.pause();
+                setPlaying(false); // Ensure we stop the previous audio
+            }
+
+            audio.src = url;
+            const playPromise = audio.play();
+
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    console.log("Audio is playing");
+                    setPlaying(true); // Set playing to true only after it starts
+                }).catch(error => {
+                    console.error("Error playing audio:", error);
+                });
+            }
         }
-
     }, [url]);
 
     useEffect(() => {
-        if (playing && url) {            
-            audio.play().catch(error => {
-                console.error("Error playing audio:", error);
-            });
+        const audio = audioRef.current;
+
+        if (playing) {
+            const playPromise = audio.play();
+
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    console.log("Audio is playing");
+                }).catch(error => {
+                    console.error("Error playing audio:", error);
+                });
+            }
         } else {
             audio.pause();
         }
-    }, [playing, audio]);
+    }, [playing]);
 
-    return [playing, toggle];
+    return [playing, toggle, currentTime, duration];
 };
 
 export default useAudio;
