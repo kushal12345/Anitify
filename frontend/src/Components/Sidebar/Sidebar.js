@@ -10,9 +10,10 @@ import { RxCross2 } from "react-icons/rx";
 import FetchArtist from '../Functions/Fetchartist';
 import { baseURL } from '../../Services/config';
 import { ProtectRoutes } from '../Hooks/Protectroutes/protect';
+
 const Sidebar = ({ setSidebarOpen,setplaylistpage,setfdata }) => {
     const {cookies} = useContext(AuthContext);
-    const Userlogged = cookies.User 
+    const Userlogged = cookies.User;
     const [image,setimage] = useState("");
     const [formData,setFormData] = useState({
         country:"",

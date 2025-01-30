@@ -25,6 +25,8 @@ Frontend
 25 login page if logged in and visited logged page automatically redirect to homepage
 26 artist page has a list of albums and when logged un users tries to like or dislike albums not working
 27 pause audio on logout and on login
+28 audio plays while logout but needs to fix it when logged in 
+
 features
 ==============
 1. Search for Friend, Add Friend

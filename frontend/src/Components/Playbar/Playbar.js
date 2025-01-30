@@ -8,13 +8,13 @@ import { CiHeart } from "react-icons/ci";
 import { useLike } from '../Hooks/Auth/LikeContext';
 import { RiPlayListFill } from "react-icons/ri";
 import { baseURL } from '../../Services/config';
+import debounce from '../../Middleware/debounce';
 
 const Playbar = ({ playlist, initalTrackIndex = 0, currentPlayingid }) => {
 
     const [playlistdisplay, setPlaylistDisplay] = useState(false);
     //const [toggle] = useAudio(url);
     
-    console.log(playlist);
    
 
     const handleNextTrack = () => {
@@ -35,40 +35,32 @@ const Playbar = ({ playlist, initalTrackIndex = 0, currentPlayingid }) => {
     
     const [playing, toggle, currentTime, duration] = useAudio(currentTrack?currentTrack.url:null,handleNextTrack);
     
-    const [titles, setTitles] = useState(
-        currentTrack ? 
-            (currentTrack.title || currentTrack.track?.title || null) 
-        : 
-            null
-    );
-    const [artists,setArtists] = useState(
-        currentTrack ? 
-        (currentTrack.artist ? 
-            (
-                currentTrack.artist
-            ) 
-        : 
-           (
-            currentTrack.album.artist ? 
-                (
-                    currentTrack.album.artist
-                )
-                :
-                (
-                    currentTrack.album.artist.name
-                )
-           )
-        ) 
-    : 
-        null
-);
+    const [titles, setTitles] = useState(null);
+
+    const [artists,setArtists] = useState(null);
 
     // Update titles and artists when props change
     useEffect(() => {
-        setTitles( currentTrack ? 
+        /*setTitles( currentTrack ? 
             (currentTrack.title || currentTrack.track?.title || null) 
             : 
-            null);
+            null);*/
+
+    setTitles( currentTrack ? 
+            (
+                currentTrack.title ? 
+                (
+                    currentTrack.title
+                )
+                :(
+                    currentTrack.track.title ? 
+                    (
+                        currentTrack.track.title
+                    ):null
+                )
+            ) 
+            : 
+            null);        
             
         setArtists(currentTrack ? 
             //        (currentTrack.artist || currentTrack.album?.artist?.name || null)
@@ -78,21 +70,21 @@ const Playbar = ({ playlist, initalTrackIndex = 0, currentPlayingid }) => {
                         ) 
                     : 
                        (
-                        currentTrack.album.artist ? 
+                        currentTrack.album.artist.name ? 
                             (
-                                currentTrack.album.artist
+                                currentTrack.album.artist.name
                             )
                             :
                             (
-                                currentTrack.album.artist.name
+                                currentTrack.album.artist
                             )
                        )
                     ) 
                 : 
                     null);
-    }, [currentTrack]);
-    
-    
+    }, [currentTrack,handleNextTrack,handlePreviousTrack]);
+
+  
 
     // Update current playing track in the database if playing is true and the track has changed
     useEffect(() => {
@@ -112,6 +104,7 @@ const Playbar = ({ playlist, initalTrackIndex = 0, currentPlayingid }) => {
 
     useEffect(() => {
         const fetchCurrentPlaying = async () => {
+            console.log(currentTrack);
             try {
                 if(currentTrack){
                 const res = await api.get(`/api/fetchcurrentplaying/${currentTrack._id}`);

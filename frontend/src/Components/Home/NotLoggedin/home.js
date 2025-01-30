@@ -15,9 +15,11 @@ const Home = () => {
   const renderPage = () => {
     switch (secondpage) {
       case PAGE_ALBUMS:
-        return <AdminAlbum setsecondPage={setsecondPage} show={show} />;
+          return <AdminAlbum setsecondPage={setsecondPage} show={show} />;
+       
       case PAGE_ARTIST:
-        return <Artistpage setsecondPage={setsecondPage} show={show} setshow={setshow} />;
+          return <Artistpage setsecondPage={setsecondPage} show={show} setshow={setshow} />;
+
       case PAGE_HOMENOTLOGGED:
         return <Container setsecondPage={setsecondPage} setshow={setshow} />;
       default:
