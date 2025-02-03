@@ -36,16 +36,9 @@ const AdminAlbum = ({ setsecondPage, show }) => {
 
     const [tracks, setTracks] = useState([]);
     const [albums, setAlbums] = useState(show ? show : null);
-   // const [liked, setLiked] = useState(false);
-    //const [trackliked, settrackLiked] = useState({});
-    //const [tracklikeCounter, settrackLikeCounter] = useState({});
-    //const [likeCounter, setLikeCounter] = useState(0);
     const [loading, setloading] = useState(false);
-    //const [user, setUser ] = useState([]);
-    //const [currentTrackUrl, setCurrentTrackUrl] = useState(null);
-    //const [currentTitle, setCurrentTitle] = useState(null);
-    //const [currentArtist, setCurrentArtist] = useState(null);
-    //const [currentPlayingid, setCurrentPlayingid] = useState(null);
+
+   
 
     
 

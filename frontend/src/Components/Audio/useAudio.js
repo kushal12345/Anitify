@@ -1,12 +1,11 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef, useContext } from 'react';
+import TrackContext from '../Hooks/Auth/TrackContext';
 
 const useAudio = (url, onEnded) => {
     const audioRef = useRef(new Audio());
-    const [playing, setPlaying] = useState(false);
-    const [currentTime, setCurrentTime] = useState(0);
-    const [duration, setDuration] = useState(0);
-    const isPlayingRef = useRef(false); // Ref to track if audio is currently playing
-    const prevUrlRef = useRef(audioRef.current);
+    const prevUrlRef = useRef(url);
+    const { playing, setPlaying, currentTime, setCurrentTime, duration, setDuration } = useContext(TrackContext);
+
     const toggle = () => {
         setPlaying(prev => !prev);
     };
@@ -30,61 +29,43 @@ const useAudio = (url, onEnded) => {
         audio.addEventListener('timeupdate', handleTimeUpdate);
 
         return () => {
-          
             audio.removeEventListener('ended', handleEnded);
             audio.removeEventListener('timeupdate', handleTimeUpdate);
         };
     }, [onEnded]);
 
-    useEffect(() => {
-        const audio = audioRef.current;
-
-        if (url) {
-            // Stop any currently playing audio
-
-            audio.src = url;
-            audio.load(); // Load the new audio source
-
-            const playPromise = audio.play();
-
-            if (playPromise !== undefined) {
-                playPromise.then(() => {
-                    console.log("Audio is playing");
-                    setPlaying(true); // Set playing to true only after it starts
-                    isPlayingRef.current = true; // Update the ref to indicate playing
-                    if ( url !== prevUrlRef.current.src  && playing) {
-                            audio.pause();
-                            setPlaying(false); // Ensure we stop the previous audio    
-                    }
-        
-                }).catch(error => {
-                    console.error("Error playing audio:", error);
-                });
-            }
+    useEffect(()=>{
+        if(url){
+            setPlaying(true);
         }
-    }, [url]);
+    },[url])
 
     useEffect(() => {
         const audio = audioRef.current;
 
+        // Check if the URL has changed
+        if (url !== prevUrlRef.current) {
+            audio.pause(); // Pause the current audio
+            audio.src = url; // Set the new audio source
+            audio.load(); // Load the new audio source
+            prevUrlRef.current = url; // Update the previous URL
+        }
+
+        // Play or pause based on the playing state
         if (playing) {
             const playPromise = audio.play();
-
             if (playPromise !== undefined) {
                 playPromise.then(() => {
                     console.log("Audio is playing");
-                    isPlayingRef.current = true; // Update the ref to indicate playing
-                    if ( url !== prevUrlRef.current.src && playing ) {
-                            audio.pause();
-                            setPlaying(false); // Ensure we stop the previous audio                    
-                    } 
-            
                 }).catch(error => {
                     console.error("Error playing audio:", error);
                 });
             }
+        } else {
+            audio.pause(); // Pause if not playing
         }
-    }, [playing]);
+
+    }, [url, playing]);
 
     return [playing, toggle, currentTime, duration];
 };

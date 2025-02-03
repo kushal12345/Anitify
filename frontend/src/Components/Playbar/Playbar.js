@@ -39,6 +39,12 @@ const Playbar = ({ playlist, initalTrackIndex = 0, currentPlayingid }) => {
 
     const [artists,setArtists] = useState(null);
 
+
+    //toggle when song list is clicked
+
+ 
+
+
     // Update titles and artists when props change
     useEffect(() => {
         /*setTitles( currentTrack ? 
@@ -219,6 +225,7 @@ const Playbar = ({ playlist, initalTrackIndex = 0, currentPlayingid }) => {
                 </div>
             </div>
         </footer>
+
 
     );
 }
